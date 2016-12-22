@@ -1,4 +1,4 @@
-torch
+Torch
 =======
 
 Totally Open Remote Control Hippo
