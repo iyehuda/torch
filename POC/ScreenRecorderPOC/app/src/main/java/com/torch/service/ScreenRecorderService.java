@@ -17,7 +17,7 @@ public class ScreenRecorderService extends IntentService {
     private static final String TAG = "ScreenRecorderService";
 
     private static final String BASE = "com.torch.service.ScreenRecorderService.";
-    private static final String ACTION_START = BASE + "ACTION_START";
+    public static final String ACTION_START = BASE + "ACTION_START";
     public static final String ACTION_STOP = BASE + "ACTION_STOP";
     public static final String ACTION_PAUSE = BASE + "ACTION_PAUSE";
     public static final String ACTION_RESUME = BASE + "ACTION_RESUME";

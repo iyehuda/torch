@@ -15,7 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 public class MediaMuxerWrapper {
-    private static final boolean DEBUG = false; // TODO set false on release
+    private static final boolean DEBUG = true; // TODO set false on release
     private static final String TAG = "MediaMuxerWrapper";
 
     private static final String DIR_NAME = "ScreenRecSample";
@@ -40,6 +40,7 @@ public class MediaMuxerWrapper {
         } catch (final NullPointerException e) {
             throw new RuntimeException("This app has no permission of writing external storage");
         }
+        Log.d(TAG, "MediaMuxerWrapper: writing to " + mOutputPath);
         mMediaMuxer = new MediaMuxer(mOutputPath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
         mEncoderCount = mStatredCount = 0;
         mIsStarted = false;
