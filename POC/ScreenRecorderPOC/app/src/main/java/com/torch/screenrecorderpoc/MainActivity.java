@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.torch.service.ScreenRecorderService;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.v(TAG, "onCreate:");
+
         // Get permission for screen recording
         final MediaProjectionManager manager = (MediaProjectionManager)
                 getSystemService(Context.MEDIA_PROJECTION_SERVICE);
@@ -32,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        Log.v(TAG, "onDestroy:");
+
         // Stop recording
         final Intent intent = new Intent(this, ScreenRecorderService.class);
         intent.setAction(ScreenRecorderService.ACTION_STOP);
@@ -41,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int responseCode, Intent data) {
         super.onActivityResult(requestCode, responseCode, data);
+        Log.v(TAG, "onActivityResult:");
+
         if(REQUEST_CODE_SCREEN_CAPTURE == requestCode) {
             // Check for permission response
             if(Activity.RESULT_OK != responseCode)
@@ -51,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startScreenRecorder(final int resultCode, final Intent data) {
+        Log.v(TAG, "startScreenRecorder:");
+
         // Start recording
         final Intent intent = new Intent(this, ScreenRecorderService.class);
         intent.setAction(ScreenRecorderService.ACTION_START);

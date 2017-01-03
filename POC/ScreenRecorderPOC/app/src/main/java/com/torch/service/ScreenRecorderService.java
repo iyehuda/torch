@@ -39,11 +39,14 @@ public class ScreenRecorderService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.v(TAG, "onCreate:");
         mediaProjectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
     }
 
     @Override
     public void onHandleIntent(final Intent intent) {
+        Log.v(TAG, "onHandleIntent:");
+
         final String action = intent.getAction();
 
         switch (action) {
@@ -70,6 +73,8 @@ public class ScreenRecorderService extends IntentService {
     }
 
     private void startScreenRecord(final Intent intent) {
+        Log.v(TAG, "startScreenRecord:");
+
         final DisplayMetrics metrics;
         final MediaProjection mediaProjection;
 
@@ -101,6 +106,8 @@ public class ScreenRecorderService extends IntentService {
     }
 
     private void stopScreenRecord() {
+        Log.v(TAG, "stopScreenRecord:");
+
         synchronized (sSync) {
             if(mediaMuxerWrapper == null)
                 return;
@@ -125,6 +132,8 @@ public class ScreenRecorderService extends IntentService {
     }
 
     private void updateStatus() {
+        Log.v(TAG, "updateStatus:");
+
         final boolean isRecording, isPausing;
         synchronized (sSync) {
             isRecording = mediaMuxerWrapper != null;
@@ -140,14 +149,16 @@ public class ScreenRecorderService extends IntentService {
 
     private static final MediaEncoder.MediaEncoderListener mMediaEncoderListener =
             new MediaEncoder.MediaEncoderListener() {
+                static final String TAG = "MediaEncoderListener";
+
                 @Override
                 public void onPrepared(MediaEncoder encoder) {
-
+                    Log.v(TAG, "onPrepared:");
                 }
 
                 @Override
                 public void onStopped(MediaEncoder encoder) {
-
+                    Log.v(TAG, "onStopped:");
                 }
             };
 }
