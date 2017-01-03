@@ -1,6 +1,7 @@
 package com.torch.screenrecorderpoc;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
@@ -11,13 +12,14 @@ import android.widget.Toast;
 
 import com.torch.service.ScreenRecorderService;
 
-
 public class MainActivity extends AppCompatActivity {
 
-    private final String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
 
     private static final int REQUEST_CODE_SCREEN_CAPTURE = 1;
 
+    private boolean permissionGranted = false;
+    private MyBroadcastReceiver mReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize components
@@ -25,12 +27,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.v(TAG, "onCreate:");
-
-        // Get permission for screen recording
-        final MediaProjectionManager manager = (MediaProjectionManager)
-                getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        final Intent permissionIntent = manager.createScreenCaptureIntent();
-        startActivityForResult(permissionIntent, REQUEST_CODE_SCREEN_CAPTURE);
+        if(!permissionGranted) {
+            // Get permission for screen recording
+            final MediaProjectionManager manager = (MediaProjectionManager)
+                    getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+            final Intent permissionIntent = manager.createScreenCaptureIntent();
+            startActivityForResult(permissionIntent, REQUEST_CODE_SCREEN_CAPTURE);
+        }
+        if(mReceiver == null) mReceiver = new MyBroadcastReceiver();
     }
 
     @Override
@@ -52,8 +56,10 @@ public class MainActivity extends AppCompatActivity {
             // Check for permission response
             if(Activity.RESULT_OK != responseCode)
                 Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
-            else
+            else {
                 startScreenRecorder(responseCode, data);
+                permissionGranted = true;
+            }
         }
     }
 
@@ -66,5 +72,18 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(ScreenRecorderService.EXTRA_RESULT_CODE, resultCode);
         intent.putExtras(data);
         startService(intent);
+    }
+
+    private static final class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            Log.v(TAG, "onReceive:" + intent);
+            final String action = intent.getAction();
+            if (ScreenRecorderService.ACTION_DEBUG.equals(action)) {
+                String tag = intent.getStringExtra(ScreenRecorderService.EXTRA_DEBUG_TAG);
+                String message = intent.getStringExtra(ScreenRecorderService.EXTRA_DEBUG_MESSAGE);
+                Log.v(tag, message);
+            }
+        }
     }
 }
