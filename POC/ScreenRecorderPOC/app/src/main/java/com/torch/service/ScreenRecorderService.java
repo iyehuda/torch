@@ -17,15 +17,18 @@ public class ScreenRecorderService extends IntentService {
     private static final String TAG = "ScreenRecorderService";
 
     private static final String BASE = "com.torch.service.ScreenRecorderService.";
+    public static final String ACTION_DEBUG = BASE + "ACTION_DEBUG";
     public static final String ACTION_START = BASE + "ACTION_START";
     public static final String ACTION_STOP = BASE + "ACTION_STOP";
     public static final String ACTION_PAUSE = BASE + "ACTION_PAUSE";
     public static final String ACTION_RESUME = BASE + "ACTION_RESUME";
     public static final String ACTION_QUERY_STATUS = BASE + "ACTION_QUERY_STATUS";
     public static final String ACTION_QUERY_STATUS_RESULT = BASE + "ACTION_QUERY_STATUS_RESULT";
+    public static final String EXTRA_DEBUG_MESSAGE = BASE + "EXTRA_DEBUG_MESSAGE";
     public static final String EXTRA_RESULT_CODE = BASE + "EXTRA_RESULT_CODE";
     public static final String EXTRA_QUERY_RESULT_RECORDING = BASE + "EXTRA_QUERY_RESULT_RECORDING";
     public static final String EXTRA_QUERY_RESULT_PAUSING = BASE + "EXTRA_QUERY_RESULT_PAUSING";
+    public static final String EXTRA_DEBUG_TAG = BASE + "EXTRA_DEBUG_TAG";
 
     private static final Object sSync = new Object();
 
@@ -39,13 +42,13 @@ public class ScreenRecorderService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.v(TAG, "onCreate:");
+        sendDebugMessage(TAG, "onCreate:");
         mediaProjectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
     }
 
     @Override
     public void onHandleIntent(final Intent intent) {
-        Log.v(TAG, "onHandleIntent:");
+        sendDebugMessage(TAG, "onHandleIntent:");
 
         final String action = intent.getAction();
 
@@ -72,12 +75,20 @@ public class ScreenRecorderService extends IntentService {
         }
     }
 
+    public void sendDebugMessage(String tag, String message) {
+        final Intent intent = new Intent();
+        intent.setAction(ACTION_DEBUG);
+        intent.putExtra(EXTRA_DEBUG_MESSAGE, message);
+        intent.putExtra(EXTRA_DEBUG_TAG, tag);
+        sendBroadcast(intent);
+    }
+
     private void startScreenRecord(final Intent intent) {
-        Log.v(TAG, "startScreenRecord:");
+        sendDebugMessage(TAG, "startScreenRecord:");
 
         final DisplayMetrics metrics;
         final MediaProjection mediaProjection;
-
+        final String muxerTag =  "MediaMuxerWrapper";
         final int resultCode;
         final int density;
         synchronized (sSync) {
@@ -86,27 +97,34 @@ public class ScreenRecorderService extends IntentService {
 
             resultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0);
             mediaProjection = mediaProjectionManager.getMediaProjection(resultCode, intent);
+            sendDebugMessage(TAG, "Getting media projection");
             if(mediaProjection == null)
                 return;
+            sendDebugMessage(TAG, "gotten");
 
             metrics = getResources().getDisplayMetrics();
             density = metrics.densityDpi;
 
             try {
                 mediaMuxerWrapper = new MediaMuxerWrapper(".mp4");
+                sendDebugMessage(TAG, "muxer created");
                 new MediaScreenEncoder(mediaMuxerWrapper, mMediaEncoderListener, mediaProjection,
                         metrics.widthPixels, metrics.heightPixels, density);
+                sendDebugMessage(TAG, "screen recorder started");
                 new MediaAudioEncoder(mediaMuxerWrapper, mMediaEncoderListener);
+                sendDebugMessage(TAG, "audio recorder started");
                 mediaMuxerWrapper.prepare();
+                sendDebugMessage(TAG, "prepared");
                 mediaMuxerWrapper.startRecording();
+                sendDebugMessage(TAG, "started");
             } catch (IOException e) {
-                Log.e(TAG, "startScreenRecord: " + e);
+                sendDebugMessage(muxerTag, e.toString());
             }
         }
     }
 
     private void stopScreenRecord() {
-        Log.v(TAG, "stopScreenRecord:");
+        sendDebugMessage(TAG, "stopScreenRecord:");
 
         synchronized (sSync) {
             if(mediaMuxerWrapper == null)
