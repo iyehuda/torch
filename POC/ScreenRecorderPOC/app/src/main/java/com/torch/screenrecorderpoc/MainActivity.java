@@ -1,13 +1,20 @@
 package com.torch.screenrecorderpoc;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.projection.MediaProjectionManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.torch.service.ScreenRecorderService;
@@ -18,33 +25,43 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_SCREEN_CAPTURE = 1;
 
-    private boolean permissionGranted = false;
+    private boolean mediaProjectionPermissionGranted = false;
+    private boolean storagePermissionGranted = false;
+    private Button btnStop;
     private MyBroadcastReceiver mReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Initialize components
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        btnStop = (Button) findViewById(R.id.btnStop);
+        btnStop.setOnClickListener(new StopButtonOnClick());
         Log.v(TAG, "onCreate:");
-        if(!permissionGranted) {
-            // Get permission for screen recording
-            final MediaProjectionManager manager = (MediaProjectionManager)
-                    getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-            final Intent permissionIntent = manager.createScreenCaptureIntent();
-            startActivityForResult(permissionIntent, REQUEST_CODE_SCREEN_CAPTURE);
-        }
+        setupRecording();
         if(mReceiver == null) mReceiver = new MyBroadcastReceiver();
     }
 
-    @Override
-    protected void onDestroy() {
-        Log.v(TAG, "onDestroy:");
+    private class StopButtonOnClick implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            destroy();
+        }
+    }
+
+    protected void destroy() {
+        Log.v(TAG, "destroy:");
 
         // Stop recording
         final Intent intent = new Intent(this, ScreenRecorderService.class);
         intent.setAction(ScreenRecorderService.ACTION_STOP);
         startService(intent);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            Log.e(TAG, e.toString());
+        }
+        finish();
     }
 
     @Override
@@ -58,13 +75,55 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "permission denied", Toast.LENGTH_LONG).show();
             else {
                 startScreenRecorder(responseCode, data);
-                permissionGranted = true;
+                mediaProjectionPermissionGranted = true;
             }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResult) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResult);
+        storagePermissionGranted = (grantResult[0] == PackageManager.PERMISSION_GRANTED);
+        if(!storagePermissionGranted) {
+            exitDuePermission();
+        }
+        setupRecording();
+    }
+
+    private boolean getStoragePermission() {
+        if(storagePermissionGranted) return true;
+        if(Build.VERSION.SDK_INT < 23) return true;
+
+        storagePermissionGranted = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED;
+        if(storagePermissionGranted) return true;
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        return true;
+    }
+
+    private void exitDuePermission() {
+        Toast.makeText(this, "Cannot continue without permissions", Toast.LENGTH_LONG).show();
+        finish();
+    }
+
+    private void setupRecording() {
+        if(!mediaProjectionPermissionGranted) {
+            // Get permission for screen recording
+            final MediaProjectionManager manager = (MediaProjectionManager)
+                    getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+            final Intent permissionIntent = manager.createScreenCaptureIntent();
+            startActivityForResult(permissionIntent, REQUEST_CODE_SCREEN_CAPTURE);
         }
     }
 
     private void startScreenRecorder(final int resultCode, final Intent data) {
         Log.v(TAG, "startScreenRecorder:");
+
+        if(!(getStoragePermission() || storagePermissionGranted))
+            return;
 
         // Start recording
         final Intent intent = new Intent(this, ScreenRecorderService.class);
