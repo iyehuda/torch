@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -124,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(!(getStoragePermission() || storagePermissionGranted))
             return;
+
+        Toast.makeText(this, "Saving in: " + Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), Toast.LENGTH_LONG).show();
+
 
         // Start recording
         final Intent intent = new Intent(this, ScreenRecorderService.class);
