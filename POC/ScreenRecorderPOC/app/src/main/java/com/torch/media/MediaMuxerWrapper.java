@@ -13,6 +13,7 @@ import android.media.MediaMuxer;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 public class MediaMuxerWrapper {
     private static final boolean DEBUG = true; // TODO set false on release
@@ -38,6 +39,7 @@ public class MediaMuxerWrapper {
         if (TextUtils.isEmpty(ext)) ext = ".mp4";
         try {
             mOutputPath = getCaptureFile(Environment.DIRECTORY_MOVIES, ext).toString();
+
         } catch (NullPointerException e) {
             throw new RuntimeException("This app has no permission of writing external storage");
         }
