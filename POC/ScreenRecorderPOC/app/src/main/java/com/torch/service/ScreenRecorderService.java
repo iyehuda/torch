@@ -32,8 +32,10 @@ public class ScreenRecorderService extends IntentService {
 
     private static final Object sSync = new Object();
 
-    private MediaMuxerWrapper mediaMuxerWrapper;
-    private MediaProjectionManager mediaProjectionManager;
+    private static MediaMuxerWrapper mediaMuxerWrapper;
+    private static MediaProjectionManager mediaProjectionManager;
+
+    private static boolean imNew = true;
 
     public ScreenRecorderService() {
         super(TAG);
@@ -84,55 +86,61 @@ public class ScreenRecorderService extends IntentService {
     }
 
     private void startScreenRecord(final Intent intent) {
-        sendDebugMessage(TAG, "startScreenRecord:");
-
         final DisplayMetrics metrics;
         final MediaProjection mediaProjection;
         final String muxerTag =  "MediaMuxerWrapper";
         final int resultCode;
         final int density;
+
+        imNew = false;
+
         synchronized (sSync) {
             if(mediaMuxerWrapper != null)
                 return;
 
             resultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0);
             mediaProjection = mediaProjectionManager.getMediaProjection(resultCode, intent);
-            sendDebugMessage(TAG, "Getting media projection");
+            Log.v(TAG, "Getting media projection");
             if(mediaProjection == null)
                 return;
-            sendDebugMessage(TAG, "gotten");
+            Log.v(TAG, "gotten");
 
             metrics = getResources().getDisplayMetrics();
             density = metrics.densityDpi;
 
             try {
                 mediaMuxerWrapper = new MediaMuxerWrapper(".mp4");
-                sendDebugMessage(TAG, "muxer created");
+                Log.v(TAG, "muxer created");
                 new MediaScreenEncoder(mediaMuxerWrapper, mMediaEncoderListener, mediaProjection,
                         metrics.widthPixels, metrics.heightPixels, density);
-                sendDebugMessage(TAG, "screen recorder started");
+                Log.v(TAG, "screen recorder started");
                 new MediaAudioEncoder(mediaMuxerWrapper, mMediaEncoderListener);
-                sendDebugMessage(TAG, "audio recorder started");
+                Log.v(TAG, "audio recorder started");
                 mediaMuxerWrapper.prepare();
-                sendDebugMessage(TAG, "prepared");
+                Log.v(TAG, "prepared");
                 mediaMuxerWrapper.startRecording();
-                sendDebugMessage(TAG, "started");
+                Log.v(TAG, "started");
             } catch (IOException e) {
-                sendDebugMessage(muxerTag, e.toString());
+                Log.v(TAG, e.toString());
             }
         }
     }
 
     private void stopScreenRecord() {
-        sendDebugMessage(TAG, "stopScreenRecord:");
+        Log.v(TAG, "stopScreenRecord:");
+        Log.v(TAG, "imNew: " + imNew);
 
         synchronized (sSync) {
-            if(mediaMuxerWrapper == null)
+            if(mediaMuxerWrapper == null) {
+                Log.v(TAG, "mediaMuxerWrapper is null");
                 return;
+            }
 
             mediaMuxerWrapper.stopRecording();
             mediaMuxerWrapper = null;
         }
+
+        Log.v(TAG, "stopped");
     }
 
     private void pauseScreenRecord() {
