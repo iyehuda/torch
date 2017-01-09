@@ -57,12 +57,7 @@ public class MainActivity extends AppCompatActivity {
         final Intent intent = new Intent(this, ScreenRecorderService.class);
         intent.setAction(ScreenRecorderService.ACTION_STOP);
         startService(intent);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            Log.e(TAG, e.toString());
-        }
-        finish();
+
     }
 
     @Override
