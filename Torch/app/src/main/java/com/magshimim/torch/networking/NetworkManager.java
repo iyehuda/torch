@@ -7,9 +7,13 @@ import android.widget.Toast;
 import java.io.*;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.PortUnreachableException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import android.content.Context;
+import android.widget.PopupWindow;
+import java.lang.Object;
+import android.util.Log;
 
 /**
  * Created by User on 1/28/2017.
@@ -18,27 +22,28 @@ import android.content.Context;
 public class NetworkManager implements INetworkManager {
     private DatagramSocket socket;
 
-    public NetworkManager(String address, int port)
+    public NetworkManager()
     {
         try {
-            InetAddress addr = InetAddress.getByName(address);
-            try {
-                socket = new DatagramSocket(port,addr);
-            }
-            catch (SocketException e)
-            {
-                Toast t = Toast.makeText(null,e.getMessage(),Toast.LENGTH_SHORT);
-            }
+            socket = new DatagramSocket();
         }
-        catch (UnknownHostException e)
-        {
-            Toast t = Toast.makeText(null,e.getMessage(),Toast.LENGTH_SHORT);
+        catch (SocketException e) {
+            Log.e(e.getMessage(), "dsfs");
         }
 
     }
 
     public void connect (String address, int port)
     {
+        InetAddress addr =null;
+                try {
+                    addr = InetAddress.getByName(address);
+                }
+                catch (UnknownHostException e) {
+                    Log.e(e.getMessage(),"vscvcx");
+                }
+                socket.connect(addr, port);
+
 
     }
     public void sendFrame(Bitmap frame)
