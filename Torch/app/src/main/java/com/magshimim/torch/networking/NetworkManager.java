@@ -5,6 +5,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import java.io.*;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.PortUnreachableException;
@@ -28,7 +29,7 @@ public class NetworkManager implements INetworkManager {
             socket = new DatagramSocket();
         }
         catch (SocketException e) {
-            Log.e(e.getMessage(), "dsfs");
+            Log.e("NetworkManager",e.getMessage());
         }
 
     }
@@ -36,22 +37,30 @@ public class NetworkManager implements INetworkManager {
     public void connect (String address, int port)
     {
         InetAddress addr =null;
-                try {
-                    addr = InetAddress.getByName(address);
-                }
-                catch (UnknownHostException e) {
-                    Log.e(e.getMessage(),"vscvcx");
-                }
-                socket.connect(addr, port);
+          try {
+              addr = InetAddress.getByName(address);
+          }
+          catch (UnknownHostException e) {
+              Log.e("NetworkManager, connect",e.getMessage());
+          }
+        socket.connect(addr, port);
 
 
     }
     public void sendFrame(Bitmap frame)
     {
-        //OutputStream stream = new OutputStream();
+        ByteArrayOutputStream streamToSend=null;
+        boolean compress = frame.compress(Bitmap.CompressFormat.PNG, 100, streamToSend);
+        byte[] bitmapArray = streamToSend.toByteArray();
+        DatagramPacket packet = new DatagramPacket(bitmapArray,bitmapArray.length);
+        try {
+            socket.send(packet);
+        } catch (IOException e) {
+            Log.e("NetworkManager,Frame",e.getMessage());
+        }
     }
     public void disconnect()
     {
-
+        socket.disconnect();
     }
 }
