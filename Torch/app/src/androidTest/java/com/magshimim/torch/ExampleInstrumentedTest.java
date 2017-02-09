@@ -1,8 +1,11 @@
 package com.magshimim.torch;
 
 import android.content.Context;
+import android.media.projection.MediaProjection;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.magshimim.torch.recording.FrameRecorder;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,5 +25,15 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
 
         assertEquals("com.magshimim.torch", appContext.getPackageName());
+    }
+
+    @Test
+    public void startRecording() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        // MainActivity mainActivity = (MainActivity) InstrumentationRegistry.getTargetContext().
+
+        // assertEquals(false, mainActivity.isAccessible);
+        // MediaProjection mediaProjection =
+        // FrameRecorder fr = new FrameRecorder()
     }
 }
