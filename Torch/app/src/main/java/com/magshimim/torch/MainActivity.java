@@ -1,11 +1,14 @@
 package com.magshimim.torch;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.magshimim.torch.recording.FrameRecorder;
 
 public class MainActivity extends AppCompatActivity {
     private final int REQUEST_MEDIA_PROJECTION = 1;
@@ -14,14 +17,14 @@ public class MainActivity extends AppCompatActivity {
     private Intent mResultData;
     private MediaProjectionManager mediaProjectionManager;
 
-    public boolean isAccessible = false;
+    public boolean setup = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mediaProjectionManager = (MediaProjectionManager)
-                getSystemService(getApplicationContext().MEDIA_PROJECTION_SERVICE);
+                getSystemService(MEDIA_PROJECTION_SERVICE);
         startActivityForResult(
                 mediaProjectionManager.createScreenCaptureIntent(),
                 REQUEST_MEDIA_PROJECTION);

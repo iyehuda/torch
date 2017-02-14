@@ -32,7 +32,7 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         // MainActivity mainActivity = (MainActivity) InstrumentationRegistry.getTargetContext().
 
-        // assertEquals(false, mainActivity.isAccessible);
+        // assertEquals(false, mainActivity.setup);
         // MediaProjection mediaProjection =
         // FrameRecorder fr = new FrameRecorder()
     }
