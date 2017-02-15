@@ -21,19 +21,6 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.magshimim.torch", appContext.getPackageName());
-    }
-
-    @Test
-    public void startRecording() throws Exception {
-        Context appContext = InstrumentationRegistry.getTargetContext();
-        // MainActivity mainActivity = (MainActivity) InstrumentationRegistry.getTargetContext().
-
-        // assertEquals(false, mainActivity.setup);
-        // MediaProjection mediaProjection =
-        // FrameRecorder fr = new FrameRecorder()
     }
 }
