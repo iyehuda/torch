@@ -1,8 +1,11 @@
 package com.magshimim.torch;
 
 import android.content.Context;
+import android.media.projection.MediaProjection;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+
+import com.magshimim.torch.recording.FrameRecorder;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,9 +21,6 @@ import static org.junit.Assert.*;
 public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.magshimim.torch", appContext.getPackageName());
     }
 }
