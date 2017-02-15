@@ -19,7 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
-public class FrameRecorder {
+public class FrameRecorder implements IFrameRecorder {
     // Used in order to save reconstruction of Bitmap object
     private Bitmap latest;
 
@@ -33,7 +33,7 @@ public class FrameRecorder {
     private ImageReader imageReader;
 
     // A callback that is called with a captured bitmap, supplied by the user
-    private OnFrameCapturedListener callback;
+    private IFrameCallback callback;
 
     // MediaProjection for recording the screen
     private MediaProjection mediaProjection;
@@ -55,7 +55,7 @@ public class FrameRecorder {
      * @param callback The callback after capturing a frame
      */
     public FrameRecorder(@NonNull MediaProjection mediaProjection, @NonNull Display display,
-                         int dpi,@NonNull OnFrameCapturedListener callback) {
+                         int dpi,@NonNull IFrameCallback callback) {
         this.mediaProjection = mediaProjection;
         this.callback = callback;
         this.dpi = dpi;
@@ -100,7 +100,16 @@ public class FrameRecorder {
             return;
 
         mediaProjection.stop();
+        mediaProjection = null;
         imageReader.close();
+        imageReader = null;
+        virtualDisplay.release();
+        virtualDisplay = null;
+        handlerThread.quit();
+        handlerThread = null;
+        handler.getLooper().quit();
+        handler = null;
+        latest = null;
         recording = false;
     }
 
@@ -132,9 +141,5 @@ public class FrameRecorder {
         cropped.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] compressedBytes = byteArrayOutputStream.toByteArray();
         return BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length);
-    }
-
-    public abstract class OnFrameCapturedListener {
-        abstract void onFrameCaptured(Bitmap frame);
     }
 }
