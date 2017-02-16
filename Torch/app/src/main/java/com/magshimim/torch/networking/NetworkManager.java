@@ -14,7 +14,13 @@ import java.net.UnknownHostException;
 import android.content.Context;
 import android.widget.PopupWindow;
 import java.lang.Object;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.util.Queue;
+
 import android.util.Log;
+
+import com.magshimim.torch.TorchThread;
 
 /**
  * Created by User on 1/28/2017.
@@ -22,6 +28,8 @@ import android.util.Log;
 
 public class NetworkManager implements INetworkManager {
     private DatagramSocket socket;
+    private TorchThread frameSender;
+    private Queue<Bitmap> framesTosend;
 
     public NetworkManager()
     {
@@ -31,12 +39,13 @@ public class NetworkManager implements INetworkManager {
         catch (SocketException e) {
             Log.e("NetworkManager",e.getMessage());
         }
+        frameSender = new TorchThread("queueSender",framesTosend,socket);
 
     }
 
     public void connect (String address, int port)
     {
-        InetAddress addr =null;
+        InetAddress addr = null;
           try {
               addr = InetAddress.getByName(address);
           }
@@ -45,19 +54,14 @@ public class NetworkManager implements INetworkManager {
           }
         socket.connect(addr, port);
 
-
     }
-    public void sendFrame(Bitmap frame)
+    public void sendFrame()
     {
-        ByteArrayOutputStream streamToSend=null;
-        boolean compress = frame.compress(Bitmap.CompressFormat.PNG, 100, streamToSend);
-        byte[] bitmapArray = streamToSend.toByteArray();
-        DatagramPacket packet = new DatagramPacket(bitmapArray,bitmapArray.length);
-        try {
-            socket.send(packet);
-        } catch (IOException e) {
-            Log.e("NetworkManager,Frame",e.getMessage());
-        }
+        frameSender.start();
+        while (!framesTosend.isEmpty())
+        {}
+        //frameSender.destroy();
+
     }
     public void disconnect()
     {
