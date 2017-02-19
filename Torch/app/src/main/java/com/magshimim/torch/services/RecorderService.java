@@ -50,6 +50,9 @@ public class RecorderService extends Service {
         return null;
     }
 
+    /**
+     * Get system services
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -58,16 +61,36 @@ public class RecorderService extends Service {
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
     }
 
+    /**
+     * The entry point after startService is called
+     * Get parameters from the service starter
+     * Break if not all parameters are valid
+     * Start a thread to set up environment fro recording
+     * @param intent The intent used for starting this service
+     * @param flags Not used
+     * @param startId Not used
+     * @return START_STICKY
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if(DEBUG) Log.d(TAG, "onStartCommand");
 
+        // Break if already working
+        if(working) return START_STICKY;
+
+        // Get connection parameters from the intent
         address = intent.getStringExtra(EXTRA_ADDRESS);
         port = intent.getIntExtra(EXTRA_PORT, -1);
+
+        // Get media projection data from the intent
         mediaProjectionResultCode = intent.getIntExtra(EXTRA_RESULT_CODE, -1);
         mediaProjectionResultData = intent.getParcelableExtra(EXTRA_RESULT_DATA);
+
+        // Validate the parameters
         if(invalidParameters())
             stopSelf();
+
+        // Start a thread to initialize recording
         starterThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -78,19 +101,20 @@ public class RecorderService extends Service {
         return START_STICKY;
     }
 
+    /**
+     * The exit point after stopService or stopSelf is called
+     * Cleanup any resource being used
+     */
     @Override
     public void onDestroy() {
         if(DEBUG) Log.d(TAG, "onDestroy");
-        if(recorder != null) {
-            recorder.stopRecording();
-            recorder = null;
-        }
-        if(networkManager != null) {
-            networkManager.disconnect();
-            networkManager = null;
-        }
+        cleanup();
     }
 
+    /**
+     * Check for all service parameters validity
+     * @return true - All parameters are vaild; false - Not all parameters are valid
+     */
     private boolean invalidParameters() {
         if(address == null || address.equals("")) {
             Log.e(TAG, "No address received");
@@ -150,5 +174,22 @@ public class RecorderService extends Service {
         // Pass the frame to the network manager
         // TODO: uncomment the following when network manager is ready
         // networkManager.sendFrame(frame);
+    }
+
+    private void cleanup() {
+        if(DEBUG) Log.d(TAG, "cleanup");
+        // Stop recording
+        if(recorder != null) {
+            recorder.stopRecording();
+            recorder = null;
+        }
+        else Log.w(TAG, "recorder is null");
+
+        // Stop communicating
+        if(networkManager != null) {
+            networkManager.disconnect();
+            networkManager = null;
+        }
+        else Log.w(TAG, "networkManager");
     }
 }
