@@ -57,6 +57,7 @@ public class RecorderService extends Service {
     public void onCreate() {
         super.onCreate();
         if(DEBUG) Log.d(TAG, "onCreate");
+        handlingException = false;
         projectionManager = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
     }
@@ -156,7 +157,7 @@ public class RecorderService extends Service {
             public void onFrameCaptured(Bitmap frame) {
                 callback(frame);
             }
-        });
+        }, new ExceptionHandler());
         try {
             // Start communication and recording
             // TODO: uncomment the following when network manager is ready
@@ -192,5 +193,17 @@ public class RecorderService extends Service {
             networkManager = null;
         }
         else Log.w(TAG, "networkManager");
+    }
+
+    private boolean handlingException;
+    class ExceptionHandler implements Thread.UncaughtExceptionHandler {
+        @Override
+        public void uncaughtException(Thread t, Throwable e) {
+            Log.e(TAG, "Exception from thread " + t.getName() + ": " + e.getMessage());
+            if(!handlingException) {
+                handlingException = true;
+                cleanup();
+            }
+        }
     }
 }
