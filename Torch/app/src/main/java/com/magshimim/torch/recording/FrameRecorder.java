@@ -110,7 +110,6 @@ public class FrameRecorder implements IFrameRecorder {
      * Starts recording.
      * Nothing is done if the recording has already started.
      * The function starts a handler thread for recording.
-     *
      */
     public synchronized void startRecording() {
         if(DEBUG) Log.d(TAG, "startRecording");
@@ -134,30 +133,25 @@ public class FrameRecorder implements IFrameRecorder {
         mediaProjection.registerCallback(cb, handler);
         if(DEBUG) Log.d(TAG, "Registered MediaProjection callback");
 
-        if(!objectsInitialized()) {
-            if(DEBUG) Log.d(TAG, "startRecording failed");
-            stopRecording();
-            if(DEBUG) Log.d(TAG, "Stopped recording");
-            exceptionHandler.uncaughtException(Thread.currentThread(),
-                    new IllegalStateException("Objects initialization went wrong"));
+        // Set recording to true
+        if(objectsInitialized()) {
+            recording = true;
             return;
         }
-        // Set recording to true
-        recording = true;
+
+        if(DEBUG) Log.d(TAG, "startRecording failed");
+        stopRecording();
+        if(DEBUG) Log.d(TAG, "Stopped recording");
+        exceptionHandler.uncaughtException(Thread.currentThread(),
+                new IllegalStateException("Objects initialization went wrong"));
     }
 
     /**
      * Stops recording.
-     * Nothing is done if recording has not started.
      * This function stops running objects and cleans up any necessary objects.
      */
     public synchronized void stopRecording() {
         if(DEBUG) Log.d(TAG, "stopRecording");
-        // Return if not recording
-        if(!recording) {
-            if(DEBUG) Log.d(TAG, "not recording");
-            return;
-        }
 
         if(mediaProjection != null) {
             mediaProjection.stop();
@@ -258,6 +252,10 @@ public class FrameRecorder implements IFrameRecorder {
         return latest;
     }
 
+    /**
+     * Checks if all recording objects are initialized
+     * @return true in case of valid state, else false
+     */
     private boolean objectsInitialized() {
         if(DEBUG) Log.d(TAG, "objectsInitialized");
         boolean retVal = true;
