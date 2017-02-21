@@ -116,6 +116,7 @@ public class RecorderService extends Service {
      * @return true - All parameters are vaild; false - Not all parameters are valid
      */
     private boolean invalidParameters() {
+        if(DEBUG) Log.d(TAG, "invalidParameters");
         if(address == null || address.equals("")) {
             Log.e(TAG, "No address received");
             return true;
@@ -160,7 +161,7 @@ public class RecorderService extends Service {
             // Start communication and recording
             // TODO: uncomment the following when network manager is ready
             // networkManager.connect(address, port);
-            recorder.stopRecording();
+            recorder.startRecording();
         } catch (Exception e) {
             // Break on exception
             Log.e(TAG, "Error while start recording", e);
