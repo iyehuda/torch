@@ -12,23 +12,22 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Display;
 
 import com.magshimim.torch.BuildConfig;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class FrameRecorder implements IFrameRecorder {
     private final static String TAG = "FrameRecorder";
     private final static boolean DEBUG = BuildConfig.DEBUG;
 
     // Used in order to save reconstruction of Bitmap object
-    private Bitmap latest;
+    private Bitmap latestFrame;
 
     // Handler for callbacks of media projection and image reader
     private Handler handler;
@@ -57,6 +56,18 @@ public class FrameRecorder implements IFrameRecorder {
     // Used to prevent re-calls of start/stop methods
     private boolean recording;
 
+    // The time delta between frames
+    private long delta;
+
+    // Frame counter
+    private long frameCounter;
+
+    // FrameTask scheduler
+    private Timer timer;
+
+    // Used to lock access to lastFrame
+    final private Object frameLock;
+
     /**
      * Construct new frame recorder.
      * @param mediaProjection A MediaProjection object for recording the screen
@@ -68,6 +79,7 @@ public class FrameRecorder implements IFrameRecorder {
     public FrameRecorder(@NonNull MediaProjection mediaProjection,
                          @NonNull Display display,
                          int dpi,
+                         int fps,
                          @NonNull IFrameCallback callback,
                          @NonNull Thread.UncaughtExceptionHandler exceptionHandler) {
         if(DEBUG) Log.d(TAG, "Constructor");
@@ -76,8 +88,12 @@ public class FrameRecorder implements IFrameRecorder {
         this.callback = callback;
         this.dpi = dpi;
         this.exceptionHandler = exceptionHandler;
-        latest = null;
+        latestFrame = null;
         recording = false;
+        delta = 1000 / fps;
+        frameCounter = 0;
+        timer = new Timer();
+        frameLock = new Object();
 
         // Get display size
         Point size = new Point();
@@ -92,16 +108,13 @@ public class FrameRecorder implements IFrameRecorder {
         if(DEBUG) Log.d(TAG, "HandlerThread is created");
         handlerThread.setUncaughtExceptionHandler(this.exceptionHandler);
         if(DEBUG) Log.d(TAG, "UncaughtExceptionHandler is set");
+        handlerThread.start();
+        if(handlerThread.getLooper() == null)
+            Log.d(TAG, "we have a problem");
         handler = new Handler(handlerThread.getLooper());
         if(DEBUG) Log.d(TAG, "Handler is created");
         imageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
         if(DEBUG) Log.d(TAG, "ImageReader is created");
-        imageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
-            @Override
-            public void onImageAvailable(ImageReader reader) {
-                FrameRecorder.this.callback.onFrameCaptured(getBitmap(reader));
-            }
-        }, handler);
         if(DEBUG) Log.d(TAG, "ImageReader listener is registered");
     }
 
@@ -119,7 +132,6 @@ public class FrameRecorder implements IFrameRecorder {
             return;
         }
         // Start relevant tasks
-        handlerThread.start();
         if(DEBUG) Log.d(TAG, "HandlerThread started");
         virtualDisplay = mediaProjection.createVirtualDisplay("CurrentFrame", width, height, dpi,
                 0, imageReader.getSurface(), null, handler);
@@ -132,10 +144,16 @@ public class FrameRecorder implements IFrameRecorder {
         };
         mediaProjection.registerCallback(cb, handler);
         if(DEBUG) Log.d(TAG, "Registered MediaProjection callback");
-
+        imageReader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
+            @Override
+            public void onImageAvailable(ImageReader reader) {
+                updateFrame();
+            }
+        }, handler);
         // Set recording to true
         if(objectsInitialized()) {
             recording = true;
+            timer.schedule(new FrameTask(), 0, delta);
             return;
         }
 
@@ -188,68 +206,81 @@ public class FrameRecorder implements IFrameRecorder {
         }
         else Log.w(TAG, "handler is null");
 
-        if(latest != null) {
-            latest.recycle();
-            latest = null;
-            if(DEBUG) Log.d(TAG, "cleaned latest");
+        if(latestFrame != null) {
+            latestFrame.recycle();
+            latestFrame = null;
+            if(DEBUG) Log.d(TAG, "cleaned latestFrame");
         }
-        else Log.w(TAG, "latest was null");
+        else Log.w(TAG, "latestFrame was null");
+
+        if(timer != null) {
+            timer.cancel();
+            timer = null;
+            if(DEBUG) Log.d(TAG, "cleaned timer");
+        }
+        else Log.w(TAG, "timer was null");
 
         recording = false;
     }
 
     /**
-     * A function for extracting Bitmap from ImageReader.
-     * @param reader An ImageReader
-     * @return PNG compressed bitmap
+     * Updates latest frame to the latest image on the image reader
      */
-    @Nullable
-    private Bitmap getBitmap(@NonNull ImageReader reader) {
-        if(DEBUG) Log.d(TAG, "getBitmap");
-        // Get latest bitmap
-        final Image image = reader.acquireLatestImage();
+    private void updateFrame()
+    {
+        if(DEBUG) Log.d(TAG, "updateFrame");
 
-        // Return latest bitmap in case of null result
-        if(image == null) {
-            if(DEBUG) Log.d(TAG, "No new image, return latest one");
-            return latest;
+        final Image current = imageReader.acquireLatestImage();
+        if(current == null) {
+            Log.w(TAG, "acquireLatestImage returned null");
+            return;
         }
+
+        int pixelStride, rowStride, rowPadding, bitmapWidth;
+        ByteBuffer buffer;
 
         // Convert new Image object to bitmap
-        Image.Plane[] planes = image.getPlanes();
-        ByteBuffer buffer = planes[0].getBuffer();
-        int pixelStride = planes[0].getPixelStride();
-        int rowStride = planes[0].getRowStride();
-        int rowPadding = rowStride - pixelStride * width;
-        int bitmapWidth = width + rowPadding / pixelStride;
-
-        // Create new bitmap object if the current has no matching dimensions
-        if(latest == null ||
-            latest.getWidth() != bitmapWidth ||
-            latest.getHeight() != height) {
-            if (latest != null) {
-                if(DEBUG) Log.d(TAG, "Recycling latest bitmap");
-                latest.recycle();
-            }
-            if(DEBUG) Log.d(TAG, "Creating new bitmap");
-            latest = Bitmap.createBitmap(bitmapWidth, height, Bitmap.Config.ARGB_8888);
+        try {
+            Image.Plane[] planes = current.getPlanes();
+            buffer = planes[0].getBuffer();
+            pixelStride = planes[0].getPixelStride();
+            rowStride = planes[0].getRowStride();
+            rowPadding = rowStride - pixelStride * width;
+            bitmapWidth = width + rowPadding / pixelStride;
+        }
+        catch (IllegalStateException e) {
+            Log.w(TAG, "accessing a closed image");
+            return;
         }
 
-        // Load the frame data ro the bitmap object
-        latest.copyPixelsFromBuffer(buffer);
-        if(DEBUG) Log.d(TAG, "Loaded data to bitmap");
-        image.close();
-        if(DEBUG) Log.d(TAG, "Closed Image object");
+        synchronized (frameLock) {
+            // Create new bitmap object if the current has no matching dimensions
+            if (latestFrame == null ||
+                    latestFrame.getWidth() != bitmapWidth ||
+                    latestFrame.getHeight() != height) {
+                if (latestFrame != null) {
+                    if (DEBUG) Log.d(TAG, "Recycling latestFrame bitmap");
+                    latestFrame.recycle();
+                }
+                if (DEBUG) Log.d(TAG, "Creating new bitmap");
+                latestFrame = Bitmap.createBitmap(bitmapWidth, height, Bitmap.Config.ARGB_8888);
+            }
 
-        // Compress to PNG
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        Bitmap cropped = Bitmap.createBitmap(latest, 0, 0, width, height);
-        cropped.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] compressedBytes = byteArrayOutputStream.toByteArray();
-        latest.recycle();
-        latest = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length);
-        if(DEBUG) Log.d(TAG, "Compressed frame");
-        return latest;
+            // Load the frame data ro the bitmap object
+            latestFrame.copyPixelsFromBuffer(buffer);
+            if (DEBUG) Log.d(TAG, "Loaded data to bitmap");
+            current.close();
+            if (DEBUG) Log.d(TAG, "Closed Image object");
+
+            // Compress to PNG
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            Bitmap cropped = Bitmap.createBitmap(latestFrame, 0, 0, width, height);
+            cropped.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            byte[] compressedBytes = byteArrayOutputStream.toByteArray();
+            latestFrame.recycle();
+            latestFrame = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length);
+            if (DEBUG) Log.d(TAG, "Compressed frame");
+        }
     }
 
     /**
@@ -280,5 +311,24 @@ public class FrameRecorder implements IFrameRecorder {
             retVal = false;
         }
         return retVal;
+    }
+
+    private class FrameTask extends TimerTask {
+        private final static String TAG = "TimerTask";
+
+        @Override
+        public void run() {
+            Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
+            synchronized (frameLock) {
+                if (latestFrame == null || latestFrame.isRecycled()) {
+                    Log.w(TAG, "Current frame cannot be accessed");
+                    return;
+                }
+
+                Bitmap latest = latestFrame.copy(latestFrame.getConfig(), true);
+                if (DEBUG) Log.d(TAG, "Frame #" + frameCounter++);
+                FrameRecorder.this.callback.onFrameCaptured(latest);
+            }
+        }
     }
 }

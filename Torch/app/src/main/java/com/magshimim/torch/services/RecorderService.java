@@ -28,12 +28,14 @@ public class RecorderService extends Service {
 
     // Intent parameter entries
     public final static String EXTRA_ADDRESS = "address";
+    public final static String EXTRA_FPS = "fps";
     public final static String EXTRA_PORT = "port";
     public final static String EXTRA_RESULT_CODE = "resultCode";
     public final static String EXTRA_RESULT_DATA = "resultData";
 
     // Parameters from the caller
     String address;
+    int fps;
     int port;
     int mediaProjectionResultCode;
     Intent mediaProjectionResultData;
@@ -77,15 +79,27 @@ public class RecorderService extends Service {
         if(DEBUG) Log.d(TAG, "onStartCommand");
 
         // Break if already working
-        if(working) return START_STICKY;
+        if(working) return START_NOT_STICKY;
 
         // Get connection parameters from the intent
         address = intent.getStringExtra(EXTRA_ADDRESS);
         port = intent.getIntExtra(EXTRA_PORT, -1);
 
         // Get media projection data from the intent
-        mediaProjectionResultCode = intent.getIntExtra(EXTRA_RESULT_CODE, -1);
+        mediaProjectionResultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0);
+        if(mediaProjectionResultCode == 0) {
+            Log.w(TAG, "wait a second");
+            String content = "";
+            for(String key : intent.getExtras().keySet()) {
+                Object value = intent.getExtras().get(key);
+                content += String.format("%s %s %s\n", key, value.toString(), value.getClass().getName());
+            }
+            Log.w(TAG, "The intent is:\n" + content);
+        }
         mediaProjectionResultData = intent.getParcelableExtra(EXTRA_RESULT_DATA);
+
+        // Get recording data
+        fps = intent.getIntExtra(EXTRA_FPS, -1);
 
         // Validate the parameters
         if(invalidParameters())
@@ -99,7 +113,7 @@ public class RecorderService extends Service {
             }
         });
         starterThread.start();
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     /**
@@ -126,16 +140,24 @@ public class RecorderService extends Service {
             Log.e(TAG, "No port received");
             return true;
         }
-        if(mediaProjectionResultCode == -1) {
+        if(mediaProjectionResultCode == 0) {
             Log.e(TAG, "No result code received");
             return true;
         }
         if(mediaProjectionResultData == null) {
             Log.e(TAG, "No result data received");
+            return true;
+        }
+        if(fps <= 0) {
+            Log.e(TAG, "No FPS/Invalid FPS received");
+            return true;
         }
         return false;
     }
 
+    /**
+     * The recording starting point
+     */
     private synchronized void start() {
         if(DEBUG) Log.d(TAG, "start");
         if(working)
@@ -152,7 +174,7 @@ public class RecorderService extends Service {
         // Construct the inner components
         // TODO: uncomment the following when network manager is ready
         // networkManager = new NetworkManager();
-        recorder = new FrameRecorder(projection, display, dpi, new IFrameRecorder.IFrameCallback() {
+        recorder = new FrameRecorder(projection, display, dpi, fps, new IFrameRecorder.IFrameCallback() {
             @Override
             public void onFrameCaptured(Bitmap frame) {
                 callback(frame);
@@ -171,14 +193,23 @@ public class RecorderService extends Service {
         working = true;
     }
 
-    private void callback(Bitmap frame) {
+    /**
+     * The function that is called upon frame record
+     * @param frame The recorded frame, can be null
+     */
+    private void callback(@Nullable Bitmap frame) {
         if(DEBUG) Log.d(TAG, "callback");
+        if(!working || frame == null || frame.isRecycled())
+            return;
         // Pass the frame to the network manager
         // TODO: uncomment the following when network manager is ready
         // networkManager.sendFrame(frame);
     }
 
-    private void cleanup() {
+    /**
+     * Free resources
+     */
+    private synchronized void cleanup() {
         if(DEBUG) Log.d(TAG, "cleanup");
         // Stop recording
         if(recorder != null) {
@@ -192,14 +223,17 @@ public class RecorderService extends Service {
             networkManager.disconnect();
             networkManager = null;
         }
-        else Log.w(TAG, "networkManager");
+        else Log.w(TAG, "networkManager is null");
+
+        working = false;
     }
 
     private boolean handlingException;
     class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         @Override
         public void uncaughtException(Thread t, Throwable e) {
-            Log.e(TAG, "Exception from thread " + t.getName() + ": " + e.getMessage());
+            if(DEBUG) Log.d(TAG, "uncaughtException");
+            Log.e(TAG, "Exception from thread " + t.getName(), e);
             if(!handlingException) {
                 handlingException = true;
                 cleanup();
