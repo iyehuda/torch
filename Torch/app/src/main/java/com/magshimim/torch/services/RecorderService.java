@@ -14,6 +14,7 @@ import android.view.WindowManager;
 
 import com.magshimim.torch.BuildConfig;
 import com.magshimim.torch.networking.INetworkManager;
+import com.magshimim.torch.networking.NetworkManager;
 import com.magshimim.torch.recording.FrameRecorder;
 import com.magshimim.torch.recording.IFrameRecorder;
 
@@ -163,6 +164,10 @@ public class RecorderService extends Service {
         if(working)
             return;
 
+        // Start frame sender component
+        networkManager = new NetworkManager();
+        networkManager.connect(address, port);
+
         // Get FrameRecorder parameters data
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -202,8 +207,7 @@ public class RecorderService extends Service {
         if(!working || frame == null || frame.isRecycled())
             return;
         // Pass the frame to the network manager
-        // TODO: uncomment the following when network manager is ready
-        // networkManager.sendFrame(frame);
+        networkManager.sendFrame(frame);
     }
 
     /**
