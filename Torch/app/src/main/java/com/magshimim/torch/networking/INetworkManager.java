@@ -12,7 +12,7 @@ public interface INetworkManager {
      * Send a single frame to the remote server.
      * @param frame The frame to be sent
      */
-    void sendFrame();
+    void sendFrame(Bitmap frame);
 
     /**
      * Disconnects from the server if the implementation uses TCP,

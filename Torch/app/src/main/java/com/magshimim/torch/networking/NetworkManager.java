@@ -17,6 +17,7 @@ import java.lang.Object;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import android.util.Log;
 
@@ -29,10 +30,12 @@ import com.magshimim.torch.TorchThread;
 public class NetworkManager implements INetworkManager {
     private DatagramSocket socket;
     private TorchThread frameSender;
-    private Queue<Bitmap> framesTosend;
-
+    private final Queue<Bitmap> framesTosend;
+    private boolean sending;
     public NetworkManager()
     {
+        framesTosend = new ConcurrentLinkedQueue<>();
+
         try {
             socket = new DatagramSocket();
         }
@@ -40,6 +43,7 @@ public class NetworkManager implements INetworkManager {
             Log.e("NetworkManager",e.getMessage());
         }
         frameSender = new TorchThread("queueSender",framesTosend,socket);
+        sending = false;
 
     }
 
@@ -53,18 +57,22 @@ public class NetworkManager implements INetworkManager {
               Log.e("NetworkManager, connect",e.getMessage());
           }
         socket.connect(addr, port);
-
-    }
-    public void sendFrame()
-    {
         frameSender.start();
-        while (!framesTosend.isEmpty())
-        {}
-        //frameSender.destroy();
-
+        sending = true;
+    }
+    public void sendFrame(Bitmap frame)
+    {
+        try {
+            framesTosend.wait();
+            framesTosend.add(frame);
+            framesTosend.notify();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     public void disconnect()
     {
+        frameSender.stopSending();
         socket.disconnect();
     }
 }
