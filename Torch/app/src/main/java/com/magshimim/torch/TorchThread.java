@@ -14,26 +14,52 @@ import java.net.DatagramSocket;
  */
 
 public class TorchThread extends Thread {
+    private static final String TAG = "TorchThread";
     private String name;
-    private Queue<Bitmap> framestoSend;
+    private final Queue<Bitmap> framesToSend;
     private DatagramSocket socket;
-    public TorchThread(String name,Queue<Bitmap> framesTosend,DatagramSocket socket){
+    private boolean sending;
+
+    public TorchThread(String name, final Queue<Bitmap> framesToSend, DatagramSocket socket){
         super(name);
-        this.framestoSend=framestoSend;
+        this.framesToSend = framesToSend;
         this.socket=socket;
+        sending = false;
     }
-    public void run()
-    {
-        Bitmap frameTosend = framestoSend.poll();
-        ByteArrayOutputStream streamToSend = new ByteArrayOutputStream();
-        ByteBuffer buffer = ByteBuffer.allocate(frameTosend.getByteCount());
-        frameTosend.copyPixelsToBuffer(buffer);
-        byte[] arraytoSend = buffer.array();
-        DatagramPacket packet = new DatagramPacket(arraytoSend,arraytoSend.length);
-        try {
-            socket.send(packet);
-        } catch (IOException e) {
-            Log.e("NetworkManager,Frame", e.getMessage());
+
+    @Override
+    public void run() {
+        sending = true;
+        Bitmap frame;
+
+        while (sending) {
+            try {
+                framesToSend.wait(2000);
+            } catch (InterruptedException e) {
+                Log.e(TAG, "Error", e);
+                continue;
+            }
+            synchronized (framesToSend) {
+                if (!framesToSend.isEmpty())
+                    frame = framesToSend.poll();
+                else
+                    continue;
+            }
+
+            ByteBuffer buffer = ByteBuffer.allocate(frame.getByteCount());
+            frame.copyPixelsToBuffer(buffer);
+            byte[] arrayToSend = buffer.array();
+            DatagramPacket packet = new DatagramPacket(arrayToSend, arrayToSend.length);
+            try {
+                socket.send(packet);
+            } catch (IOException e) {
+                Log.e("NetworkManager,Frame", e.getMessage());
+            }
         }
+    }
+
+    public void stopSending()
+    {
+        sending = false;
     }
 }
