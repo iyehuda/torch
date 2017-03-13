@@ -223,6 +223,19 @@ public class FrameRecorder implements IFrameRecorder {
         recording = false;
     }
 
+    private int getCompressionScale(Bitmap bitmap) {
+        BitmapFactory.Options o = new BitmapFactory.Options();
+        final int REQUIRED_SIZE = 70;
+        int scale = 1;
+
+        while (bitmap.getWidth() / scale / 2 >= REQUIRED_SIZE &&
+                bitmap.getHeight() / scale / 2 >= REQUIRED_SIZE) {
+            scale <<= 1;
+        }
+
+        return scale;
+    }
+
     /**
      * Updates latest frame to the latest image on the image reader
      */
@@ -272,13 +285,15 @@ public class FrameRecorder implements IFrameRecorder {
             current.close();
             if (DEBUG) Log.d(TAG, "Closed Image object");
 
-            // Compress to PNG
+            // Compress to JPEG
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = getCompressionScale(latestFrame);
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             Bitmap cropped = Bitmap.createBitmap(latestFrame, 0, 0, width, height);
-            cropped.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            cropped.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream);
             byte[] compressedBytes = byteArrayOutputStream.toByteArray();
             latestFrame.recycle();
-            latestFrame = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length);
+            latestFrame = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length, options);
             if (DEBUG) Log.d(TAG, "Compressed frame");
         }
     }
