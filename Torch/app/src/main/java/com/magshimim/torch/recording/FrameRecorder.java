@@ -275,7 +275,7 @@ public class FrameRecorder implements IFrameRecorder {
             // Compress to PNG
             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
             Bitmap cropped = Bitmap.createBitmap(latestFrame, 0, 0, width, height);
-            cropped.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+            cropped.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             byte[] compressedBytes = byteArrayOutputStream.toByteArray();
             latestFrame.recycle();
             latestFrame = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length);

@@ -166,7 +166,6 @@ public class RecorderService extends Service {
 
         // Start frame sender component
         networkManager = new NetworkManager();
-        networkManager.connect(address, port);
 
         // Get FrameRecorder parameters data
         Display display = windowManager.getDefaultDisplay();
@@ -188,7 +187,7 @@ public class RecorderService extends Service {
         try {
             // Start communication and recording
             // TODO: uncomment the following when network manager is ready
-            // networkManager.connect(address, port);
+            networkManager.connect(address, port);
             recorder.startRecording();
         } catch (Exception e) {
             // Break on exception
