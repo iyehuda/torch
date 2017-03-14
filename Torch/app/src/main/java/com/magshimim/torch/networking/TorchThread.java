@@ -1,6 +1,7 @@
 package com.magshimim.torch.networking;
 import android.graphics.Bitmap;
 import java.lang.Object;
+import java.net.Socket;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.util.Queue;
@@ -17,14 +18,20 @@ public class TorchThread extends Thread {
     private static final String TAG = "TorchThread";
     private static final boolean DEBUG = BuildConfig.DEBUG;
     private final Queue<Bitmap> framesToSend;
-    private DatagramSocket socket;
+    private Socket socket;
+    private DataOutputStream out;
     private boolean sending;
 
-    public TorchThread(String name, final Queue<Bitmap> framesToSend, DatagramSocket socket){
+    public TorchThread(String name, final Queue<Bitmap> framesToSend, Socket socket){
         super(name);
         if(DEBUG) Log.d(TAG, "TorchThread");
         this.framesToSend = framesToSend;
         this.socket=socket;
+        try {
+            out = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         sending = false;
     }
 
@@ -60,11 +67,18 @@ public class TorchThread extends Thread {
             DatagramPacket packet = new DatagramPacket(arrayToSend, arrayToSend.length);
             if(DEBUG) Log.d(TAG, "Created datagram packet, length = " + packet.getLength());
             try {
-                socket.send(packet);
+                out.write(arrayToSend);
                 if(DEBUG) Log.d(TAG, "packet is sent");
             } catch (IOException e) {
                 Log.e("NetworkManager,Frame", e.getMessage());
             }
+        }
+
+        try {
+            socket.close();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

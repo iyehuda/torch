@@ -2,8 +2,12 @@ package com.magshimim.torch.networking;
 
 import android.graphics.Bitmap;
 
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Queue;
@@ -20,7 +24,7 @@ import com.magshimim.torch.BuildConfig;
 public class NetworkManager implements INetworkManager {
     private final static String TAG = "NetworkManager";
     private final static boolean DEBUG = BuildConfig.DEBUG;
-    private DatagramSocket socket;
+    private Socket socket;
     private TorchThread frameSender;
     private final Queue<Bitmap> framesTosend;
     private boolean sending;
@@ -29,14 +33,9 @@ public class NetworkManager implements INetworkManager {
         if(DEBUG) Log.d(TAG, "NetworkManager");
         framesTosend = new ConcurrentLinkedQueue<>();
 
-        try {
-            socket = new DatagramSocket();
-            if(DEBUG) Log.d(TAG, "Socket is created");
-        }
-        catch (SocketException e) {
-            Log.e("NetworkManager",e.getMessage());
-        }
-        frameSender = new TorchThread("queueSender",framesTosend,socket);
+        socket = new Socket();
+        if(DEBUG) Log.d(TAG, "Socket is created");
+        frameSender = new TorchThread("queueSender", framesTosend, socket);
         if(DEBUG) Log.d(TAG, "Thread is created");
         sending = false;
     }
@@ -44,15 +43,13 @@ public class NetworkManager implements INetworkManager {
     public void connect (String address, int port)
     {
         if(DEBUG) Log.d(TAG, "connect");
-        InetAddress addr = null;
+        SocketAddress socketAddress = new InetSocketAddress(address, port);
         try {
-            addr = InetAddress.getByName(address);
-        }
-        catch (UnknownHostException e) {
-            Log.e(TAG, "failed to convert hostname", e);
+            socket.connect(socketAddress, 2000);
+        } catch (IOException e) {
+            e.printStackTrace();
             return;
         }
-        socket.connect(addr, port);
         if(DEBUG) Log.d(TAG, "socket is connected");
         frameSender.start();
         if(DEBUG) Log.d(TAG, "sender has started");
@@ -79,7 +76,12 @@ public class NetworkManager implements INetworkManager {
         } else Log.w(TAG, "frameSender is null");
 
         if (socket != null) {
-            socket.disconnect();
+            try {
+                if(!socket.isClosed())
+                    socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             socket = null;
         } else Log.w(TAG, "socket is null");
     }
