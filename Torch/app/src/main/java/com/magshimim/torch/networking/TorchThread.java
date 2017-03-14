@@ -1,4 +1,4 @@
-package com.magshimim.torch;
+package com.magshimim.torch.networking;
 import android.graphics.Bitmap;
 import java.lang.Object;
 import java.nio.Buffer;
@@ -7,6 +7,9 @@ import java.util.Queue;
 import java.io.*;
 import java.net.DatagramPacket;
 import android.util.Log;
+
+import com.magshimim.torch.BuildConfig;
+
 import java.net.DatagramSocket;
 
 

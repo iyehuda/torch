@@ -1,28 +1,17 @@
 package com.magshimim.torch.networking;
 
 import android.graphics.Bitmap;
-import android.widget.PopupWindow;
-import android.widget.Toast;
 
-import java.io.*;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.PortUnreachableException;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import android.content.Context;
-import android.widget.PopupWindow;
-import java.lang.Object;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import android.util.Log;
 
 import com.magshimim.torch.BuildConfig;
-import com.magshimim.torch.TorchThread;
 
 /**
  * Created by User on 1/28/2017.
