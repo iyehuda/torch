@@ -3,7 +3,10 @@ package com.magshimim.torch;
 import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.gsm.SmsMessage;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
@@ -103,5 +106,13 @@ public class MainActivity extends AppCompatActivity {
         stopService(recordingIntent);
         recording = false;
         if(DEBUG) Log.d(TAG, "service stopped");
+    }
+
+    public class MessageHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            Bundle data = message.getData();
+            Object param = data.get("frame");
+        }
     }
 }
