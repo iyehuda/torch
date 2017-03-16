@@ -27,17 +27,18 @@ public class TorchThread extends Thread {
         if(DEBUG) Log.d(TAG, "TorchThread");
         this.framesToSend = framesToSend;
         this.socket=socket;
-        try {
-            out = new DataOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         sending = false;
     }
 
     @Override
     public void run() {
         if(DEBUG) Log.d(TAG, "run");
+        try {
+            out = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            Log.e(TAG, "cannot create DataOutputStream", e);
+            return;
+        }
         sending = true;
         Bitmap frame;
 
@@ -64,22 +65,30 @@ public class TorchThread extends Thread {
             frame.copyPixelsToBuffer(buffer);
             if(DEBUG) Log.d(TAG, "copied frame to buffer");
             byte[] arrayToSend = buffer.array();
-            DatagramPacket packet = new DatagramPacket(arrayToSend, arrayToSend.length);
-            if(DEBUG) Log.d(TAG, "Created datagram packet, length = " + packet.getLength());
             try {
                 out.write(arrayToSend);
-                if(DEBUG) Log.d(TAG, "packet is sent");
+                if(DEBUG) Log.d(TAG, "frame sent");
             } catch (IOException e) {
-                Log.e("NetworkManager,Frame", e.getMessage());
+                Log.e(TAG, "Could not send frame", e);
+                break;
             }
         }
 
         try {
             socket.close();
-            out.close();
+            socket = null;
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, "could not close socket", e);
         }
+
+        try {
+            out.close();
+            out = null;
+        } catch (IOException e) {
+            Log.e(TAG, "could not close output stream", e);
+        }
+
+        sending = false;
     }
 
     public void stopSending()

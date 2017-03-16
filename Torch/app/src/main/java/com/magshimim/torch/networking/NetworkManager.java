@@ -17,10 +17,6 @@ import android.util.Log;
 
 import com.magshimim.torch.BuildConfig;
 
-/**
- * Created by User on 1/28/2017.
- */
-
 public class NetworkManager implements INetworkManager {
     private final static String TAG = "NetworkManager";
     private final static boolean DEBUG = BuildConfig.DEBUG;
@@ -43,11 +39,11 @@ public class NetworkManager implements INetworkManager {
     public void connect (String address, int port)
     {
         if(DEBUG) Log.d(TAG, "connect");
-        SocketAddress socketAddress = new InetSocketAddress(address, port);
         try {
+            SocketAddress socketAddress = new InetSocketAddress(address, port);
             socket.connect(socketAddress, 2000);
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, String.format("Could not connect to %s:%d", address, port), e);
             return;
         }
         if(DEBUG) Log.d(TAG, "socket is connected");
@@ -59,6 +55,10 @@ public class NetworkManager implements INetworkManager {
     public void sendFrame(Bitmap frame)
     {
         if(DEBUG) Log.d(TAG, "sendFrame");
+        if(!sending) {
+            Log.w(TAG, "Not connected");
+            return;
+        }
         synchronized (framesTosend) {
             framesTosend.add(frame);
             if(DEBUG) Log.d(TAG, "added frame to queue");
@@ -66,6 +66,7 @@ public class NetworkManager implements INetworkManager {
             if(DEBUG) Log.d(TAG, "notified thread");
         }
     }
+
     public void disconnect()
     {
         if(DEBUG) Log.d(TAG, "disconnect");
@@ -84,5 +85,7 @@ public class NetworkManager implements INetworkManager {
             }
             socket = null;
         } else Log.w(TAG, "socket is null");
+
+        sending = false;
     }
 }
