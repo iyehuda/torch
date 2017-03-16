@@ -14,17 +14,17 @@ import com.magshimim.torch.BuildConfig;
 import java.net.DatagramSocket;
 
 
-public class TorchThread extends Thread {
-    private static final String TAG = "TorchThread";
+public class SenderThread extends Thread {
+    private static final String TAG = "SenderThread";
     private static final boolean DEBUG = BuildConfig.DEBUG;
     private final Queue<Bitmap> framesToSend;
     private Socket socket;
     private DataOutputStream out;
     private boolean sending;
 
-    public TorchThread(String name, final Queue<Bitmap> framesToSend, Socket socket){
+    public SenderThread(String name, final Queue<Bitmap> framesToSend, Socket socket){
         super(name);
-        if(DEBUG) Log.d(TAG, "TorchThread");
+        if(DEBUG) Log.d(TAG, "SenderThread");
         this.framesToSend = framesToSend;
         this.socket=socket;
         sending = false;

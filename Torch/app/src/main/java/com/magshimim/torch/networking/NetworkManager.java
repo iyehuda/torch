@@ -3,13 +3,9 @@ package com.magshimim.torch.networking;
 import android.graphics.Bitmap;
 
 import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -21,7 +17,7 @@ public class NetworkManager implements INetworkManager {
     private final static String TAG = "NetworkManager";
     private final static boolean DEBUG = BuildConfig.DEBUG;
     private Socket socket;
-    private TorchThread frameSender;
+    private SenderThread frameSender;
     private final Queue<Bitmap> framesTosend;
     private boolean sending;
     public NetworkManager()
@@ -31,7 +27,7 @@ public class NetworkManager implements INetworkManager {
 
         socket = new Socket();
         if(DEBUG) Log.d(TAG, "Socket is created");
-        frameSender = new TorchThread("queueSender", framesTosend, socket);
+        frameSender = new SenderThread("queueSender", framesTosend, socket);
         if(DEBUG) Log.d(TAG, "Thread is created");
         sending = false;
     }
