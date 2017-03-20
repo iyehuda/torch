@@ -4,6 +4,7 @@ import java.lang.Object;
 import java.net.Socket;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Queue;
 import java.io.*;
 import java.net.DatagramPacket;
@@ -65,9 +66,14 @@ public class SenderThread extends Thread {
             frame.copyPixelsToBuffer(buffer);
             if(DEBUG) Log.d(TAG, "copied frame to buffer");
             byte[] arrayToSend = buffer.array();
+            if(DEBUG) {
+                byte[] sliced = Arrays.copyOfRange(arrayToSend, 0, 50);
+                String signature = new String(sliced);
+                Log.d(TAG, "signature: " + signature);
+            }
             try {
                 out.write(arrayToSend);
-                if(DEBUG) Log.d(TAG, "frame sent");
+                if(DEBUG) Log.d(TAG, arrayToSend.length + " bytes sent");
             } catch (IOException e) {
                 Log.e(TAG, "Could not send frame", e);
                 break;
