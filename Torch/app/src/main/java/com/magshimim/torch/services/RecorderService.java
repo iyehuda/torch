@@ -11,8 +11,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+import java.io.ByteArrayOutputStream;
 
 import com.magshimim.torch.BuildConfig;
+import com.magshimim.torch.FrameShower;
 import com.magshimim.torch.networking.INetworkManager;
 import com.magshimim.torch.networking.NetworkManager;
 import com.magshimim.torch.recording.FrameRecorder;
@@ -59,7 +61,7 @@ public class RecorderService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        if(DEBUG) Log.d(TAG, "onCreate");
+        if (DEBUG) Log.d(TAG, "onCreate");
         handlingException = false;
         projectionManager = (MediaProjectionManager) getSystemService(MEDIA_PROJECTION_SERVICE);
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
@@ -70,17 +72,18 @@ public class RecorderService extends Service {
      * Get parameters from the service starter
      * Break if not all parameters are valid
      * Start a thread to set up environment fro recording
-     * @param intent The intent used for starting this service
-     * @param flags Not used
+     *
+     * @param intent  The intent used for starting this service
+     * @param flags   Not used
      * @param startId Not used
      * @return START_STICKY
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if(DEBUG) Log.d(TAG, "onStartCommand");
+        if (DEBUG) Log.d(TAG, "onStartCommand");
 
         // Break if already working
-        if(working) return START_NOT_STICKY;
+        if (working) return START_NOT_STICKY;
 
         // Get connection parameters from the intent
         address = intent.getStringExtra(EXTRA_ADDRESS);
@@ -88,10 +91,10 @@ public class RecorderService extends Service {
 
         // Get media projection data from the intent
         mediaProjectionResultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0);
-        if(mediaProjectionResultCode == 0) {
+        if (mediaProjectionResultCode == 0) {
             Log.w(TAG, "wait a second");
             String content = "";
-            for(String key : intent.getExtras().keySet()) {
+            for (String key : intent.getExtras().keySet()) {
                 Object value = intent.getExtras().get(key);
                 content += String.format("%s %s %s\n", key, value.toString(), value.getClass().getName());
             }
@@ -103,7 +106,7 @@ public class RecorderService extends Service {
         fps = intent.getIntExtra(EXTRA_FPS, -1);
 
         // Validate the parameters
-        if(invalidParameters())
+        if (invalidParameters())
             stopSelf();
 
         // Start a thread to initialize recording
@@ -123,33 +126,34 @@ public class RecorderService extends Service {
      */
     @Override
     public void onDestroy() {
-        if(DEBUG) Log.d(TAG, "onDestroy");
+        if (DEBUG) Log.d(TAG, "onDestroy");
         cleanup();
     }
 
     /**
      * Check for all service parameters validity
+     *
      * @return true - All parameters are vaild; false - Not all parameters are valid
      */
     private boolean invalidParameters() {
-        if(DEBUG) Log.d(TAG, "invalidParameters");
-        if(address == null || address.equals("")) {
+        if (DEBUG) Log.d(TAG, "invalidParameters");
+        if (address == null || address.equals("")) {
             Log.e(TAG, "No address received");
             return true;
         }
-        if(port == -1) {
+        if (port == -1) {
             Log.e(TAG, "No port received");
             return true;
         }
-        if(mediaProjectionResultCode == 0) {
+        if (mediaProjectionResultCode == 0) {
             Log.e(TAG, "No result code received");
             return true;
         }
-        if(mediaProjectionResultData == null) {
+        if (mediaProjectionResultData == null) {
             Log.e(TAG, "No result data received");
             return true;
         }
-        if(fps <= 0) {
+        if (fps <= 0) {
             Log.e(TAG, "No FPS/Invalid FPS received");
             return true;
         }
@@ -160,8 +164,8 @@ public class RecorderService extends Service {
      * The recording starting point
      */
     private synchronized void start() {
-        if(DEBUG) Log.d(TAG, "start");
-        if(working)
+        if (DEBUG) Log.d(TAG, "start");
+        if (working)
             return;
 
         // Start frame sender component
@@ -199,16 +203,29 @@ public class RecorderService extends Service {
 
     /**
      * The function that is called upon frame record
+     *
      * @param frame The recorded frame, can be null
      */
     private void callback(@Nullable Bitmap frame) {
-        if(DEBUG) Log.d(TAG, "callback");
-        if(!working || frame == null || frame.isRecycled())
+        if (DEBUG) Log.d(TAG, "callback");
+        if (!working || frame == null || frame.isRecycled())
             return;
         // Pass the frame to the network manager
         networkManager.sendFrame(frame);
+        this.OpenActivity(frame);
     }
 
+
+    private void OpenActivity(Bitmap frame)
+    {
+        Intent toOpenActivity = new Intent(this, FrameShower.class);
+        toOpenActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        frame.compress(Bitmap.CompressFormat.PNG,100, b);
+        byte[] byteArray = b.toByteArray();
+        toOpenActivity.putExtra("frame",byteArray);
+        startActivity(toOpenActivity);
+    }
     /**
      * Free resources
      */
