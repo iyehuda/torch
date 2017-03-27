@@ -292,8 +292,10 @@ public class FrameRecorder implements IFrameRecorder {
             Bitmap cropped = Bitmap.createBitmap(latestFrame, 0, 0, width, height);
             cropped.compress(Bitmap.CompressFormat.PNG, 70, byteArrayOutputStream);
             byte[] compressedBytes = byteArrayOutputStream.toByteArray();
-            latestFrame.recycle();
-            latestFrame = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length, options);
+            synchronized (frameLock) {
+                latestFrame.recycle();
+                latestFrame = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length, options);
+            }
             if (DEBUG) Log.d(TAG, "Compressed frame");
         }
     }
