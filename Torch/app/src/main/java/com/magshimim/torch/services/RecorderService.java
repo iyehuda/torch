@@ -220,10 +220,7 @@ public class RecorderService extends Service {
     {
         Intent toOpenActivity = new Intent(this, FrameShower.class);
         toOpenActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ByteArrayOutputStream b = new ByteArrayOutputStream();
-        frame.compress(Bitmap.CompressFormat.PNG,100, b);
-        byte[] byteArray = b.toByteArray();
-        toOpenActivity.putExtra("frame",byteArray);
+        toOpenActivity.putExtra("frame", frame);
         startActivity(toOpenActivity);
     }
     /**
