@@ -24,6 +24,7 @@ public class RecorderService extends Service {
     // Debug variables
     private final static String TAG = "RecorderService";
     private final static boolean DEBUG = BuildConfig.DEBUG;
+    private boolean toOpenActivity = true;
 
     // Inner components
     private static IFrameRecorder recorder;
@@ -179,9 +180,7 @@ public class RecorderService extends Service {
         MediaProjection projection = projectionManager.getMediaProjection(
                 mediaProjectionResultCode, mediaProjectionResultData);
 
-        // Construct the inner components
-        // TODO: uncomment the following when network manager is ready
-        // networkManager = new NetworkManager();
+        // Construct the inner component
         recorder = new FrameRecorder(projection, display, dpi, fps, new IFrameRecorder.IFrameCallback() {
             @Override
             public void onFrameCaptured(Bitmap frame) {
@@ -190,7 +189,6 @@ public class RecorderService extends Service {
         }, new ExceptionHandler());
         try {
             // Start communication and recording
-            // TODO: uncomment the following when network manager is ready
             networkManager.connect(address, port);
             recorder.startRecording();
         } catch (Exception e) {
@@ -212,7 +210,11 @@ public class RecorderService extends Service {
             return;
         // Pass the frame to the network manager
         networkManager.sendFrame(frame);
-        this.OpenActivity(frame);
+        if (toOpenActivity) {
+            this.OpenActivity(frame);
+            toOpenActivity = false;
+            this.stopSelf();
+        }
     }
 
 

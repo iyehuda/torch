@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 
 import android.graphics.Bitmap;
+import android.widget.ImageView;
 
 public class FrameShower extends AppCompatActivity {
     private boolean DEBUG = BuildConfig.DEBUG;
@@ -30,17 +31,20 @@ public class FrameShower extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        byte[] toFrame = getIntent().getByteArrayExtra("frame");
+
+        ImageView imageView =(ImageView) findViewById(R.id.imageView2);
+        Bitmap b = getIntent().getParcelableExtra("frame");
         if (DEBUG)
         {
-            Log.d(TAG,"Bitmap Size: "+toFrame.length);
+            Log.d(TAG,"Bitmap Size: "+b.getByteCount());
         }
-        Bitmap bmp = BitmapFactory.decodeByteArray(toFrame,0,toFrame.length);
-        Canvas c = new Canvas(bmp);
+        imageView.setImageBitmap(b);
+
         if (DEBUG)
         {
             Log.d(TAG,"canvas has been created");
         }
+
     }
 
 }
