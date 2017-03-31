@@ -1,5 +1,6 @@
 package com.magshimim.torch.recording;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
@@ -284,19 +285,6 @@ public class FrameRecorder implements IFrameRecorder {
             if (DEBUG) Log.d(TAG, "Loaded data to bitmap");
             current.close();
             if (DEBUG) Log.d(TAG, "Closed Image object");
-
-            // Compress to JPEG
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = getCompressionScale(latestFrame);
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            Bitmap cropped = Bitmap.createBitmap(latestFrame, 0, 0, width, height);
-            cropped.compress(Bitmap.CompressFormat.PNG, 70, byteArrayOutputStream);
-            byte[] compressedBytes = byteArrayOutputStream.toByteArray();
-            synchronized (frameLock) {
-                latestFrame.recycle();
-                latestFrame = BitmapFactory.decodeByteArray(compressedBytes, 0, compressedBytes.length, options);
-            }
-            if (DEBUG) Log.d(TAG, "Compressed frame");
         }
     }
 

@@ -33,12 +33,14 @@ public class FrameShower extends AppCompatActivity {
         });
 
         ImageView imageView =(ImageView) findViewById(R.id.imageView2);
-        Bitmap b = getIntent().getParcelableExtra("frame");
+        byte[] b = getIntent().getByteArrayExtra("frame");
         if (DEBUG)
         {
-            Log.d(TAG,"Bitmap Size: "+b.getByteCount());
+            Log.d(TAG,"Bitmap Size: " + b.length);
         }
-        imageView.setImageBitmap(b);
+
+        Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+        imageView.setImageBitmap(bitmap);
 
         if (DEBUG)
         {

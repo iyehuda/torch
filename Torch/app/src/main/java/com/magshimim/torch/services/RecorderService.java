@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 
 import com.magshimim.torch.BuildConfig;
 import com.magshimim.torch.FrameShower;
@@ -217,12 +218,21 @@ public class RecorderService extends Service {
         }
     }
 
+    private byte[] compressBitmap(Bitmap bitmap) {
+        // Compress to JPEG
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+        byte[] compressBytes = byteArrayOutputStream.toByteArray();
+        if (DEBUG) Log.d(TAG, "Compressed frame");
+        return compressBytes;
+    }
 
     private void OpenActivity(Bitmap frame)
     {
+        byte[] compressBytes = compressBitmap(frame);
         Intent toOpenActivity = new Intent(this, FrameShower.class);
         toOpenActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        toOpenActivity.putExtra("frame", frame);
+        toOpenActivity.putExtra("frame", compressBytes);
         startActivity(toOpenActivity);
     }
     /**
