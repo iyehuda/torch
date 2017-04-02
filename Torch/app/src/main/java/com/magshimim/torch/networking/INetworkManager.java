@@ -6,8 +6,8 @@ import android.graphics.Bitmap;
  * An interface that defines the usage of a network component for sending frames to a server.
  */
 public interface INetworkManager {
-
     void connect(String address,int port);
+
     /**
      * Send a single frame to the remote server.
      * @param frame The frame to be sent

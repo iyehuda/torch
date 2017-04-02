@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.Queue;
 import java.io.*;
 import java.net.DatagramPacket;
+
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.magshimim.torch.BuildConfig;
@@ -18,16 +20,73 @@ import java.net.DatagramSocket;
 public class SenderThread extends Thread {
     private static final String TAG = "SenderThread";
     private static final boolean DEBUG = BuildConfig.DEBUG;
-    private final Queue<Bitmap> framesToSend;
+    private final Queue<byte[]> dataToSend;
     private Socket socket;
     private DataOutputStream out;
     private boolean sending;
 
-    public SenderThread(String name, final Queue<Bitmap> framesToSend, Socket socket){
+
+    public SenderThread(String name, final Queue<byte[]> dataToSend, Socket socket) {
         super(name);
-        if(DEBUG) Log.d(TAG, "SenderThread");
-        this.framesToSend = framesToSend;
-        this.socket=socket;
+        if(DEBUG) Log.d(TAG, " SenderThread:");
+        this.dataToSend = dataToSend;
+        this.socket = socket;
+        sending = false;
+    }
+
+    @Nullable
+    private byte[] getData() {
+        if(DEBUG) Log.d(TAG, "getData:");
+        synchronized (dataToSend) {
+            try {
+                dataToSend.wait(1000);
+            } catch (InterruptedException e) {
+                Log.e(TAG, "error waiting on queue", e);
+                return null;
+            }
+            if(dataToSend.isEmpty()) {
+                Log.w(TAG, "queue is empty");
+                return null;
+            }
+            byte[] data = dataToSend.poll();
+            if(data == null) Log.w(TAG, "null queue element");
+            return data;
+        }
+    }
+
+    private void send(byte[] data) {
+        if (DEBUG) Log.d(TAG, "send:");
+        if(out == null) {
+            Log.w(TAG, "output stream is null");
+            return;
+        }
+        try {
+            out.write(data,0 , data.length);
+            if(DEBUG) Log.d(TAG, String.format("%d bytes sent", data.length));
+        } catch (Exception e) {
+            Log.e(TAG, "could not send data");
+        }
+    }
+
+    private void cleanup() {
+        if(socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                Log.e(TAG, "could not close socket", e);
+            }
+            socket = null;
+        } else Log.w(TAG, "socket is null");
+
+        if(out != null) {
+            try {
+                out.close();
+            } catch (IOException e) {
+                Log.e(TAG, "could not close output stream", e);
+            }
+            out = null;
+        } else Log.w(TAG, "out is null");
+
         sending = false;
     }
 
@@ -40,61 +99,18 @@ public class SenderThread extends Thread {
             Log.e(TAG, "cannot create DataOutputStream", e);
             return;
         }
+
         sending = true;
-        Bitmap frame;
+        byte[] data;
 
         while (sending) {
             if(DEBUG) Log.d(TAG, "waiting for frame");
-            synchronized (framesToSend) {
-                try {
-                    framesToSend.wait(1000);
-                } catch (InterruptedException e) {
-                    Log.e(TAG, "Error", e);
-                    continue;
-                }
-                if (!framesToSend.isEmpty()) {
-                    frame = framesToSend.poll();
-                    if(DEBUG) Log.d(TAG, "got frame");
-                }
-                else {
-                    Log.w(TAG, "queue is empty");
-                    continue;
-                }
-            }
-
-            ByteBuffer buffer = ByteBuffer.allocate(frame.getByteCount());
-            frame.copyPixelsToBuffer(buffer);
-            if(DEBUG) Log.d(TAG, "copied frame to buffer");
-            byte[] arrayToSend = buffer.array();
-            if(DEBUG) {
-                byte[] sliced = Arrays.copyOfRange(arrayToSend, 0, 50);
-                String signature = new String(sliced);
-                Log.d(TAG, "signature: " + signature);
-            }
-            try {
-                out.write(arrayToSend);
-                if(DEBUG) Log.d(TAG, arrayToSend.length + " bytes sent");
-            } catch (IOException e) {
-                Log.e(TAG, "Could not send frame", e);
-                break;
-            }
+            data = getData();
+            if(data != null)
+                send(data);
         }
 
-        try {
-            socket.close();
-            socket = null;
-        } catch (IOException e) {
-            Log.e(TAG, "could not close socket", e);
-        }
-
-        try {
-            out.close();
-            out = null;
-        } catch (IOException e) {
-            Log.e(TAG, "could not close output stream", e);
-        }
-
-        sending = false;
+        cleanup();
     }
 
     public void stopSending()

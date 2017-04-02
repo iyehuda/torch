@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 
 import com.magshimim.torch.BuildConfig;
 import com.magshimim.torch.FrameShower;
@@ -30,6 +29,10 @@ public class RecorderService extends Service {
     // Inner components
     private static IFrameRecorder recorder;
     private static INetworkManager networkManager;
+
+    // Broadcast messages entries
+    public final static String SEND_FRAME_ACTION = "sendFrameAction";
+    public final static String EXTRA_FRAME = "frame";
 
     // Intent parameter entries
     public final static String EXTRA_ADDRESS = "address";
@@ -135,7 +138,7 @@ public class RecorderService extends Service {
     /**
      * Check for all service parameters validity
      *
-     * @return true - All parameters are vaild; false - Not all parameters are valid
+     * @return true - All parameters are valid; false - Not all parameters are valid
      */
     private boolean invalidParameters() {
         if (DEBUG) Log.d(TAG, "invalidParameters");
@@ -200,24 +203,6 @@ public class RecorderService extends Service {
         working = true;
     }
 
-    /**
-     * The function that is called upon frame record
-     *
-     * @param frame The recorded frame, can be null
-     */
-    private void callback(@Nullable Bitmap frame) {
-        if (DEBUG) Log.d(TAG, "callback");
-        if (!working || frame == null || frame.isRecycled())
-            return;
-        // Pass the frame to the network manager
-        networkManager.sendFrame(frame);
-        if (toOpenActivity) {
-            this.OpenActivity(frame);
-            toOpenActivity = false;
-            this.stopSelf();
-        }
-    }
-
     private byte[] compressBitmap(Bitmap bitmap) {
         // Compress to JPEG
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -227,14 +212,55 @@ public class RecorderService extends Service {
         return compressBytes;
     }
 
-    private void OpenActivity(Bitmap frame)
+    private void openActivity(Bitmap frame)
     {
         byte[] compressBytes = compressBitmap(frame);
         Intent toOpenActivity = new Intent(this, FrameShower.class);
         toOpenActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        toOpenActivity.putExtra("frame", compressBytes);
+        toOpenActivity.putExtra(EXTRA_FRAME, compressBytes);
         startActivity(toOpenActivity);
     }
+
+    private void broadcastFrame(Bitmap frame) {
+        if(DEBUG) Log.d(TAG, "broadcastFrame:");
+        Intent intent = new Intent();
+        intent.setAction(SEND_FRAME_ACTION);
+        intent.putExtra(EXTRA_FRAME, compressBitmap(frame));
+        sendBroadcast(intent);
+    }
+
+    /**
+     * The function that is called upon frame record
+     *
+     * @param frame The recorded frame, can be null
+     */
+    private void callback(@Nullable Bitmap frame) {
+        if (DEBUG) Log.d(TAG, "callback:");
+        if(!working) {
+            Log.w(TAG, "working is off");
+            return;
+        }
+        if(frame == null) {
+            Log.w(TAG, "frame is null");
+            return;
+        }
+        if (frame.isRecycled()) {
+            Log.w(TAG, "frame is recycled");
+            return;
+        }
+        try {
+            // Pass the frame to the network manager
+            networkManager.sendFrame(frame);
+        } catch (Exception e) {
+            Log.e(TAG, "cannot send frame", e);
+        }
+        if (toOpenActivity) {
+            openActivity(frame);
+            toOpenActivity = false;
+        }
+        broadcastFrame(frame);
+    }
+
     /**
      * Free resources
      */
@@ -258,7 +284,7 @@ public class RecorderService extends Service {
     }
 
     private boolean handlingException;
-    class ExceptionHandler implements Thread.UncaughtExceptionHandler {
+    private class ExceptionHandler implements Thread.UncaughtExceptionHandler {
         @Override
         public void uncaughtException(Thread t, Throwable e) {
             if(DEBUG) Log.d(TAG, "uncaughtException");
