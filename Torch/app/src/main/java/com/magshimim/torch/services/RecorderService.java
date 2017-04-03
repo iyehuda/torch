@@ -14,7 +14,7 @@ import android.view.WindowManager;
 import java.io.ByteArrayOutputStream;
 
 import com.magshimim.torch.BuildConfig;
-import com.magshimim.torch.FrameShower;
+import com.magshimim.torch.activities.FrameShower;
 import com.magshimim.torch.networking.INetworkManager;
 import com.magshimim.torch.networking.NetworkManager;
 import com.magshimim.torch.recording.FrameRecorder;
@@ -24,7 +24,6 @@ public class RecorderService extends Service {
     // Debug variables
     private final static String TAG = "RecorderService";
     private final static boolean DEBUG = BuildConfig.DEBUG;
-    private boolean toOpenActivity = true;
 
     // Inner components
     private static IFrameRecorder recorder;
@@ -33,6 +32,7 @@ public class RecorderService extends Service {
     // Broadcast messages entries
     public final static String SEND_FRAME_ACTION = "sendFrameAction";
     public final static String EXTRA_FRAME = "frame";
+
 
     // Intent parameter entries
     public final static String EXTRA_ADDRESS = "address";
@@ -49,6 +49,7 @@ public class RecorderService extends Service {
     Intent mediaProjectionResultData;
 
     // etc
+    private boolean toOpenActivity = true;
     boolean working = false;
     MediaProjectionManager projectionManager;
     Thread starterThread;
@@ -61,7 +62,7 @@ public class RecorderService extends Service {
     }
 
     /**
-     * Get system services
+     * Gets system services
      */
     @Override
     public void onCreate() {
@@ -96,19 +97,10 @@ public class RecorderService extends Service {
 
         // Get media projection data from the intent
         mediaProjectionResultCode = intent.getIntExtra(EXTRA_RESULT_CODE, 0);
-        if (mediaProjectionResultCode == 0) {
-            Log.w(TAG, "wait a second");
-            String content = "";
-            for (String key : intent.getExtras().keySet()) {
-                Object value = intent.getExtras().get(key);
-                content += String.format("%s %s %s\n", key, value.toString(), value.getClass().getName());
-            }
-            Log.w(TAG, "The intent is:\n" + content);
-        }
         mediaProjectionResultData = intent.getParcelableExtra(EXTRA_RESULT_DATA);
 
         // Get recording data
-        fps = intent.getIntExtra(EXTRA_FPS, -1);
+        fps = intent.getIntExtra(EXTRA_FPS, 0);
 
         // Validate the parameters
         if (invalidParameters())
@@ -173,7 +165,7 @@ public class RecorderService extends Service {
         if (working)
             return;
 
-        // Start frame sender component
+        // Create network manager component
         networkManager = new NetworkManager();
 
         // Get FrameRecorder parameters data
@@ -203,6 +195,11 @@ public class RecorderService extends Service {
         working = true;
     }
 
+    /**
+     * Compresses a bitmap
+     * @param bitmap A bitmap to compress
+     * @return A byte array with jpeg format image
+     */
     private byte[] compressBitmap(Bitmap bitmap) {
         // Compress to JPEG
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -212,15 +209,22 @@ public class RecorderService extends Service {
         return compressBytes;
     }
 
+    /**
+     * Opens a FrameShower activity
+     * @param frame The first frame to show
+     */
     private void openActivity(Bitmap frame)
     {
-        byte[] compressBytes = compressBitmap(frame);
         Intent toOpenActivity = new Intent(this, FrameShower.class);
         toOpenActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        toOpenActivity.putExtra(EXTRA_FRAME, compressBytes);
+        toOpenActivity.putExtra(EXTRA_FRAME, compressBitmap(frame));
         startActivity(toOpenActivity);
     }
 
+    /**
+     * Send a frame to broadcast
+     * @param frame Frame to send
+     */
     private void broadcastFrame(Bitmap frame) {
         if(DEBUG) Log.d(TAG, "broadcastFrame:");
         Intent intent = new Intent();
@@ -266,19 +270,24 @@ public class RecorderService extends Service {
      */
     private synchronized void cleanup() {
         if(DEBUG) Log.d(TAG, "cleanup");
+
+        // Stop the thread
+        if(starterThread != null && starterThread.isAlive()) {
+            starterThread.interrupt();
+            starterThread = null;
+        } else Log.w(TAG, "starterThread is null or not alive");
+
         // Stop recording
         if(recorder != null) {
             recorder.stopRecording();
             recorder = null;
-        }
-        else Log.w(TAG, "recorder is null");
+        } else Log.w(TAG, "recorder is null");
 
         // Stop communicating
         if(networkManager != null) {
             networkManager.disconnect();
             networkManager = null;
-        }
-        else Log.w(TAG, "networkManager is null");
+        } else Log.w(TAG, "networkManager is null");
 
         working = false;
     }
@@ -291,7 +300,7 @@ public class RecorderService extends Service {
             Log.e(TAG, "Exception from thread " + t.getName(), e);
             if(!handlingException) {
                 handlingException = true;
-                cleanup();
+                stopSelf();
             }
         }
     }

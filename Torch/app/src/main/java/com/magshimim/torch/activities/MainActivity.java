@@ -1,16 +1,15 @@
-package com.magshimim.torch;
+package com.magshimim.torch.activities;
 
 import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.gsm.SmsMessage;
 import android.util.Log;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
+import com.magshimim.torch.BuildConfig;
+import com.magshimim.torch.R;
 import com.magshimim.torch.services.RecorderService;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,11 +58,7 @@ public class MainActivity extends AppCompatActivity {
             recordingIntent.putExtra(RecorderService.EXTRA_FPS, 5);
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_CODE, resultCode);
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_DATA, data);
-            String content = "";
-            for(String key : recordingIntent.getExtras().keySet()) {
-                Object value = recordingIntent.getExtras().get(key);
-                content += String.format("%s %s\n", key, value.toString());
-            }
+            String content = describeBundle(recordingIntent.getExtras());
             Log.w(TAG, "intent:\n" + content);
             startService(recordingIntent);
             recording = true;
@@ -108,11 +103,13 @@ public class MainActivity extends AppCompatActivity {
         if(DEBUG) Log.d(TAG, "service stopped");
     }
 
-    public class MessageHandler extends Handler {
-        @Override
-        public void handleMessage(Message message) {
-            Bundle data = message.getData();
-            Object param = data.get("frame");
+    private String describeBundle(Bundle bundle) {
+        String content = "";
+        for(String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            if(value != null)
+                content += String.format("%s %s\n", key, value.toString());
         }
+        return content;
     }
 }

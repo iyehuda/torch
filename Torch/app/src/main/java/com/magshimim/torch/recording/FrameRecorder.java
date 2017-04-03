@@ -1,8 +1,6 @@
 package com.magshimim.torch.recording;
 
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.hardware.display.VirtualDisplay;
@@ -18,7 +16,6 @@ import android.view.Display;
 
 import com.magshimim.torch.BuildConfig;
 
-import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -222,19 +219,6 @@ public class FrameRecorder implements IFrameRecorder {
         else Log.w(TAG, "timer was null");
 
         recording = false;
-    }
-
-    private int getCompressionScale(Bitmap bitmap) {
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        final int REQUIRED_SIZE = 70;
-        int scale = 1;
-
-        while (bitmap.getWidth() / scale / 2 >= REQUIRED_SIZE &&
-                bitmap.getHeight() / scale / 2 >= REQUIRED_SIZE) {
-            scale <<= 1;
-        }
-
-        return scale;
     }
 
     /**

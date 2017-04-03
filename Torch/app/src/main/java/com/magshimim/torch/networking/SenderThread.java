@@ -1,23 +1,16 @@
 package com.magshimim.torch.networking;
-import android.graphics.Bitmap;
-import java.lang.Object;
-import java.net.Socket;
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
-import java.util.Queue;
-import java.io.*;
-import java.net.DatagramPacket;
-
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.magshimim.torch.BuildConfig;
 
-import java.net.DatagramSocket;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Queue;
 
 
-public class SenderThread extends Thread {
+class SenderThread extends Thread {
     private static final String TAG = "SenderThread";
     private static final boolean DEBUG = BuildConfig.DEBUG;
     private final Queue<byte[]> dataToSend;
@@ -26,7 +19,7 @@ public class SenderThread extends Thread {
     private boolean sending;
 
 
-    public SenderThread(String name, final Queue<byte[]> dataToSend, Socket socket) {
+    SenderThread(String name, final Queue<byte[]> dataToSend, Socket socket) {
         super(name);
         if(DEBUG) Log.d(TAG, " SenderThread:");
         this.dataToSend = dataToSend;
@@ -113,7 +106,7 @@ public class SenderThread extends Thread {
         cleanup();
     }
 
-    public void stopSending()
+    void stopSending()
     {
         if(DEBUG) Log.d(TAG, "stopSending");
         sending = false;
