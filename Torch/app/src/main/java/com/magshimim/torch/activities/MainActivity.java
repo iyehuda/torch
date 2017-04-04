@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "result canceled is " + RESULT_CANCELED);
 
             Intent recordingIntent = new Intent(this, RecorderService.class);
-            recordingIntent.putExtra(RecorderService.EXTRA_ADDRESS, "10.0.0.10");
+            recordingIntent.putExtra(RecorderService.EXTRA_ADDRESS, "10.0.2.2");
             recordingIntent.putExtra(RecorderService.EXTRA_PORT, 27015);
             recordingIntent.putExtra(RecorderService.EXTRA_FPS, 5);
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_CODE, resultCode);

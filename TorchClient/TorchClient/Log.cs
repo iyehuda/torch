@@ -19,6 +19,7 @@ namespace TorchClient
         static Log()
         {
             AllocConsole();
+            Write("Log by iYehuda");
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

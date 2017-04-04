@@ -12,7 +12,6 @@ namespace TorchClient
     public partial class MainWindow : Window
     {
         private const string TAG = "MainWindow";
-        Thread frameReciver;
 
         public MainWindow()
         {
@@ -22,8 +21,7 @@ namespace TorchClient
             NetworkManager manager = new NetworkManager(27015, this); //some port
             Log.Debug(TAG, "network manager created");
 
-            frameReciver = new Thread(new ThreadStart(manager.StartReceiving));
-            frameReciver.Start();
+            manager.StartReceiving(27015);
             Log.Debug(TAG, "started receiving");
         }
 
