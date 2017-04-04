@@ -1,46 +1,61 @@
 ﻿using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Net;
-using System.Drawing;
-using System.IO;
-using System.Drawing.Imaging;
 using System.Windows.Media.Imaging;
-
+using System;
 
 namespace TorchClient
 {
     class NetworkManager
     {
+        private const string TAG = "NetworkManager";
+
         private TcpClient socket;
         private IPEndPoint ip;
-        private Queue<RecievedMassage> massages;
         private MainWindow xamlWindow;
-        public NetworkManager(int port,MainWindow xamlWindow)
+        private bool receiving;
+
+        public NetworkManager(int port, MainWindow xamlWindow)
         {
+            Log.Debug(TAG, "NetowrkManager:");
+            this.xamlWindow = xamlWindow;
+            receiving = false;
             socket = new TcpClient();
             ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+
+            Log.Debug(TAG, $"Connecting to {ip.Address}:{ip.Port}");
             socket.Connect(ip);
-            this.xamlWindow = xamlWindow;//need thw window to show to bitmap that recieved on the xaml form
+            Log.Debug(TAG, "Connected");
         }
 
-        public void handleRecievedBitmap()
+        private void HandleFrame()
         {
-            Bitmap toDraw = new Bitmap(Image.FromStream(socket.GetStream()));
-            xamlWindow.fromServer.Source = convertToBitmapImage(toDraw);
+            Log.Debug(TAG, "HandleFrame:");
+            try
+            {
+                JpegBitmapDecoder decoder = new JpegBitmapDecoder(socket.GetStream(), BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                int count = decoder.Frames.Count;
+                xamlWindow.SetFrame(decoder.Frames[count - 1]);
+            }
+            catch(Exception e)
+            {
+                Log.Error(TAG, "Unable to create JpegBitmapDecoder", e);
+            }
         }
 
-        private BitmapImage convertToBitmapImage(Bitmap b)
+        public void StartReceiving()
         {
-            MemoryStream ms = new MemoryStream();
-            b.Save(ms, ImageFormat.Png);
-            ms.Position = 0;
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.StreamSource = ms;
-            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-            bitmapImage.EndInit();
-            return bitmapImage;
+            Log.Debug(TAG, "StartReceiving:");
+            receiving = true;
+            while (receiving)
+                HandleFrame();
+            Log.Debug(TAG, "Endded receiving");
         }
-        
+
+        public void StopReceiving()
+        {
+            Log.Debug(TAG, "StopReceiving:");
+            receiving = false;
+        }
     }
 }
