@@ -49,7 +49,7 @@ public class RecorderService extends Service {
     Intent mediaProjectionResultData;
 
     // etc
-    private boolean toOpenActivity = true;
+    private boolean toOpenActivity = false;
     boolean working = false;
     MediaProjectionManager projectionManager;
     Thread starterThread;

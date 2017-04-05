@@ -17,7 +17,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- TODO: add description for the service -->
         <service
             android:name=".services.RecorderService"
             android:exported="false" />
