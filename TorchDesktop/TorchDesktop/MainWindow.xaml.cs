@@ -1,10 +1,7 @@
 ﻿using System.Windows;
-using System.Threading;
-using System.Drawing;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace TorchClient
+namespace TorchDesktop
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -12,13 +9,14 @@ namespace TorchClient
     public partial class MainWindow : Window
     {
         private const string TAG = "MainWindow";
+        private const int PORT = 27015;
 
         public MainWindow()
         {
             InitializeComponent();
             Log.Debug(TAG, "MainWindow:");
 
-            NetworkManager manager = new NetworkManager(27015, this); //some port
+            NetworkManager manager = new NetworkManager(PORT, this);
             Log.Debug(TAG, "network manager created");
 
             manager.StartReceiving(27015);
@@ -28,8 +26,18 @@ namespace TorchClient
         public void SetFrame(BitmapSource frame)
         {
             Log.Debug(TAG, "SetFrame:");
-            Dispatcher.Invoke(delegate { currentFrame.Source = frame; });
+            Dispatcher.Invoke(() => SetFrameComponent(frame));
             Log.Debug(TAG, "frame was set");
+        }
+
+        private void SetFrameComponent(BitmapSource frame)
+        {
+            Log.Debug(TAG, "SetFrameComponent");
+            currentFrame.Height = Height = frame.Height;
+            currentFrame.Width = Width = frame.Width;
+            Log.Debug(TAG, "Dimensions are set");
+            currentFrame.Source = frame;
+            Log.Debug(TAG, "Image source is set");
         }
     }
 }

@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TorchClient
+namespace TorchDesktop
 {
     public class Log
     {
-        private const string VERBOSE    = "VERBOSE";
-        private const string DEBUG      = "DEBUG";
-        private const string WARNING    = "WARNING";
-        private const string ERROR      = "ERROR";
-        private const string OK         = "OK";
+        private const string VERBOSE = "VERBOSE";
+        private const string DEBUG = "DEBUG";
+        private const string WARNING = "WARNING";
+        private const string ERROR = "ERROR";
+        private const string OK = "OK";
 
         static Log()
         {

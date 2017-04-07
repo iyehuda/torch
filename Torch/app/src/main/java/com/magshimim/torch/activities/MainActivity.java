@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             Intent recordingIntent = new Intent(this, RecorderService.class);
             recordingIntent.putExtra(RecorderService.EXTRA_ADDRESS, "10.0.2.2");
             recordingIntent.putExtra(RecorderService.EXTRA_PORT, 27015);
-            recordingIntent.putExtra(RecorderService.EXTRA_FPS, 5);
+            recordingIntent.putExtra(RecorderService.EXTRA_FPS, 1);
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_CODE, resultCode);
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_DATA, data);
             String content = describeBundle(recordingIntent.getExtras());

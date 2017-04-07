@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TorchClient.Properties
+namespace TorchDesktop.Properties
 {
 
 

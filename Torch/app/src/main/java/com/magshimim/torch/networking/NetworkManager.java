@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.nio.ByteBuffer;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.magshimim.torch.BuildConfig;
@@ -75,6 +77,8 @@ public class NetworkManager implements INetworkManager {
         }
 
         byte[] data = compressBitmap(frame);
+        data = serializeData(data);
+
         synchronized (framesToSend) {
             framesToSend.add(data);
             if(DEBUG) Log.d(TAG, "added frame to queue");
@@ -102,5 +106,10 @@ public class NetworkManager implements INetworkManager {
         } else Log.w(TAG, "socket is null");
 
         sending = false;
+    }
+
+    @NonNull
+    private byte[] serializeData(@NonNull byte[] data) {
+        return ByteBuffer.allocate(data.length + 4).putInt(data.length).put(data).array();
     }
 }
