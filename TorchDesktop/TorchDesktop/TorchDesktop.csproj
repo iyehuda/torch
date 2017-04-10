@@ -39,6 +39,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\ByteArray.cs" />
-    <Compile Include="Model\Frame.cs" />
     <Compile Include="Model\NetworkManger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

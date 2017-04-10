@@ -33,8 +33,8 @@ namespace TorchDesktop
         private void SetFrameComponent(BitmapSource frame)
         {
             Log.Debug(TAG, "SetFrameComponent");
-            currentFrame.Height = Height = frame.Height;
-            currentFrame.Width = Width = frame.Width;
+            // currentFrame.Height = Height = frame.Height;
+            // currentFrame.Width = Width = frame.Width;
             Log.Debug(TAG, "Dimensions are set");
             currentFrame.Source = frame;
             Log.Debug(TAG, "Image source is set");

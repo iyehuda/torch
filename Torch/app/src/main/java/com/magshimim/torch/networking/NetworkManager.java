@@ -77,7 +77,6 @@ public class NetworkManager implements INetworkManager {
         }
 
         byte[] data = compressBitmap(frame);
-        data = serializeData(data);
 
         synchronized (framesToSend) {
             framesToSend.add(data);
@@ -106,10 +105,5 @@ public class NetworkManager implements INetworkManager {
         } else Log.w(TAG, "socket is null");
 
         sending = false;
-    }
-
-    @NonNull
-    private byte[] serializeData(@NonNull byte[] data) {
-        return ByteBuffer.allocate(data.length + 4).putInt(data.length).put(data).array();
     }
 }

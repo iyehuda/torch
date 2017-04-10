@@ -112,7 +112,7 @@ namespace TorchDesktop
             }
 
             byte[] innerData = data.Data.ToByteArray();
-            Log.Debug(TAG, $"Data hash: {Md5(innerData)}");
+            // Log.Debug(TAG, $"Data hash: {Md5(innerData)}");
             
             return BytesToBitmapFrame(innerData);
         }
