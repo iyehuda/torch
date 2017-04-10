@@ -1,15 +1,27 @@
+apply plugin: 'com.android.application'
+
 buildscript {
     repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
         jcenter()
-
+        mavenCentral()
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.1'
+        classpath 'com.google.protobuf:protobuf-java:3.2.0'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.1'
     }
 }
 
-apply plugin: 'com.android.application'
+apply plugin: "com.google.protobuf"
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
 
 android {
     compileSdkVersion 25
@@ -40,5 +52,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
+    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.2.0'
     testCompile 'junit:junit:4.12'
 }

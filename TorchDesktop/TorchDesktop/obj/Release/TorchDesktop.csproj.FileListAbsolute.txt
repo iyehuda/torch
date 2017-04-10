@@ -1,0 +1,14 @@
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\bin\Release\TorchDesktop.exe.config
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\bin\Release\TorchDesktop.exe
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\bin\Release\TorchDesktop.pdb
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\TorchDesktop.csprojResolveAssemblyReference.cache
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\MainWindow.g.cs
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\App.g.cs
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\TorchDesktop_MarkupCompile.cache
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\TorchDesktop_MarkupCompile.lref
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\MainWindow.baml
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\TorchDesktop.g.resources
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\TorchDesktop.Properties.Resources.resources
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\TorchDesktop.csproj.GenerateResource.Cache
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\TorchDesktop.exe
+C:\Users\yehud\torch\TorchDesktop\TorchDesktop\obj\Release\TorchDesktop.pdb

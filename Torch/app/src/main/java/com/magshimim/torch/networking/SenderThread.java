@@ -2,11 +2,16 @@ package com.magshimim.torch.networking;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.google.protobuf.ByteString;
 import com.magshimim.torch.BuildConfig;
+import com.magshimim.torch.model.ByteArrayOuterClass;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.Socket;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Queue;
 
 
@@ -47,6 +52,16 @@ class SenderThread extends Thread {
         }
     }
 
+    private String hexString(byte[] data) {
+        return String.format("%032x", new BigInteger(1, data));
+    }
+
+    private String md5(byte[] data) throws NoSuchAlgorithmException {
+        MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+        byte[] rawDigest = messageDigest.digest(data);
+        return hexString(rawDigest);
+    }
+
     private void send(byte[] data) {
         if (DEBUG) Log.d(TAG, "send:");
         if(out == null) {
@@ -54,8 +69,15 @@ class SenderThread extends Thread {
             return;
         }
         try {
-            out.write(data,0 , data.length);
-            if(DEBUG) Log.d(TAG, String.format("%d bytes sent", data.length));
+                ByteArrayOuterClass.ByteArray byteArray = ByteArrayOuterClass.ByteArray.
+                        newBuilder()
+                        .setData(ByteString.copyFrom(data))
+                        .build();
+                byteArray.writeDelimitedTo(out);
+                if(DEBUG) {
+                    Log.d(TAG, String.format("%d bytes sent", byteArray.getData().size()));
+                    Log.d(TAG, "Data hash: " + md5(data));
+                }
         } catch (Exception e) {
             Log.e(TAG, "could not send data");
         }

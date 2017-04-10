@@ -56,7 +56,7 @@ public class NetworkManager implements INetworkManager {
     private byte[] compressBitmap(Bitmap bitmap) {
         // Compress to JPEG
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] compressBytes = byteArrayOutputStream.toByteArray();
         if (DEBUG) Log.d(TAG, "Compressed frame");
         return compressBytes;
