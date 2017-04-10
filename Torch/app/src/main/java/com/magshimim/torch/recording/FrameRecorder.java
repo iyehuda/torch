@@ -302,9 +302,15 @@ public class FrameRecorder implements IFrameRecorder {
         return retVal;
     }
 
+    /**
+     * On object that can be scheduled with timer
+     */
     private class FrameTask extends TimerTask {
         private final static String TAG = "TimerTask";
 
+        /**
+         * The entry point for the task
+         */
         @Override
         public void run() {
             Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);

@@ -18,12 +18,18 @@ import java.util.Queue;
 class SenderThread extends Thread {
     private static final String TAG = "SenderThread";
     private static final boolean DEBUG = BuildConfig.DEBUG;
-    private final Queue<byte[]> dataToSend;
-    private Socket socket;
-    private DataOutputStream out;
-    private boolean sending;
 
+    private final Queue<byte[]> dataToSend; // The messages queue
+    private Socket socket; // Connection to the server
+    private DataOutputStream out; // Stream to write messages
+    private boolean sending; // Determines if sending in action
 
+    /**
+     * Initializes inner data, including messages queue and socket
+     * @param name The thread's name
+     * @param dataToSend Messages queue
+     * @param socket Connection to the server
+     */
     SenderThread(String name, final Queue<byte[]> dataToSend, Socket socket) {
         super(name);
         if(DEBUG) Log.d(TAG, " SenderThread:");
@@ -32,6 +38,10 @@ class SenderThread extends Thread {
         sending = false;
     }
 
+    /**
+     * Pops the last message from the queue
+     * @return Byte array, could be null
+     */
     @Nullable
     private byte[] getData() {
         if(DEBUG) Log.d(TAG, "getData:");
@@ -46,22 +56,44 @@ class SenderThread extends Thread {
                 Log.w(TAG, "queue is empty");
                 return null;
             }
-            byte[] data = dataToSend.poll();
+
+            byte[] data = null;
+            while(!dataToSend.isEmpty()) {
+                byte[] temp = dataToSend.poll();
+                if(temp != null && temp.length > 0)
+                    data = temp;    // Get the last frame from the queue,
+                                    // the rest are not interesting
+            }
             if(data == null) Log.w(TAG, "null queue element");
             return data;
         }
     }
 
+    /**
+     * Converts a byte array to hexadecimal string
+     * @param data A byte array
+     * @return A string
+     */
     private String hexString(byte[] data) {
         return String.format("%032x", new BigInteger(1, data));
     }
 
+    /**
+     * Calculates MD5 hash of a byte array
+     * @param data a byte array
+     * @return A string
+     * @throws NoSuchAlgorithmException Would never be thrown
+     */
     private String md5(byte[] data) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         byte[] rawDigest = messageDigest.digest(data);
         return hexString(rawDigest);
     }
 
+    /**
+     * Sends a byte array to the server
+     * @param data Data to send
+     */
     private void send(byte[] data) {
         if (DEBUG) Log.d(TAG, "send:");
         if(out == null) {
@@ -69,6 +101,7 @@ class SenderThread extends Thread {
             return;
         }
         try {
+                // Create a protobuf object that wraps a byte array
                 ByteArrayOuterClass.ByteArray byteArray = ByteArrayOuterClass.ByteArray.
                         newBuilder()
                         .setData(ByteString.copyFrom(data))
@@ -83,6 +116,9 @@ class SenderThread extends Thread {
         }
     }
 
+    /**
+     * Cleans up resources
+     */
     private void cleanup() {
         if(socket != null) {
             try {
@@ -105,6 +141,10 @@ class SenderThread extends Thread {
         sending = false;
     }
 
+    /**
+     * The entry point of the thread.
+     * Iterates over the messages queue and sends the messages
+     */
     @Override
     public void run() {
         if(DEBUG) Log.d(TAG, "run");
@@ -128,6 +168,9 @@ class SenderThread extends Thread {
         cleanup();
     }
 
+    /**
+     * Sets sending field to false
+     */
     void stopSending()
     {
         if(DEBUG) Log.d(TAG, "stopSending");

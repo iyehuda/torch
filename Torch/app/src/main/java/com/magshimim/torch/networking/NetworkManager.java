@@ -20,16 +20,18 @@ public class NetworkManager implements INetworkManager {
     private final static String TAG = "NetworkManager";
     private final static boolean DEBUG = BuildConfig.DEBUG;
 
-    private Socket socket;
-    private SenderThread frameSender;
-    private final Queue<byte[]> framesToSend;
-    private boolean sending;
+    private Socket socket; // Connection to the server
+    private SenderThread frameSender; // Thread that able to send messages from queue
+    private final Queue<byte[]> framesToSend; // A queue to hold data
+    private boolean sending; // Determines whether the thread sends data
 
+    /**
+     * Initializes inner data
+     */
     public NetworkManager()
     {
         if(DEBUG) Log.d(TAG, "NetworkManager");
         framesToSend = new ConcurrentLinkedQueue<>();
-
         socket = new Socket();
         if(DEBUG) Log.d(TAG, "Socket is created");
         frameSender = new SenderThread("queueSender", framesToSend, socket);
@@ -37,6 +39,11 @@ public class NetworkManager implements INetworkManager {
         sending = false;
     }
 
+    /**
+     * Connect to the server and start waiting for messages to send
+     * @param address The server IP
+     * @param port The server port
+     */
     public void connect (String address, int port)
     {
         if(DEBUG) Log.d(TAG, "connect");
@@ -53,16 +60,24 @@ public class NetworkManager implements INetworkManager {
         sending = true;
     }
 
+    /**
+     * Compress a bitmap to JPEG format
+     * @param bitmap A bitmap
+     * @return Byte array contains JPEG formatted data
+     */
     private byte[] compressBitmap(Bitmap bitmap) {
         // Compress to JPEG
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
         byte[] compressBytes = byteArrayOutputStream.toByteArray();
         if (DEBUG) Log.d(TAG, "Compressed frame");
         return compressBytes;
     }
 
-
+    /**
+     * Add a frame to the sending queue
+     * @param frame The frame to be sent
+     */
     public void sendFrame(Bitmap frame)
     {
         if(DEBUG) Log.d(TAG, "sendFrame");
@@ -75,6 +90,10 @@ public class NetworkManager implements INetworkManager {
             Log.w(TAG, "frame is null");
             return;
         }
+        if(frame.isRecycled()) {
+            Log.w(TAG, "frame is recycled");
+            return;
+        }
 
         byte[] data = compressBitmap(frame);
 
@@ -85,9 +104,16 @@ public class NetworkManager implements INetworkManager {
         }
     }
 
+    /**
+     * Disconnect from the server
+     */
     public void disconnect()
     {
         if(DEBUG) Log.d(TAG, "disconnect");
+        if(!sending) {
+            Log.w(TAG, "not sending");
+            return;
+        }
 
         if(frameSender != null) {
             frameSender.stopSending();
@@ -98,8 +124,10 @@ public class NetworkManager implements INetworkManager {
             try {
                 if(!socket.isClosed())
                     socket.close();
+                else
+                    Log.w(TAG, "socket is already closed");
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, "cannot close the socket");
             }
             socket = null;
         } else Log.w(TAG, "socket is null");
