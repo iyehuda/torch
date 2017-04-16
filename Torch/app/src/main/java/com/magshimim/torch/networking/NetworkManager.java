@@ -1,17 +1,12 @@
 package com.magshimim.torch.networking;
 
-import android.graphics.Bitmap;
-
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
-import java.nio.ByteBuffer;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.magshimim.torch.BuildConfig;
@@ -61,41 +56,25 @@ public class NetworkManager implements INetworkManager {
     }
 
     /**
-     * Compress a bitmap to JPEG format
-     * @param bitmap A bitmap
-     * @return Byte array contains JPEG formatted data
-     */
-    private byte[] compressBitmap(Bitmap bitmap) {
-        // Compress to JPEG
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
-        byte[] compressBytes = byteArrayOutputStream.toByteArray();
-        if (DEBUG) Log.d(TAG, "Compressed frame");
-        return compressBytes;
-    }
-
-    /**
      * Add a frame to the sending queue
-     * @param frame The frame to be sent
+     * @param data The data to be sent
      */
-    public void sendFrame(Bitmap frame)
+    public void sendData(byte[] data)
     {
-        if(DEBUG) Log.d(TAG, "sendFrame");
+        if(DEBUG) Log.d(TAG, "sendData");
 
         if(!sending) {
             Log.w(TAG, "Not connected");
             return;
         }
-        if(frame == null) {
-            Log.w(TAG, "frame is null");
+        if(data == null) {
+            Log.w(TAG, "data is null");
             return;
         }
-        if(frame.isRecycled()) {
-            Log.w(TAG, "frame is recycled");
+        if(data.length == 0) {
+            Log.w(TAG, "no data");
             return;
         }
-
-        byte[] data = compressBitmap(frame);
 
         synchronized (framesToSend) {
             framesToSend.add(data);

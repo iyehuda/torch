@@ -24,6 +24,14 @@ repositories {
 }
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'key0'
+            keyPassword 'whoami'
+            storeFile file('C:/Users/yehud/torch/Torch/keystores/release1.jks')
+            storePassword 'whoami'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -38,6 +46,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     repositories {
@@ -52,6 +61,6 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.2.0'
+    compile 'com.google.protobuf:protobuf-java:3.2.0'
     testCompile 'junit:junit:4.12'
 }

@@ -80,7 +80,7 @@ public class FrameRecorder implements IFrameRecorder {
                          int fps,
                          @NonNull IFrameCallback callback,
                          @NonNull Thread.UncaughtExceptionHandler exceptionHandler) {
-        if(DEBUG) Log.d(TAG, "Constructor");
+        if(DEBUG) Log.d(TAG, "FrameRecorder:");
 
         this.mediaProjection = mediaProjection;
         this.callback = callback;
@@ -101,14 +101,12 @@ public class FrameRecorder implements IFrameRecorder {
         if(DEBUG) Log.d(TAG, "Height: " + height + ", Width: " + width);
 
         // Create running objects
-        handlerThread =
-                new HandlerThread(getClass().getSimpleName(), Process.THREAD_PRIORITY_BACKGROUND);
+        handlerThread = new HandlerThread(getClass().getSimpleName(),
+                Process.THREAD_PRIORITY_BACKGROUND);
         if(DEBUG) Log.d(TAG, "HandlerThread is created");
         handlerThread.setUncaughtExceptionHandler(this.exceptionHandler);
         if(DEBUG) Log.d(TAG, "UncaughtExceptionHandler is set");
         handlerThread.start();
-        if(handlerThread.getLooper() == null)
-            Log.d(TAG, "we have a problem");
         handler = new Handler(handlerThread.getLooper());
         if(DEBUG) Log.d(TAG, "Handler is created");
         imageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
@@ -149,17 +147,8 @@ public class FrameRecorder implements IFrameRecorder {
             }
         }, handler);
         // Set recording to true
-        if(objectsInitialized()) {
-            recording = true;
-            timer.schedule(new FrameTask(), 0, delta);
-            return;
-        }
-
-        if(DEBUG) Log.d(TAG, "startRecording failed");
-        stopRecording();
-        if(DEBUG) Log.d(TAG, "Stopped recording");
-        exceptionHandler.uncaughtException(Thread.currentThread(),
-                new IllegalStateException("Objects initialization went wrong"));
+        recording = true;
+        timer.schedule(new FrameTask(), 0, delta);
     }
 
     /**
@@ -226,7 +215,7 @@ public class FrameRecorder implements IFrameRecorder {
      */
     private void updateFrame()
     {
-        if(DEBUG) Log.d(TAG, "updateFrame");
+        if(DEBUG) Log.d(TAG, "updateFrame:");
 
         final Image current = imageReader.acquireLatestImage();
         if(current == null) {
@@ -263,43 +252,12 @@ public class FrameRecorder implements IFrameRecorder {
                 if (DEBUG) Log.d(TAG, "Creating new bitmap");
                 latestFrame = Bitmap.createBitmap(bitmapWidth, height, Bitmap.Config.ARGB_8888);
             }
-
             // Load the frame data ro the bitmap object
             latestFrame.copyPixelsFromBuffer(buffer);
-            if (DEBUG) Log.d(TAG, "Loaded data to bitmap");
-            current.close();
-            if (DEBUG) Log.d(TAG, "Closed Image object");
         }
-    }
-
-    /**
-     * Checks if all recording objects are initialized
-     * @return true in case of valid state, else false
-     */
-    private boolean objectsInitialized() {
-        if(DEBUG) Log.d(TAG, "objectsInitialized");
-        boolean retVal = true;
-        if(handlerThread == null) {
-            Log.w(TAG, "handlerThread is null");
-            retVal = false;
-        }
-        if(handler == null) {
-            Log.w(TAG, "handler is null");
-            retVal = false;
-        }
-        if(imageReader == null) {
-            Log.w(TAG, "imageReader is null");
-            retVal = false;
-        }
-        if(mediaProjection == null) {
-            Log.w(TAG, "mediaProjection is null");
-            retVal = false;
-        }
-        if(virtualDisplay == null) {
-            Log.w(TAG, "virtualDisplay is null");
-            retVal = false;
-        }
-        return retVal;
+        if (DEBUG) Log.d(TAG, "Loaded data to bitmap");
+        current.close();
+        if (DEBUG) Log.d(TAG, "Closed Image object");
     }
 
     /**
@@ -313,13 +271,19 @@ public class FrameRecorder implements IFrameRecorder {
          */
         @Override
         public void run() {
+            // Set the function that will handle uncaught exceptions
             Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
+            // Don't enter to critical section if not necessary
+            if (latestFrame == null || latestFrame.isRecycled()) {
+                Log.w(TAG, "Current frame cannot be accessed");
+                return;
+            }
             synchronized (frameLock) {
+                // Check again for safety
                 if (latestFrame == null || latestFrame.isRecycled()) {
                     Log.w(TAG, "Current frame cannot be accessed");
                     return;
                 }
-
                 Bitmap latest = latestFrame.copy(latestFrame.getConfig(), true);
                 if (DEBUG) Log.d(TAG, "Frame #" + frameCounter++);
                 FrameRecorder.this.callback.onFrameCaptured(latest);

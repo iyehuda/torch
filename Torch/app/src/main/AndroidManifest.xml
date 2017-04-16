@@ -21,10 +21,6 @@
             android:name=".services.RecorderService"
             android:exported="false" />
 
-        <activity
-            android:name=".activities.FrameShower"
-            android:label="@string/title_activity_frame_shower"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
