@@ -240,20 +240,13 @@ public class FrameRecorder implements IFrameRecorder {
             return;
         }
 
+        Bitmap temp = Bitmap.createBitmap(bitmapWidth, height, Bitmap.Config.ARGB_8888);
+        temp.copyPixelsFromBuffer(buffer);
+
         synchronized (frameLock) {
-            // Create new bitmap object if the current has no matching dimensions
-            if (latestFrame == null ||
-                    latestFrame.getWidth() != bitmapWidth ||
-                    latestFrame.getHeight() != height) {
-                if (latestFrame != null) {
-                    if (DEBUG) Log.d(TAG, "Recycling latestFrame bitmap");
-                    latestFrame.recycle();
-                }
-                if (DEBUG) Log.d(TAG, "Creating new bitmap");
-                latestFrame = Bitmap.createBitmap(bitmapWidth, height, Bitmap.Config.ARGB_8888);
-            }
-            // Load the frame data ro the bitmap object
-            latestFrame.copyPixelsFromBuffer(buffer);
+            if(latestFrame != null)
+                latestFrame.recycle();
+            latestFrame = temp;
         }
         if (DEBUG) Log.d(TAG, "Loaded data to bitmap");
         current.close();
