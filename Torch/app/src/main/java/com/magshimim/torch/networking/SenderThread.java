@@ -1,6 +1,12 @@
 package com.magshimim.torch.networking;
+import android.nfc.Tag;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.google.protobuf.ByteString;
 import com.magshimim.torch.BuildConfig;
@@ -12,6 +18,7 @@ import java.math.BigInteger;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Time;
 import java.util.Queue;
 
 
@@ -108,6 +115,9 @@ class SenderThread extends Thread {
                         .build();
                 byteArray.writeDelimitedTo(out);
                 if(DEBUG) {
+                    DateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+                    Date time = Calendar.getInstance().getTime();
+                    Log.d(TAG, format.format(time));
                     Log.d(TAG, String.format("%d bytes sent", byteArray.getData().size()));
                     Log.d(TAG, "Data hash: " + md5(data));
                 }
