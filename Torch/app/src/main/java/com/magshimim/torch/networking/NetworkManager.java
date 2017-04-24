@@ -45,6 +45,8 @@ public class NetworkManager implements INetworkManager {
         try {
             SocketAddress socketAddress = new InetSocketAddress(address, port);
             socket.connect(socketAddress, 2000);
+            if(!socket.isConnected())
+                throw new IOException("Connection timed out");
         } catch (IOException e) {
             Log.e(TAG, String.format("Could not connect to %s:%d", address, port), e);
             return;

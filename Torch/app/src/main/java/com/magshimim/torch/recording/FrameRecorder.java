@@ -7,6 +7,7 @@ import android.hardware.display.VirtualDisplay;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.Display;
 
 import com.magshimim.torch.BuildConfig;
+import com.magshimim.torch.etc.FpsTimer;
 
 import java.nio.ByteBuffer;
 import java.util.Timer;
@@ -66,6 +68,12 @@ public class FrameRecorder implements IFrameRecorder {
     // Used to lock access to lastFrame
     final private Object frameLock;
 
+    private FpsTimer fpsTimer;
+
+    static {
+
+    }
+
     /**
      * Construct new frame recorder.
      * @param mediaProjection A MediaProjection object for recording the screen
@@ -112,6 +120,7 @@ public class FrameRecorder implements IFrameRecorder {
         imageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
         if(DEBUG) Log.d(TAG, "ImageReader is created");
         if(DEBUG) Log.d(TAG, "ImageReader listener is registered");
+        fpsTimer = new FpsTimer();
     }
 
 
@@ -148,7 +157,9 @@ public class FrameRecorder implements IFrameRecorder {
         }, handler);
         // Set recording to true
         recording = true;
-        timer.schedule(new FrameTask(), 0, delta);
+        if(DEBUG) Log.d(TAG, "Delta is " + delta);
+        timer.scheduleAtFixedRate(new FrameTask(), 0, delta);
+        fpsTimer.start();
     }
 
     /**
@@ -271,7 +282,19 @@ public class FrameRecorder implements IFrameRecorder {
          */
         @Override
         public void run() {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    shoot();
+                }
+            });
+        }
+
+        private void shoot() {
+            long delta, curr = System.currentTimeMillis();
+            Bitmap latest;
             // Set the function that will handle uncaught exceptions
+            if(DEBUG) Log.d(TAG, "Current FPS: " + fpsTimer.sampleFps());
             Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
             // Don't enter to critical section if not necessary
             if (latestFrame == null || latestFrame.isRecycled()) {
@@ -284,10 +307,12 @@ public class FrameRecorder implements IFrameRecorder {
                     Log.w(TAG, "Current frame cannot be accessed");
                     return;
                 }
-                Bitmap latest = latestFrame.copy(latestFrame.getConfig(), true);
+                latest = latestFrame.copy(latestFrame.getConfig(), true);
                 if (DEBUG) Log.d(TAG, "Frame #" + frameCounter++);
-                FrameRecorder.this.callback.onFrameCaptured(latest);
             }
+            delta = System.currentTimeMillis() - curr;
+            FrameRecorder.this.callback.onFrameCaptured(latest);
+            // if(DEBUG) Log.d(TAG, "It took " + delta + " milliseconds");
         }
     }
 }

@@ -196,7 +196,7 @@ public class RecorderService extends Service {
     private byte[] compressBitmap(Bitmap bitmap) {
         // Compress to JPEG
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
         byte[] compressBytes = byteArrayOutputStream.toByteArray();
         if (DEBUG) Log.d(TAG, "Compressed frame");
         return compressBytes;
@@ -223,7 +223,11 @@ public class RecorderService extends Service {
         }
         try {
             // Pass the frame to the network manager
-            networkManager.sendData(compressBitmap(frame));
+            long curr = System.currentTimeMillis();
+            byte[] comp = compressBitmap(frame);
+            long delta = System.currentTimeMillis() - curr;
+            networkManager.sendData(comp);
+            if(DEBUG) Log.d(TAG, "It took " + delta + " milliseconds");
         } catch (Exception e) {
             Log.e(TAG, "cannot send frame", e);
         }

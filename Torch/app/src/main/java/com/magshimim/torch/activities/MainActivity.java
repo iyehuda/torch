@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Create an intent for the recording service
             Intent recordingIntent = new Intent(this, RecorderService.class);
-            recordingIntent.putExtra(RecorderService.EXTRA_ADDRESS, "10.0.2.2"); // Server IP
+            recordingIntent.putExtra(RecorderService.EXTRA_ADDRESS, "10.0.0.32"); // Server IP
             recordingIntent.putExtra(RecorderService.EXTRA_PORT, 27015); // Server port
-            recordingIntent.putExtra(RecorderService.EXTRA_FPS, 3); // Frames per second
+            recordingIntent.putExtra(RecorderService.EXTRA_FPS, 10); // Frames per second
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_CODE, resultCode); // Result code
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_DATA, data); // Result data
             startService(recordingIntent); // Start the recording service

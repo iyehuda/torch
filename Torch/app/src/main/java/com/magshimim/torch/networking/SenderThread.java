@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.protobuf.ByteString;
 import com.magshimim.torch.BuildConfig;
+import com.magshimim.torch.etc.FpsTimer;
 import com.magshimim.torch.model.ByteArrayOuterClass;
 
 import java.io.DataOutputStream;
@@ -12,6 +13,8 @@ import java.math.BigInteger;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.Queue;
 
 
@@ -23,6 +26,8 @@ class SenderThread extends Thread {
     private Socket socket; // Connection to the server
     private DataOutputStream out; // Stream to write messages
     private boolean sending; // Determines if sending in action
+
+    private FpsTimer fpsTimer;
 
     /**
      * Initializes inner data, including messages queue and socket
@@ -36,6 +41,7 @@ class SenderThread extends Thread {
         this.dataToSend = dataToSend;
         this.socket = socket;
         sending = false;
+        fpsTimer = new FpsTimer();
     }
 
     /**
@@ -108,6 +114,7 @@ class SenderThread extends Thread {
                         .build();
                 byteArray.writeDelimitedTo(out);
                 if(DEBUG) {
+                    // Log.d(TAG, "Current FPS: " + fpsTimer.sampleFps());
                     Log.d(TAG, String.format("%d bytes sent", byteArray.getData().size()));
                     Log.d(TAG, "Data hash: " + md5(data));
                 }
@@ -158,6 +165,8 @@ class SenderThread extends Thread {
         sending = true;
         byte[] data;
 
+        fpsTimer.start();
+        if(DEBUG) Log.d(TAG, "fpsTimer started");
         while (sending) {
             if(DEBUG) Log.d(TAG, "waiting for frame");
             data = getData();
