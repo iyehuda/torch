@@ -1,7 +1,5 @@
 package com.magshimim.torch.networking;
 
-import android.graphics.Bitmap;
-
 /**
  * An interface that defines the usage of a network component for sending frames to a server.
  */
@@ -10,9 +8,9 @@ public interface INetworkManager {
 
     /**
      * Send a single frame to the remote server.
-     * @param frame The frame to be sent
+     * @param data The data to be sent
      */
-    void sendFrame(Bitmap frame);
+    void sendData(byte[] data);
 
     /**
      * Disconnects from the server if the implementation uses TCP,

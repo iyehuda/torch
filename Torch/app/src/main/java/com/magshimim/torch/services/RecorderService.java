@@ -14,7 +14,6 @@ import android.view.WindowManager;
 import java.io.ByteArrayOutputStream;
 
 import com.magshimim.torch.BuildConfig;
-import com.magshimim.torch.activities.FrameShower;
 import com.magshimim.torch.networking.INetworkManager;
 import com.magshimim.torch.networking.NetworkManager;
 import com.magshimim.torch.recording.FrameRecorder;
@@ -28,11 +27,6 @@ public class RecorderService extends Service {
     // Inner components
     private static IFrameRecorder recorder;
     private static INetworkManager networkManager;
-
-    // Broadcast messages entries
-    public final static String SEND_FRAME_ACTION = "sendFrameAction";
-    public final static String EXTRA_FRAME = "frame";
-
 
     // Intent parameter entries
     public final static String EXTRA_ADDRESS = "address";
@@ -49,7 +43,6 @@ public class RecorderService extends Service {
     Intent mediaProjectionResultData;
 
     // etc
-    private boolean toOpenActivity = false;
     boolean working = false;
     MediaProjectionManager projectionManager;
     Thread starterThread;
@@ -203,34 +196,10 @@ public class RecorderService extends Service {
     private byte[] compressBitmap(Bitmap bitmap) {
         // Compress to JPEG
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,50,byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 10, byteArrayOutputStream);
         byte[] compressBytes = byteArrayOutputStream.toByteArray();
         if (DEBUG) Log.d(TAG, "Compressed frame");
         return compressBytes;
-    }
-
-    /**
-     * Opens a FrameShower activity
-     * @param frame The first frame to show
-     */
-    private void openActivity(Bitmap frame)
-    {
-        Intent toOpenActivity = new Intent(this, FrameShower.class);
-        toOpenActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        toOpenActivity.putExtra(EXTRA_FRAME, compressBitmap(frame));
-        startActivity(toOpenActivity);
-    }
-
-    /**
-     * Send a frame to broadcast
-     * @param frame Frame to send
-     */
-    private void broadcastFrame(Bitmap frame) {
-        if(DEBUG) Log.d(TAG, "broadcastFrame:");
-        Intent intent = new Intent();
-        intent.setAction(SEND_FRAME_ACTION);
-        intent.putExtra(EXTRA_FRAME, compressBitmap(frame));
-        sendBroadcast(intent);
     }
 
     /**
@@ -254,15 +223,14 @@ public class RecorderService extends Service {
         }
         try {
             // Pass the frame to the network manager
-            networkManager.sendFrame(frame);
+            long curr = System.currentTimeMillis();
+            byte[] comp = compressBitmap(frame);
+            long delta = System.currentTimeMillis() - curr;
+            networkManager.sendData(comp);
+            if(DEBUG) Log.d(TAG, "It took " + delta + " milliseconds");
         } catch (Exception e) {
             Log.e(TAG, "cannot send frame", e);
         }
-        if (toOpenActivity) {
-            openActivity(frame);
-            toOpenActivity = false;
-        }
-        broadcastFrame(frame);
     }
 
     /**

@@ -7,6 +7,7 @@ import android.hardware.display.VirtualDisplay;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Process;
@@ -15,10 +16,12 @@ import android.util.Log;
 import android.view.Display;
 
 import com.magshimim.torch.BuildConfig;
+import com.magshimim.torch.etc.FpsTimer;
 
 import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class FrameRecorder implements IFrameRecorder {
     private final static String TAG = "FrameRecorder";
@@ -54,6 +57,8 @@ public class FrameRecorder implements IFrameRecorder {
     // Used to prevent re-calls of start/stop methods
     private boolean recording;
 
+    private int fps;
+
     // The time delta between frames
     private long delta;
 
@@ -65,6 +70,8 @@ public class FrameRecorder implements IFrameRecorder {
 
     // Used to lock access to lastFrame
     final private Object frameLock;
+
+    private FpsTimer fpsTimer;
 
     /**
      * Construct new frame recorder.
@@ -80,12 +87,13 @@ public class FrameRecorder implements IFrameRecorder {
                          int fps,
                          @NonNull IFrameCallback callback,
                          @NonNull Thread.UncaughtExceptionHandler exceptionHandler) {
-        if(DEBUG) Log.d(TAG, "Constructor");
+        if(DEBUG) Log.d(TAG, "FrameRecorder:");
 
         this.mediaProjection = mediaProjection;
         this.callback = callback;
         this.dpi = dpi;
         this.exceptionHandler = exceptionHandler;
+        this.fps = fps;
         latestFrame = null;
         recording = false;
         delta = 1000 / fps;
@@ -101,19 +109,18 @@ public class FrameRecorder implements IFrameRecorder {
         if(DEBUG) Log.d(TAG, "Height: " + height + ", Width: " + width);
 
         // Create running objects
-        handlerThread =
-                new HandlerThread(getClass().getSimpleName(), Process.THREAD_PRIORITY_BACKGROUND);
+        handlerThread = new HandlerThread(getClass().getSimpleName(),
+                Process.THREAD_PRIORITY_BACKGROUND);
         if(DEBUG) Log.d(TAG, "HandlerThread is created");
         handlerThread.setUncaughtExceptionHandler(this.exceptionHandler);
         if(DEBUG) Log.d(TAG, "UncaughtExceptionHandler is set");
         handlerThread.start();
-        if(handlerThread.getLooper() == null)
-            Log.d(TAG, "we have a problem");
         handler = new Handler(handlerThread.getLooper());
         if(DEBUG) Log.d(TAG, "Handler is created");
         imageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
         if(DEBUG) Log.d(TAG, "ImageReader is created");
         if(DEBUG) Log.d(TAG, "ImageReader listener is registered");
+        fpsTimer = new FpsTimer();
     }
 
 
@@ -149,17 +156,10 @@ public class FrameRecorder implements IFrameRecorder {
             }
         }, handler);
         // Set recording to true
-        if(objectsInitialized()) {
-            recording = true;
-            timer.schedule(new FrameTask(), 0, delta);
-            return;
-        }
-
-        if(DEBUG) Log.d(TAG, "startRecording failed");
-        stopRecording();
-        if(DEBUG) Log.d(TAG, "Stopped recording");
-        exceptionHandler.uncaughtException(Thread.currentThread(),
-                new IllegalStateException("Objects initialization went wrong"));
+        recording = true;
+        if(DEBUG) Log.d(TAG, "Delta is " + delta);
+        timer.scheduleAtFixedRate(new FrameTask(), 0, delta);
+        fpsTimer.start();
     }
 
     /**
@@ -226,7 +226,7 @@ public class FrameRecorder implements IFrameRecorder {
      */
     private void updateFrame()
     {
-        if(DEBUG) Log.d(TAG, "updateFrame");
+        if(DEBUG) Log.d(TAG, "updateFrame:");
 
         final Image current = imageReader.acquireLatestImage();
         if(current == null) {
@@ -263,43 +263,12 @@ public class FrameRecorder implements IFrameRecorder {
                 if (DEBUG) Log.d(TAG, "Creating new bitmap");
                 latestFrame = Bitmap.createBitmap(bitmapWidth, height, Bitmap.Config.ARGB_8888);
             }
-
             // Load the frame data ro the bitmap object
             latestFrame.copyPixelsFromBuffer(buffer);
-            if (DEBUG) Log.d(TAG, "Loaded data to bitmap");
-            current.close();
-            if (DEBUG) Log.d(TAG, "Closed Image object");
         }
-    }
-
-    /**
-     * Checks if all recording objects are initialized
-     * @return true in case of valid state, else false
-     */
-    private boolean objectsInitialized() {
-        if(DEBUG) Log.d(TAG, "objectsInitialized");
-        boolean retVal = true;
-        if(handlerThread == null) {
-            Log.w(TAG, "handlerThread is null");
-            retVal = false;
-        }
-        if(handler == null) {
-            Log.w(TAG, "handler is null");
-            retVal = false;
-        }
-        if(imageReader == null) {
-            Log.w(TAG, "imageReader is null");
-            retVal = false;
-        }
-        if(mediaProjection == null) {
-            Log.w(TAG, "mediaProjection is null");
-            retVal = false;
-        }
-        if(virtualDisplay == null) {
-            Log.w(TAG, "virtualDisplay is null");
-            retVal = false;
-        }
-        return retVal;
+        if (DEBUG) Log.d(TAG, "Loaded data to bitmap");
+        current.close();
+        if (DEBUG) Log.d(TAG, "Closed Image object");
     }
 
     /**
@@ -308,22 +277,48 @@ public class FrameRecorder implements IFrameRecorder {
     private class FrameTask extends TimerTask {
         private final static String TAG = "TimerTask";
 
+        FrameTask() {
+            ((ThreadPoolExecutor)AsyncTask.THREAD_POOL_EXECUTOR).setMaximumPoolSize(fps);
+        }
+
         /**
          * The entry point for the task
          */
         @Override
         public void run() {
+            long delta, curr = System.currentTimeMillis();
+            AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    shoot();
+                    return null;
+                }
+            };
+            task.execute();
+            delta = System.currentTimeMillis() - curr;
+            if(DEBUG) Log.d(TAG, "It took " + delta + " milliseconds");
+        }
+
+        private void shoot() {
+            Bitmap latest;
+            // Set the function that will handle uncaught exceptions
+            if(DEBUG) Log.d(TAG, "Current FPS: " + fpsTimer.sampleFps());
             Thread.setDefaultUncaughtExceptionHandler(exceptionHandler);
+            // Don't enter to critical section if not necessary
+            if (latestFrame == null || latestFrame.isRecycled()) {
+                Log.w(TAG, "Current frame cannot be accessed");
+                return;
+            }
             synchronized (frameLock) {
+                // Check again for safety
                 if (latestFrame == null || latestFrame.isRecycled()) {
                     Log.w(TAG, "Current frame cannot be accessed");
                     return;
                 }
-
-                Bitmap latest = latestFrame.copy(latestFrame.getConfig(), true);
+                latest = latestFrame.copy(latestFrame.getConfig(), true);
                 if (DEBUG) Log.d(TAG, "Frame #" + frameCounter++);
-                FrameRecorder.this.callback.onFrameCaptured(latest);
             }
+            FrameRecorder.this.callback.onFrameCaptured(latest);
         }
     }
 }
