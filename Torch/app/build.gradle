@@ -24,14 +24,6 @@ repositories {
 }
 
 android {
-    signingConfigs {
-        release {
-            keyAlias 'key0'
-            keyPassword 'whoami'
-            storeFile file('C:/Users/yehud/torch/Torch/keystores/release1.jks')
-            storePassword 'whoami'
-        }
-    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
@@ -41,13 +33,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
     }
     repositories {
         maven { url 'http://repo1.maven.org/maven2' }
