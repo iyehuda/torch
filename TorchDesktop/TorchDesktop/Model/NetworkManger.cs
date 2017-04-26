@@ -35,7 +35,7 @@ namespace TorchDesktop
 #pragma warning restore CS0618 // Type or member is obsolete
             Log.Debug(TAG, "Created TcpListener");
             listener.Start();
-            Log.Debug(TAG, "Listening on port {port}");
+            Log.Debug(TAG, $"Listening on port {port}");
             looper = new Thread(ListenerLooper);
             looper.Start();
             Log.Debug(TAG, "Looper started");
@@ -51,7 +51,7 @@ namespace TorchDesktop
         {
             Log.Debug(TAG, "ListenerLooper:");
             TcpClient client = listener.AcceptTcpClient();
-            Log.Debug(TAG, "Client accepted at {client.Client.RemoteEndPoint}");
+            Log.Debug(TAG, $"Client accepted at {client.Client.RemoteEndPoint}");
             listener.Stop();
             Log.Debug(TAG, "Stopped listening to new connections");
             receiving = true;
@@ -67,12 +67,12 @@ namespace TorchDesktop
                 using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
                 {
                     fs.Write(data, 0, data.Length);
-                    Log.Ok(TAG, "Wrote data to {fileName}");
+                    Log.Ok(TAG, $"Wrote data to {fileName}");
                 }
             }
             catch(Exception e)
             {
-                Log.Error(TAG, "Could not save data to {fileName}", e);
+                Log.Error(TAG, $"Could not save data to {fileName}", e);
             }
         }
 
@@ -103,7 +103,7 @@ namespace TorchDesktop
             try
             {
                 data = ByteArray.Parser.ParseDelimitedFrom(stream);
-                Log.Debug(TAG, "Data length is {data.Data.Length}");
+                Log.Debug(TAG, $"Data length is {data.Data.Length}");
             }
             catch(Exception e)
             {

@@ -32,7 +32,7 @@ namespace TorchDesktop
 
         private static void WriteLine(string str, ConsoleColor foreground = ConsoleColor.Gray, ConsoleColor background = ConsoleColor.Black)
         {
-            Write("{str}\n", foreground, background);
+            Write($"{str}\n", foreground, background);
         }
 
         private static void Write(string mode, string str)
@@ -62,18 +62,18 @@ namespace TorchDesktop
                     break;
             }
 
-            Write("[ {mode} ] ", forground, background);
+            Write($"[ {mode} ] ", forground, background);
             WriteLine(str);
         }
 
         private static void Write(string mode, string tag, string str)
         {
-            Write(mode, "{tag}: {str}");
+            Write(mode, $"{tag}: {str}");
         }
 
         private static void Write(string mode, string tag, string str, Exception exception)
         {
-            Write(mode, tag, "{str}\n{exception}");
+            Write(mode, tag, $"{str}\n{exception}");
         }
 
         public static void Verbose(string tag, string msg)
