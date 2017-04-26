@@ -21,6 +21,7 @@ import com.magshimim.torch.etc.FpsTimer;
 import java.nio.ByteBuffer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class FrameRecorder implements IFrameRecorder {
     private final static String TAG = "FrameRecorder";
@@ -56,6 +57,8 @@ public class FrameRecorder implements IFrameRecorder {
     // Used to prevent re-calls of start/stop methods
     private boolean recording;
 
+    private int fps;
+
     // The time delta between frames
     private long delta;
 
@@ -69,10 +72,6 @@ public class FrameRecorder implements IFrameRecorder {
     final private Object frameLock;
 
     private FpsTimer fpsTimer;
-
-    static {
-
-    }
 
     /**
      * Construct new frame recorder.
@@ -94,6 +93,7 @@ public class FrameRecorder implements IFrameRecorder {
         this.callback = callback;
         this.dpi = dpi;
         this.exceptionHandler = exceptionHandler;
+        this.fps = fps;
         latestFrame = null;
         recording = false;
         delta = 1000 / fps;
@@ -277,21 +277,29 @@ public class FrameRecorder implements IFrameRecorder {
     private class FrameTask extends TimerTask {
         private final static String TAG = "TimerTask";
 
+        FrameTask() {
+            ((ThreadPoolExecutor)AsyncTask.THREAD_POOL_EXECUTOR).setMaximumPoolSize(fps);
+        }
+
         /**
          * The entry point for the task
          */
         @Override
         public void run() {
-            AsyncTask.execute(new Runnable() {
+            long delta, curr = System.currentTimeMillis();
+            AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
                 @Override
-                public void run() {
+                protected Void doInBackground(Void... params) {
                     shoot();
+                    return null;
                 }
-            });
+            };
+            task.execute();
+            delta = System.currentTimeMillis() - curr;
+            if(DEBUG) Log.d(TAG, "It took " + delta + " milliseconds");
         }
 
         private void shoot() {
-            long delta, curr = System.currentTimeMillis();
             Bitmap latest;
             // Set the function that will handle uncaught exceptions
             if(DEBUG) Log.d(TAG, "Current FPS: " + fpsTimer.sampleFps());
@@ -310,9 +318,7 @@ public class FrameRecorder implements IFrameRecorder {
                 latest = latestFrame.copy(latestFrame.getConfig(), true);
                 if (DEBUG) Log.d(TAG, "Frame #" + frameCounter++);
             }
-            delta = System.currentTimeMillis() - curr;
             FrameRecorder.this.callback.onFrameCaptured(latest);
-            // if(DEBUG) Log.d(TAG, "It took " + delta + " milliseconds");
         }
     }
 }

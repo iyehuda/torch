@@ -114,7 +114,6 @@ class SenderThread extends Thread {
                         .build();
                 byteArray.writeDelimitedTo(out);
                 if(DEBUG) {
-                    // Log.d(TAG, "Current FPS: " + fpsTimer.sampleFps());
                     Log.d(TAG, String.format("%d bytes sent", byteArray.getData().size()));
                     Log.d(TAG, "Data hash: " + md5(data));
                 }
