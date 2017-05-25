@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+package torch;
+
+option csharp_namespace = "TorchDesktop.Networking.Protos";
+option java_package = "magshimim.torchmobile.networking.protos";
+
+message ByteArray {
+	bytes data = 1;
+}
+
+message TorchMessage {
+	enum MessageType { FRAME = 0; }
+	
+	MessageType type = 1;
+
+	ByteArray frame = 2;
+}
