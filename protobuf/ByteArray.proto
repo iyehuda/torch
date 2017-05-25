@@ -1,9 +1,0 @@
-﻿syntax = "proto3";
-package torch;
-
-option csharp_namespace = "TorchDesktop.Model";
-option java_package = "com.magshimim.torch.model";
-
-message ByteArray {
-	bytes data = 1;
-}
