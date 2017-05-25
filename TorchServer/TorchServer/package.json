@@ -1,0 +1,10 @@
+{
+  "name": "torch-server",
+  "version": "0.0.0",
+  "description": "TorchServer",
+  "main": "server.js",
+  "author": {
+    "name": "iYehuda"
+  },
+  "dependencies": {}
+}
