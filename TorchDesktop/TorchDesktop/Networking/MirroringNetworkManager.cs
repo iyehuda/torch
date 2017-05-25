@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -40,6 +41,7 @@ namespace TorchDesktop.Networking
             }
             catch(Exception e)
             {
+                Trace.WriteLine(e);
                 return null;
             }
         }
@@ -60,6 +62,7 @@ namespace TorchDesktop.Networking
                     }
                     catch(Exception e)
                     {
+                        Trace.WriteLine(e);
                         client.Close();
                     }
                 }

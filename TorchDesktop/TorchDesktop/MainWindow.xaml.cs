@@ -1,6 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media.Imaging;
 using TorchDesktop.Networking;
 
@@ -16,7 +14,7 @@ namespace TorchDesktop
         public MainWindow()
         {
             InitializeComponent();
-            Trace.WriteLine("Started", "DEBUG");
+
             manager = new MirroringNetworkManager();
             manager.ReceivedFrame += ReceivedFrameCallback;
             manager.StartReceiving();
@@ -26,8 +24,8 @@ namespace TorchDesktop
 
         private void SetFrame(BitmapSource frame)
         {
-            //double aspect = Convert.ToDouble(frame.Width) / frame.Height;
-            //currentFrame.Width = Convert.ToInt32(Height * aspect);
+            double aspect = frame.Width / frame.Height;
+            currentFrame.Width = Height * aspect;
             currentFrame.Source = frame;
         }
 
