@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TorchMobile</string>
+    <string name="serverAddressString">Server Address</string>
+</resources>
