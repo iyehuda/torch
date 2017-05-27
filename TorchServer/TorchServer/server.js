@@ -1,3 +1,3 @@
-'use strict';
+var mirroring = require('./mirroring');
 
-console.log('Hello world');
+mirroring.createServer().listen();
