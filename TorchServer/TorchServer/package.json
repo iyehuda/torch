@@ -6,5 +6,7 @@
   "author": {
     "name": "iYehuda"
   },
-  "dependencies": {}
+  "dependencies": {
+    "varint": "^5.0.0"
+  }
 }
