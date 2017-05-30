@@ -87,14 +87,19 @@ MirroringClient.prototype.destroy = function destroy() {
     }
 };
 
-function MirroringSession() {
+function MirroringSession(id) {
+    events.EventEmitter.call(this);
     var self = this;
+    this.destroyed = false;
+    this.id = id;
     this.closeCallback = function () {
         self.destroy();
     };
     this.sender = null;
     this.receiver = null;
 }
+
+util.inherits(MirroringSession, events.EventEmitter);
 
 MirroringSession.prototype.isFull = function isFull() {
     return this.sender != null && this.receiver != null;  
@@ -116,6 +121,9 @@ MirroringSession.prototype.addClient = function addClient(client) {
 }
 
 MirroringSession.prototype.destroy = function destroy() {
+    if (this.destroyed)
+        return;
+    this.destroyed = true;
     if (this.receiver != null) {
         this.receiver.removeListener('close', this.closeCallback);
         this.receiver.destroy();
@@ -126,10 +134,13 @@ MirroringSession.prototype.destroy = function destroy() {
         this.sender.destroy();
         this.sender = null;
     }
+
+    this.emit('close');
 }
 
 function MirroringServer() {
     var self = this;
+    this.incremental = 0;
     this.port = 27015;
     this.sessions = [];
     this.server = net.createServer(function (socket) {
@@ -140,12 +151,19 @@ function MirroringServer() {
 }
 
 MirroringServer.prototype.addClient = function addClient(socket) {
+    var self = this;
     var client = new MirroringClient(socket);
     client.on('message', function (message) {
         console.log('received message at size ' + message.length);
     });
     if (this.sessions.length == 0 || this.sessions[this.sessions.length - 1].isFull()) {
-        this.sessions.push(new MirroringSession());
+        console.log(`creating session #${this.incremental}`);
+        var newSession = new MirroringSession(this.incremental++);
+        newSession.on('close', function () {
+            console.log(`removing session #${newSession.id}`);
+            self.sessions = self.sessions.filter((e) => e.id != newSession.id);
+        });
+        this.sessions.push(newSession);
     }
     this.sessions[this.sessions.length - 1].addClient(client);
 };
