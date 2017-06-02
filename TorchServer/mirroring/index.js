@@ -7,8 +7,8 @@ let createServer = function createServer() {
 };
 
 module.exports = {
-	MirroringClient,
-	MirroringSession,
+    MirroringClient,
+    MirroringSession,
     MirroringServer,
     createServer
 };

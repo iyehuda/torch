@@ -5,7 +5,7 @@ let net = require("net");
 function MirroringServer() {
     let self = this;
     this.incremental = 0;
-    this.port = 27015;
+    this.port = 27014;
     this.sessions = [];
     this.server = net.createServer(function (socket) {
         socket.name = `${socket.remoteAddress}:${socket.remotePort}`;
