@@ -12,9 +12,9 @@ namespace TorchDesktop.Networking
     class MirroringNetworkManager
     {
         public delegate void BitmapHandler(BitmapSource bitmap);
-        public const int PORT = 27015;
+        public const int PORT = 27014;
 
-        private TcpListener tcpListener;
+        private TcpClient tcpClient;
         private Thread looper;
         private bool working;
 
@@ -48,31 +48,30 @@ namespace TorchDesktop.Networking
 
         private void ListenerLooper()
         {
-            while (working)
+            tcpClient = new TcpClient("127.0.0.1", PORT);
+
+            while(tcpClient.Connected && working)
             {
-                TcpClient client = tcpListener.AcceptTcpClient();
-                while(client.Connected)
+                try
                 {
-                    try
-                    {
-                        byte[] data = DeserializeMessage(client.GetStream());
-                        BitmapFrame frame = DecompressBitmap(data);
-                        if (frame != null)
-                            ReceivedFrame?.Invoke(frame);
-                    }
-                    catch(Exception e)
-                    {
-                        Trace.WriteLine(e);
-                        client.Close();
-                    }
+                    byte[] data = DeserializeMessage(tcpClient.GetStream());
+                    BitmapFrame frame = DecompressBitmap(data);
+                    if (frame != null)
+                        ReceivedFrame?.Invoke(frame);
+                }
+                catch(Exception e)
+                {
+                    Trace.WriteLine(e);
                 }
             }
+
+            Trace.WriteLine("Closing TcpClient");
+            tcpClient.Close();
+            tcpClient = null;
         }
 
         public void StartReceiving()
         {
-            tcpListener = new TcpListener(IPAddress.Any, PORT);
-            tcpListener.Start();
             looper = new Thread(ListenerLooper);
             looper.Start();
             working = true;
@@ -80,10 +79,17 @@ namespace TorchDesktop.Networking
 
         public void StopListening()
         {
-            tcpListener?.Stop();
-            tcpListener = null;
-            looper?.Abort();
-            looper = null;
+            if (looper != null)
+            {
+                if (looper.IsAlive)
+                    looper.Abort();
+                looper = null;
+            }
+            if(tcpClient != null)
+            {
+                tcpClient.Close();
+                tcpClient = null;
+            }
             working = false;
         }
     }
