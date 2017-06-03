@@ -5,8 +5,8 @@ let varint = require('varint');
 /**
  * Creates new client that receives varint delimited messages
  * @constructor
- * @extends {events.EventEmitter}
- * @param {net.Socket} socket
+ * @extends {EventEmitter}
+ * @param {Socket} socket
  */
 function MirroringClient(socket) {
     events.EventEmitter.call(this);
@@ -19,7 +19,7 @@ function MirroringClient(socket) {
     this.currentOffset = null;
     /** @type {string} */
     this.name = socket.name;
-    /** @type {net.Socket} */
+    /** @type {Socket} */
     this.socket = socket;
     this.socket.on('data', function (data) {
         self.handleMessage(data);
@@ -28,7 +28,7 @@ function MirroringClient(socket) {
         console.error(`${self.toString()} had an error: ${error}`);
     });
     this.socket.on('close', function() {
-        console.log(`${this.toString()} disconnected`);
+        console.log(`${self.toString()} disconnected`);
         self.emit('close');
     });
 }

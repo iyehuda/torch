@@ -16,7 +16,7 @@ function MirroringServer() {
 
 /**
  * Adds a client to an available/new session
- * @param {net.Socket} socket
+ * @param {Socket} socket
  */
 MirroringServer.prototype.addClient = function addClient(socket) {
     let self = this;
@@ -25,7 +25,7 @@ MirroringServer.prototype.addClient = function addClient(socket) {
         let newSession = new MirroringSession(this.incremental++);
         newSession.on('close', function () {
             console.log(`removing session #${newSession.id}`);
-            self.sessions = self.sessions.filter((s)=>s.id !== newSession.id);
+            self.sessions = self.sessions.filter((s) => s.id !== newSession.id);
         });
         this.sessions.push(newSession);
     }

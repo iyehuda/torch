@@ -5,7 +5,7 @@ let util = require('util');
  * Creates a new empty session
  * @param {number} id
  * @constructor
- * @extends events.EventEmitter
+ * @extends EventEmitter
  */
 function MirroringSession(id) {
     events.EventEmitter.call(this);
@@ -54,7 +54,6 @@ MirroringSession.prototype.addClient = function addClient(client) {
     else if(this.sender === null) {
         this.sender = client;
         this.sender.on('message', function (message) {
-            console.log(`forwarding ${message.length} bytes`);
             self.receiver.send(message);
         });
     } else {
