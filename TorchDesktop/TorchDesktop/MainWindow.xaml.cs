@@ -24,8 +24,6 @@ namespace TorchDesktop
 
         private void SetFrame(BitmapSource frame)
         {
-            double aspect = frame.Width / frame.Height;
-            currentFrame.Width = Height * aspect;
             currentFrame.Source = frame;
         }
 

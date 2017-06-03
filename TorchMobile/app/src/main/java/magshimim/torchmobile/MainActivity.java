@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK) {
             Intent recordingIntent = new Intent(this, RecorderService.class);
             recordingIntent.putExtra(RecorderService.EXTRA_ADDRESS, address);
-            recordingIntent.putExtra(RecorderService.EXTRA_PORT, 27015);
+            recordingIntent.putExtra(RecorderService.EXTRA_PORT, 27014);
             recordingIntent.putExtra(RecorderService.EXTRA_FPS, 20);
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_CODE, resultCode);
             recordingIntent.putExtra(RecorderService.EXTRA_RESULT_DATA, data);
