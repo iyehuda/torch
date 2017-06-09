@@ -6,7 +6,7 @@ namespace TorchDesktop.FeatureManagers
     {
         protected NetworkManager networkManager;
 
-        public event Callback Closed;
+        public event Callback Disconnected;
 
         public FeatureManager(NetworkManager networkManager)
         {
@@ -19,14 +19,14 @@ namespace TorchDesktop.FeatureManagers
             networkManager.Disconnected -= OnDisconnected;
         }
 
-        protected void EmitClosed()
+        protected void EmitDisconnected()
         {
-            Closed?.Invoke();
+            Disconnected?.Invoke();
         }
 
         protected void OnDisconnected(bool value)
         {
-            EmitClosed();
+            EmitDisconnected();
         }
     }
 }
