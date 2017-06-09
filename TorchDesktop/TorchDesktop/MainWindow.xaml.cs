@@ -1,6 +1,9 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media.Imaging;
+using TorchDesktop.FeatureManagers;
 using TorchDesktop.Networking;
+using TorchDesktop.Pages;
 
 namespace TorchDesktop
 {
@@ -9,32 +12,10 @@ namespace TorchDesktop
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MirroringNetworkManager manager;
-
         public MainWindow()
         {
             InitializeComponent();
-
-            manager = new MirroringNetworkManager();
-            manager.ReceivedFrame += ReceivedFrameCallback;
-            manager.StartReceiving();
-
-            Closing += Cleanup;
-        }
-
-        private void SetFrame(BitmapSource frame)
-        {
-            currentFrame.Source = frame;
-        }
-
-        private void ReceivedFrameCallback(BitmapSource bitmap)
-        {
-            Dispatcher.Invoke(() => SetFrame(bitmap));
-        }
-
-        private void Cleanup(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            manager.StopListening();
+            currentPage.Content = new LoginPage();
         }
     }
 }

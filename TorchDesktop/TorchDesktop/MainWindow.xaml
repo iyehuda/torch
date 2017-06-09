@@ -6,6 +6,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="365">
     <Grid>
-        <Image Name="currentFrame" Stretch="Fill"/>
+        <Frame Name="currentPage" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
