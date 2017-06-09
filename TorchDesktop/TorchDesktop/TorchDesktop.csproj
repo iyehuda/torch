@@ -71,7 +71,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Networking\MirroringNetworkManager.cs" />
+    <Compile Include="FeatureManagers\MirroringManager.cs" />
+    <Compile Include="Networking\NetworkManager.cs" />
     <Compile Include="Networking\Protos\TorchMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

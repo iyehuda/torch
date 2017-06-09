@@ -8,7 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import magshimim.torchmobile.networking.protos.ByteArrayOuterClass;
+import magshimim.torchmobile.networking.protos.TorchMessageOuterClass;
 import magshimim.torchmobile.utils.ObjectContainer;
 
 class SenderThread extends Thread {
@@ -54,16 +54,13 @@ class SenderThread extends Thread {
         if(out == null || data == null || data.length == 0)
             return;
         try {
-            /*TorchMessageOuterClass.TorchMessage.newBuilder()
+            TorchMessageOuterClass.TorchMessage.newBuilder()
                     .setType(TorchMessageOuterClass.TorchMessage.MessageType.FRAME)
                     .setFrame(TorchMessageOuterClass.ByteArray.newBuilder()
                     .setData(ByteString.copyFrom(data))
                     .build())
                     .build()
-                    .writeDelimitedTo(out);*/
-            ByteArrayOuterClass.ByteArray.newBuilder()
-                    .setData(ByteString.copyFrom(data))
-                    .build().writeDelimitedTo(out);
+                    .writeDelimitedTo(out);
         } catch (Exception e) {
             Log.e(TAG, "Could not send data", e);
             throw e;
