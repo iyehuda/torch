@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".services.RecorderService"
+        <service android:name=".services.BackgroundService"
             android:exported="false" />
     </application>
 

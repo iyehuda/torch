@@ -6,19 +6,28 @@
     tools:context="magshimim.torchmobile.MainActivity">
 
     <EditText
-        android:id="@+id/serverAddress"
-        android:hint="@string/serverAddressString"
+        android:id="@+id/txtAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/recordingToggleButton"
-        android:layout_marginBottom="20dp"/>
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="175dp"
+        android:hint="@string/serverAddressString"
+        tools:textColor="#2ecc71" />
 
-    <ToggleButton
-        android:id="@+id/recordingToggleButton"
+    <Button
+        android:id="@+id/btnConnect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/txtAddress"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
-
+        android:layout_marginTop="16dp"
+        android:fadingEdge="horizontal|vertical"
+        android:fadingEdgeLength="1dp"
+        android:requiresFadingEdge="horizontal|vertical"
+        android:text="@string/connect"
+        android:textColor="#2574A9"
+        tools:layout_width="160dp" />
 </RelativeLayout>
