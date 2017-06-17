@@ -8,10 +8,36 @@ message ByteArray {
 	bytes data = 1;
 }
 
+message FileRequest {
+	enum FileType { FILE = 0; DIRECTORY = 1; }
+	
+	FileType fileType = 1;
+	string path = 2;
+}
+
+message FileData {
+	string fileName = 1;
+	bytes data = 2;
+}
+
+message DirecotryData {
+	string directoryName = 1;
+	repeated string files = 2;
+}
+
+message FileResponse {
+	enum FileType { FILE = 0; DIRECTORY = 1; }
+	
+	FileData file = 1;
+	DirecotryData directory = 2;
+}
+
 message TorchMessage {
-	enum MessageType { FRAME = 0; }
+	enum MessageType { FRAME = 0; FILEREQUEST = 1; FILERESPONSE = 2; }
 	
 	MessageType type = 1;
 
 	ByteArray frame = 2;
+	FileRequest fileRequest = 3;
+	FileResponse fileResponse = 4;
 }

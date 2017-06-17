@@ -446,6 +446,2817 @@ public final class TorchMessageOuterClass {
 
   }
 
+  public interface FileRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:torch.FileRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.torch.FileRequest.FileType fileType = 1;</code>
+     */
+    int getFileTypeValue();
+    /**
+     * <code>.torch.FileRequest.FileType fileType = 1;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType getFileType();
+
+    /**
+     * <code>string path = 2;</code>
+     */
+    java.lang.String getPath();
+    /**
+     * <code>string path = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getPathBytes();
+  }
+  /**
+   * Protobuf type {@code torch.FileRequest}
+   */
+  public  static final class FileRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:torch.FileRequest)
+      FileRequestOrBuilder {
+    // Use FileRequest.newBuilder() to construct.
+    private FileRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileRequest() {
+      fileType_ = 0;
+      path_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private FileRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+
+              fileType_ = rawValue;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              path_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.class, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code torch.FileRequest.FileType}
+     */
+    public enum FileType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>FILE = 0;</code>
+       */
+      FILE(0),
+      /**
+       * <code>DIRECTORY = 1;</code>
+       */
+      DIRECTORY(1),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>FILE = 0;</code>
+       */
+      public static final int FILE_VALUE = 0;
+      /**
+       * <code>DIRECTORY = 1;</code>
+       */
+      public static final int DIRECTORY_VALUE = 1;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static FileType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static FileType forNumber(int value) {
+        switch (value) {
+          case 0: return FILE;
+          case 1: return DIRECTORY;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<FileType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          FileType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<FileType>() {
+              public FileType findValueByNumber(int number) {
+                return FileType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final FileType[] VALUES = values();
+
+      public static FileType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private FileType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:torch.FileRequest.FileType)
+    }
+
+    public static final int FILETYPE_FIELD_NUMBER = 1;
+    private int fileType_;
+    /**
+     * <code>.torch.FileRequest.FileType fileType = 1;</code>
+     */
+    public int getFileTypeValue() {
+      return fileType_;
+    }
+    /**
+     * <code>.torch.FileRequest.FileType fileType = 1;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType getFileType() {
+      magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType result = magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType.valueOf(fileType_);
+      return result == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType.UNRECOGNIZED : result;
+    }
+
+    public static final int PATH_FIELD_NUMBER = 2;
+    private volatile java.lang.Object path_;
+    /**
+     * <code>string path = 2;</code>
+     */
+    public java.lang.String getPath() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        path_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string path = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPathBytes() {
+      java.lang.Object ref = path_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        path_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (fileType_ != magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType.FILE.getNumber()) {
+        output.writeEnum(1, fileType_);
+      }
+      if (!getPathBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, path_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (fileType_ != magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType.FILE.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, fileType_);
+      }
+      if (!getPathBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, path_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest)) {
+        return super.equals(obj);
+      }
+      magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest other = (magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest) obj;
+
+      boolean result = true;
+      result = result && fileType_ == other.fileType_;
+      result = result && getPath()
+          .equals(other.getPath());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FILETYPE_FIELD_NUMBER;
+      hash = (53 * hash) + fileType_;
+      hash = (37 * hash) + PATH_FIELD_NUMBER;
+      hash = (53 * hash) + getPath().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code torch.FileRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:torch.FileRequest)
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.class, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.Builder.class);
+      }
+
+      // Construct using magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        fileType_ = 0;
+
+        path_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileRequest_descriptor;
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest getDefaultInstanceForType() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.getDefaultInstance();
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest build() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest buildPartial() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest result = new magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest(this);
+        result.fileType_ = fileType_;
+        result.path_ = path_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest) {
+          return mergeFrom((magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest other) {
+        if (other == magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.getDefaultInstance()) return this;
+        if (other.fileType_ != 0) {
+          setFileTypeValue(other.getFileTypeValue());
+        }
+        if (!other.getPath().isEmpty()) {
+          path_ = other.path_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private int fileType_ = 0;
+      /**
+       * <code>.torch.FileRequest.FileType fileType = 1;</code>
+       */
+      public int getFileTypeValue() {
+        return fileType_;
+      }
+      /**
+       * <code>.torch.FileRequest.FileType fileType = 1;</code>
+       */
+      public Builder setFileTypeValue(int value) {
+        fileType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.torch.FileRequest.FileType fileType = 1;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType getFileType() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType result = magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType.valueOf(fileType_);
+        return result == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.torch.FileRequest.FileType fileType = 1;</code>
+       */
+      public Builder setFileType(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.FileType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        fileType_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.torch.FileRequest.FileType fileType = 1;</code>
+       */
+      public Builder clearFileType() {
+        
+        fileType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object path_ = "";
+      /**
+       * <code>string path = 2;</code>
+       */
+      public java.lang.String getPath() {
+        java.lang.Object ref = path_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          path_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string path = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPathBytes() {
+        java.lang.Object ref = path_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          path_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string path = 2;</code>
+       */
+      public Builder setPath(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        path_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string path = 2;</code>
+       */
+      public Builder clearPath() {
+        
+        path_ = getDefaultInstance().getPath();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string path = 2;</code>
+       */
+      public Builder setPathBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        path_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:torch.FileRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:torch.FileRequest)
+    private static final magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest();
+    }
+
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileRequest>
+        PARSER = new com.google.protobuf.AbstractParser<FileRequest>() {
+      public FileRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new FileRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileRequest> getParserForType() {
+      return PARSER;
+    }
+
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FileDataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:torch.FileData)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string fileName = 1;</code>
+     */
+    java.lang.String getFileName();
+    /**
+     * <code>string fileName = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getFileNameBytes();
+
+    /**
+     * <code>bytes data = 2;</code>
+     */
+    com.google.protobuf.ByteString getData();
+  }
+  /**
+   * Protobuf type {@code torch.FileData}
+   */
+  public  static final class FileData extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:torch.FileData)
+      FileDataOrBuilder {
+    // Use FileData.newBuilder() to construct.
+    private FileData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileData() {
+      fileName_ = "";
+      data_ = com.google.protobuf.ByteString.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private FileData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              fileName_ = s;
+              break;
+            }
+            case 18: {
+
+              data_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.class, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.Builder.class);
+    }
+
+    public static final int FILENAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object fileName_;
+    /**
+     * <code>string fileName = 1;</code>
+     */
+    public java.lang.String getFileName() {
+      java.lang.Object ref = fileName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        fileName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string fileName = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFileNameBytes() {
+      java.lang.Object ref = fileName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        fileName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATA_FIELD_NUMBER = 2;
+    private com.google.protobuf.ByteString data_;
+    /**
+     * <code>bytes data = 2;</code>
+     */
+    public com.google.protobuf.ByteString getData() {
+      return data_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getFileNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fileName_);
+      }
+      if (!data_.isEmpty()) {
+        output.writeBytes(2, data_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getFileNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, fileName_);
+      }
+      if (!data_.isEmpty()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, data_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData)) {
+        return super.equals(obj);
+      }
+      magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData other = (magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData) obj;
+
+      boolean result = true;
+      result = result && getFileName()
+          .equals(other.getFileName());
+      result = result && getData()
+          .equals(other.getData());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + FILENAME_FIELD_NUMBER;
+      hash = (53 * hash) + getFileName().hashCode();
+      hash = (37 * hash) + DATA_FIELD_NUMBER;
+      hash = (53 * hash) + getData().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code torch.FileData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:torch.FileData)
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.class, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.Builder.class);
+      }
+
+      // Construct using magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        fileName_ = "";
+
+        data_ = com.google.protobuf.ByteString.EMPTY;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileData_descriptor;
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData getDefaultInstanceForType() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.getDefaultInstance();
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData build() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData buildPartial() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData result = new magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData(this);
+        result.fileName_ = fileName_;
+        result.data_ = data_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData) {
+          return mergeFrom((magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData other) {
+        if (other == magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.getDefaultInstance()) return this;
+        if (!other.getFileName().isEmpty()) {
+          fileName_ = other.fileName_;
+          onChanged();
+        }
+        if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
+          setData(other.getData());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object fileName_ = "";
+      /**
+       * <code>string fileName = 1;</code>
+       */
+      public java.lang.String getFileName() {
+        java.lang.Object ref = fileName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          fileName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string fileName = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFileNameBytes() {
+        java.lang.Object ref = fileName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          fileName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string fileName = 1;</code>
+       */
+      public Builder setFileName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        fileName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string fileName = 1;</code>
+       */
+      public Builder clearFileName() {
+        
+        fileName_ = getDefaultInstance().getFileName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string fileName = 1;</code>
+       */
+      public Builder setFileNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        fileName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>bytes data = 2;</code>
+       */
+      public com.google.protobuf.ByteString getData() {
+        return data_;
+      }
+      /**
+       * <code>bytes data = 2;</code>
+       */
+      public Builder setData(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        data_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bytes data = 2;</code>
+       */
+      public Builder clearData() {
+        
+        data_ = getDefaultInstance().getData();
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:torch.FileData)
+    }
+
+    // @@protoc_insertion_point(class_scope:torch.FileData)
+    private static final magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData();
+    }
+
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileData>
+        PARSER = new com.google.protobuf.AbstractParser<FileData>() {
+      public FileData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new FileData(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileData> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileData> getParserForType() {
+      return PARSER;
+    }
+
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface DirecotryDataOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:torch.DirecotryData)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string directoryName = 1;</code>
+     */
+    java.lang.String getDirectoryName();
+    /**
+     * <code>string directoryName = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getDirectoryNameBytes();
+
+    /**
+     * <code>repeated string files = 2;</code>
+     */
+    java.util.List<java.lang.String>
+        getFilesList();
+    /**
+     * <code>repeated string files = 2;</code>
+     */
+    int getFilesCount();
+    /**
+     * <code>repeated string files = 2;</code>
+     */
+    java.lang.String getFiles(int index);
+    /**
+     * <code>repeated string files = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getFilesBytes(int index);
+  }
+  /**
+   * Protobuf type {@code torch.DirecotryData}
+   */
+  public  static final class DirecotryData extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:torch.DirecotryData)
+      DirecotryDataOrBuilder {
+    // Use DirecotryData.newBuilder() to construct.
+    private DirecotryData(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private DirecotryData() {
+      directoryName_ = "";
+      files_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private DirecotryData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              directoryName_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                files_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              files_.add(s);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          files_ = files_.getUnmodifiableView();
+        }
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_DirecotryData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_DirecotryData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.class, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int DIRECTORYNAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object directoryName_;
+    /**
+     * <code>string directoryName = 1;</code>
+     */
+    public java.lang.String getDirectoryName() {
+      java.lang.Object ref = directoryName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        directoryName_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string directoryName = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getDirectoryNameBytes() {
+      java.lang.Object ref = directoryName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        directoryName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int FILES_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList files_;
+    /**
+     * <code>repeated string files = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getFilesList() {
+      return files_;
+    }
+    /**
+     * <code>repeated string files = 2;</code>
+     */
+    public int getFilesCount() {
+      return files_.size();
+    }
+    /**
+     * <code>repeated string files = 2;</code>
+     */
+    public java.lang.String getFiles(int index) {
+      return files_.get(index);
+    }
+    /**
+     * <code>repeated string files = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFilesBytes(int index) {
+      return files_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getDirectoryNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, directoryName_);
+      }
+      for (int i = 0; i < files_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, files_.getRaw(i));
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getDirectoryNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, directoryName_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < files_.size(); i++) {
+          dataSize += computeStringSizeNoTag(files_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getFilesList().size();
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData)) {
+        return super.equals(obj);
+      }
+      magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData other = (magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData) obj;
+
+      boolean result = true;
+      result = result && getDirectoryName()
+          .equals(other.getDirectoryName());
+      result = result && getFilesList()
+          .equals(other.getFilesList());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + DIRECTORYNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getDirectoryName().hashCode();
+      if (getFilesCount() > 0) {
+        hash = (37 * hash) + FILES_FIELD_NUMBER;
+        hash = (53 * hash) + getFilesList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code torch.DirecotryData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:torch.DirecotryData)
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_DirecotryData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_DirecotryData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.class, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.Builder.class);
+      }
+
+      // Construct using magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        directoryName_ = "";
+
+        files_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_DirecotryData_descriptor;
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData getDefaultInstanceForType() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.getDefaultInstance();
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData build() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData buildPartial() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData result = new magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        result.directoryName_ = directoryName_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          files_ = files_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.files_ = files_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData) {
+          return mergeFrom((magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData other) {
+        if (other == magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.getDefaultInstance()) return this;
+        if (!other.getDirectoryName().isEmpty()) {
+          directoryName_ = other.directoryName_;
+          onChanged();
+        }
+        if (!other.files_.isEmpty()) {
+          if (files_.isEmpty()) {
+            files_ = other.files_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureFilesIsMutable();
+            files_.addAll(other.files_);
+          }
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object directoryName_ = "";
+      /**
+       * <code>string directoryName = 1;</code>
+       */
+      public java.lang.String getDirectoryName() {
+        java.lang.Object ref = directoryName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          directoryName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string directoryName = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getDirectoryNameBytes() {
+        java.lang.Object ref = directoryName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          directoryName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string directoryName = 1;</code>
+       */
+      public Builder setDirectoryName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        directoryName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string directoryName = 1;</code>
+       */
+      public Builder clearDirectoryName() {
+        
+        directoryName_ = getDefaultInstance().getDirectoryName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string directoryName = 1;</code>
+       */
+      public Builder setDirectoryNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        directoryName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList files_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureFilesIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          files_ = new com.google.protobuf.LazyStringArrayList(files_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getFilesList() {
+        return files_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public int getFilesCount() {
+        return files_.size();
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public java.lang.String getFiles(int index) {
+        return files_.get(index);
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getFilesBytes(int index) {
+        return files_.getByteString(index);
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public Builder setFiles(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureFilesIsMutable();
+        files_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public Builder addFiles(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureFilesIsMutable();
+        files_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public Builder addAllFiles(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureFilesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, files_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public Builder clearFiles() {
+        files_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string files = 2;</code>
+       */
+      public Builder addFilesBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        ensureFilesIsMutable();
+        files_.add(value);
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:torch.DirecotryData)
+    }
+
+    // @@protoc_insertion_point(class_scope:torch.DirecotryData)
+    private static final magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData();
+    }
+
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<DirecotryData>
+        PARSER = new com.google.protobuf.AbstractParser<DirecotryData>() {
+      public DirecotryData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new DirecotryData(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<DirecotryData> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DirecotryData> getParserForType() {
+      return PARSER;
+    }
+
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface FileResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:torch.FileResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>.torch.FileData file = 1;</code>
+     */
+    boolean hasFile();
+    /**
+     * <code>.torch.FileData file = 1;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData getFile();
+    /**
+     * <code>.torch.FileData file = 1;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileDataOrBuilder getFileOrBuilder();
+
+    /**
+     * <code>.torch.DirecotryData directory = 2;</code>
+     */
+    boolean hasDirectory();
+    /**
+     * <code>.torch.DirecotryData directory = 2;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData getDirectory();
+    /**
+     * <code>.torch.DirecotryData directory = 2;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryDataOrBuilder getDirectoryOrBuilder();
+  }
+  /**
+   * Protobuf type {@code torch.FileResponse}
+   */
+  public  static final class FileResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:torch.FileResponse)
+      FileResponseOrBuilder {
+    // Use FileResponse.newBuilder() to construct.
+    private FileResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private FileResponse() {
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private FileResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.Builder subBuilder = null;
+              if (file_ != null) {
+                subBuilder = file_.toBuilder();
+              }
+              file_ = input.readMessage(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(file_);
+                file_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.Builder subBuilder = null;
+              if (directory_ != null) {
+                subBuilder = directory_.toBuilder();
+              }
+              directory_ = input.readMessage(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(directory_);
+                directory_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.class, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code torch.FileResponse.FileType}
+     */
+    public enum FileType
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>FILE = 0;</code>
+       */
+      FILE(0),
+      /**
+       * <code>DIRECTORY = 1;</code>
+       */
+      DIRECTORY(1),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>FILE = 0;</code>
+       */
+      public static final int FILE_VALUE = 0;
+      /**
+       * <code>DIRECTORY = 1;</code>
+       */
+      public static final int DIRECTORY_VALUE = 1;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static FileType valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static FileType forNumber(int value) {
+        switch (value) {
+          case 0: return FILE;
+          case 1: return DIRECTORY;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<FileType>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          FileType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<FileType>() {
+              public FileType findValueByNumber(int number) {
+                return FileType.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final FileType[] VALUES = values();
+
+      public static FileType valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private FileType(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:torch.FileResponse.FileType)
+    }
+
+    public static final int FILE_FIELD_NUMBER = 1;
+    private magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData file_;
+    /**
+     * <code>.torch.FileData file = 1;</code>
+     */
+    public boolean hasFile() {
+      return file_ != null;
+    }
+    /**
+     * <code>.torch.FileData file = 1;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData getFile() {
+      return file_ == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.getDefaultInstance() : file_;
+    }
+    /**
+     * <code>.torch.FileData file = 1;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileDataOrBuilder getFileOrBuilder() {
+      return getFile();
+    }
+
+    public static final int DIRECTORY_FIELD_NUMBER = 2;
+    private magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData directory_;
+    /**
+     * <code>.torch.DirecotryData directory = 2;</code>
+     */
+    public boolean hasDirectory() {
+      return directory_ != null;
+    }
+    /**
+     * <code>.torch.DirecotryData directory = 2;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData getDirectory() {
+      return directory_ == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.getDefaultInstance() : directory_;
+    }
+    /**
+     * <code>.torch.DirecotryData directory = 2;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryDataOrBuilder getDirectoryOrBuilder() {
+      return getDirectory();
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (file_ != null) {
+        output.writeMessage(1, getFile());
+      }
+      if (directory_ != null) {
+        output.writeMessage(2, getDirectory());
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (file_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getFile());
+      }
+      if (directory_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getDirectory());
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse)) {
+        return super.equals(obj);
+      }
+      magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse other = (magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse) obj;
+
+      boolean result = true;
+      result = result && (hasFile() == other.hasFile());
+      if (hasFile()) {
+        result = result && getFile()
+            .equals(other.getFile());
+      }
+      result = result && (hasDirectory() == other.hasDirectory());
+      if (hasDirectory()) {
+        result = result && getDirectory()
+            .equals(other.getDirectory());
+      }
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasFile()) {
+        hash = (37 * hash) + FILE_FIELD_NUMBER;
+        hash = (53 * hash) + getFile().hashCode();
+      }
+      if (hasDirectory()) {
+        hash = (37 * hash) + DIRECTORY_FIELD_NUMBER;
+        hash = (53 * hash) + getDirectory().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code torch.FileResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:torch.FileResponse)
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.class, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.Builder.class);
+      }
+
+      // Construct using magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (fileBuilder_ == null) {
+          file_ = null;
+        } else {
+          file_ = null;
+          fileBuilder_ = null;
+        }
+        if (directoryBuilder_ == null) {
+          directory_ = null;
+        } else {
+          directory_ = null;
+          directoryBuilder_ = null;
+        }
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.internal_static_torch_FileResponse_descriptor;
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse getDefaultInstanceForType() {
+        return magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.getDefaultInstance();
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse build() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse buildPartial() {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse result = new magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse(this);
+        if (fileBuilder_ == null) {
+          result.file_ = file_;
+        } else {
+          result.file_ = fileBuilder_.build();
+        }
+        if (directoryBuilder_ == null) {
+          result.directory_ = directory_;
+        } else {
+          result.directory_ = directoryBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse) {
+          return mergeFrom((magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse other) {
+        if (other == magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.getDefaultInstance()) return this;
+        if (other.hasFile()) {
+          mergeFile(other.getFile());
+        }
+        if (other.hasDirectory()) {
+          mergeDirectory(other.getDirectory());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData file_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileDataOrBuilder> fileBuilder_;
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      public boolean hasFile() {
+        return fileBuilder_ != null || file_ != null;
+      }
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData getFile() {
+        if (fileBuilder_ == null) {
+          return file_ == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.getDefaultInstance() : file_;
+        } else {
+          return fileBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      public Builder setFile(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData value) {
+        if (fileBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          file_ = value;
+          onChanged();
+        } else {
+          fileBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      public Builder setFile(
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.Builder builderForValue) {
+        if (fileBuilder_ == null) {
+          file_ = builderForValue.build();
+          onChanged();
+        } else {
+          fileBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      public Builder mergeFile(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData value) {
+        if (fileBuilder_ == null) {
+          if (file_ != null) {
+            file_ =
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.newBuilder(file_).mergeFrom(value).buildPartial();
+          } else {
+            file_ = value;
+          }
+          onChanged();
+        } else {
+          fileBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      public Builder clearFile() {
+        if (fileBuilder_ == null) {
+          file_ = null;
+          onChanged();
+        } else {
+          file_ = null;
+          fileBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.Builder getFileBuilder() {
+        
+        onChanged();
+        return getFileFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileDataOrBuilder getFileOrBuilder() {
+        if (fileBuilder_ != null) {
+          return fileBuilder_.getMessageOrBuilder();
+        } else {
+          return file_ == null ?
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.getDefaultInstance() : file_;
+        }
+      }
+      /**
+       * <code>.torch.FileData file = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileDataOrBuilder> 
+          getFileFieldBuilder() {
+        if (fileBuilder_ == null) {
+          fileBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileData.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileDataOrBuilder>(
+                  getFile(),
+                  getParentForChildren(),
+                  isClean());
+          file_ = null;
+        }
+        return fileBuilder_;
+      }
+
+      private magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData directory_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryDataOrBuilder> directoryBuilder_;
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      public boolean hasDirectory() {
+        return directoryBuilder_ != null || directory_ != null;
+      }
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData getDirectory() {
+        if (directoryBuilder_ == null) {
+          return directory_ == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.getDefaultInstance() : directory_;
+        } else {
+          return directoryBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      public Builder setDirectory(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData value) {
+        if (directoryBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          directory_ = value;
+          onChanged();
+        } else {
+          directoryBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      public Builder setDirectory(
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.Builder builderForValue) {
+        if (directoryBuilder_ == null) {
+          directory_ = builderForValue.build();
+          onChanged();
+        } else {
+          directoryBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      public Builder mergeDirectory(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData value) {
+        if (directoryBuilder_ == null) {
+          if (directory_ != null) {
+            directory_ =
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.newBuilder(directory_).mergeFrom(value).buildPartial();
+          } else {
+            directory_ = value;
+          }
+          onChanged();
+        } else {
+          directoryBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      public Builder clearDirectory() {
+        if (directoryBuilder_ == null) {
+          directory_ = null;
+          onChanged();
+        } else {
+          directory_ = null;
+          directoryBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.Builder getDirectoryBuilder() {
+        
+        onChanged();
+        return getDirectoryFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryDataOrBuilder getDirectoryOrBuilder() {
+        if (directoryBuilder_ != null) {
+          return directoryBuilder_.getMessageOrBuilder();
+        } else {
+          return directory_ == null ?
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.getDefaultInstance() : directory_;
+        }
+      }
+      /**
+       * <code>.torch.DirecotryData directory = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryDataOrBuilder> 
+          getDirectoryFieldBuilder() {
+        if (directoryBuilder_ == null) {
+          directoryBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryData.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.DirecotryDataOrBuilder>(
+                  getDirectory(),
+                  getParentForChildren(),
+                  isClean());
+          directory_ = null;
+        }
+        return directoryBuilder_;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:torch.FileResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:torch.FileResponse)
+    private static final magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse();
+    }
+
+    public static magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<FileResponse>
+        PARSER = new com.google.protobuf.AbstractParser<FileResponse>() {
+      public FileResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new FileResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<FileResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FileResponse> getParserForType() {
+      return PARSER;
+    }
+
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface TorchMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:torch.TorchMessage)
       com.google.protobuf.MessageOrBuilder {
@@ -471,6 +3282,32 @@ public final class TorchMessageOuterClass {
      * <code>.torch.ByteArray frame = 2;</code>
      */
     magshimim.torchmobile.networking.protos.TorchMessageOuterClass.ByteArrayOrBuilder getFrameOrBuilder();
+
+    /**
+     * <code>.torch.FileRequest fileRequest = 3;</code>
+     */
+    boolean hasFileRequest();
+    /**
+     * <code>.torch.FileRequest fileRequest = 3;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest getFileRequest();
+    /**
+     * <code>.torch.FileRequest fileRequest = 3;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequestOrBuilder getFileRequestOrBuilder();
+
+    /**
+     * <code>.torch.FileResponse fileResponse = 4;</code>
+     */
+    boolean hasFileResponse();
+    /**
+     * <code>.torch.FileResponse fileResponse = 4;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse getFileResponse();
+    /**
+     * <code>.torch.FileResponse fileResponse = 4;</code>
+     */
+    magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponseOrBuilder getFileResponseOrBuilder();
   }
   /**
    * Protobuf type {@code torch.TorchMessage}
@@ -531,6 +3368,32 @@ public final class TorchMessageOuterClass {
 
               break;
             }
+            case 26: {
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.Builder subBuilder = null;
+              if (fileRequest_ != null) {
+                subBuilder = fileRequest_.toBuilder();
+              }
+              fileRequest_ = input.readMessage(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fileRequest_);
+                fileRequest_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 34: {
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.Builder subBuilder = null;
+              if (fileResponse_ != null) {
+                subBuilder = fileResponse_.toBuilder();
+              }
+              fileResponse_ = input.readMessage(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fileResponse_);
+                fileResponse_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -563,6 +3426,14 @@ public final class TorchMessageOuterClass {
        * <code>FRAME = 0;</code>
        */
       FRAME(0),
+      /**
+       * <code>FILEREQUEST = 1;</code>
+       */
+      FILEREQUEST(1),
+      /**
+       * <code>FILERESPONSE = 2;</code>
+       */
+      FILERESPONSE(2),
       UNRECOGNIZED(-1),
       ;
 
@@ -570,6 +3441,14 @@ public final class TorchMessageOuterClass {
        * <code>FRAME = 0;</code>
        */
       public static final int FRAME_VALUE = 0;
+      /**
+       * <code>FILEREQUEST = 1;</code>
+       */
+      public static final int FILEREQUEST_VALUE = 1;
+      /**
+       * <code>FILERESPONSE = 2;</code>
+       */
+      public static final int FILERESPONSE_VALUE = 2;
 
 
       public final int getNumber() {
@@ -591,6 +3470,8 @@ public final class TorchMessageOuterClass {
       public static MessageType forNumber(int value) {
         switch (value) {
           case 0: return FRAME;
+          case 1: return FILEREQUEST;
+          case 2: return FILERESPONSE;
           default: return null;
         }
       }
@@ -680,6 +3561,48 @@ public final class TorchMessageOuterClass {
       return getFrame();
     }
 
+    public static final int FILEREQUEST_FIELD_NUMBER = 3;
+    private magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest fileRequest_;
+    /**
+     * <code>.torch.FileRequest fileRequest = 3;</code>
+     */
+    public boolean hasFileRequest() {
+      return fileRequest_ != null;
+    }
+    /**
+     * <code>.torch.FileRequest fileRequest = 3;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest getFileRequest() {
+      return fileRequest_ == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.getDefaultInstance() : fileRequest_;
+    }
+    /**
+     * <code>.torch.FileRequest fileRequest = 3;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequestOrBuilder getFileRequestOrBuilder() {
+      return getFileRequest();
+    }
+
+    public static final int FILERESPONSE_FIELD_NUMBER = 4;
+    private magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse fileResponse_;
+    /**
+     * <code>.torch.FileResponse fileResponse = 4;</code>
+     */
+    public boolean hasFileResponse() {
+      return fileResponse_ != null;
+    }
+    /**
+     * <code>.torch.FileResponse fileResponse = 4;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse getFileResponse() {
+      return fileResponse_ == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.getDefaultInstance() : fileResponse_;
+    }
+    /**
+     * <code>.torch.FileResponse fileResponse = 4;</code>
+     */
+    public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponseOrBuilder getFileResponseOrBuilder() {
+      return getFileResponse();
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -698,6 +3621,12 @@ public final class TorchMessageOuterClass {
       if (frame_ != null) {
         output.writeMessage(2, getFrame());
       }
+      if (fileRequest_ != null) {
+        output.writeMessage(3, getFileRequest());
+      }
+      if (fileResponse_ != null) {
+        output.writeMessage(4, getFileResponse());
+      }
     }
 
     public int getSerializedSize() {
@@ -712,6 +3641,14 @@ public final class TorchMessageOuterClass {
       if (frame_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getFrame());
+      }
+      if (fileRequest_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getFileRequest());
+      }
+      if (fileResponse_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getFileResponse());
       }
       memoizedSize = size;
       return size;
@@ -735,6 +3672,16 @@ public final class TorchMessageOuterClass {
         result = result && getFrame()
             .equals(other.getFrame());
       }
+      result = result && (hasFileRequest() == other.hasFileRequest());
+      if (hasFileRequest()) {
+        result = result && getFileRequest()
+            .equals(other.getFileRequest());
+      }
+      result = result && (hasFileResponse() == other.hasFileResponse());
+      if (hasFileResponse()) {
+        result = result && getFileResponse()
+            .equals(other.getFileResponse());
+      }
       return result;
     }
 
@@ -750,6 +3697,14 @@ public final class TorchMessageOuterClass {
       if (hasFrame()) {
         hash = (37 * hash) + FRAME_FIELD_NUMBER;
         hash = (53 * hash) + getFrame().hashCode();
+      }
+      if (hasFileRequest()) {
+        hash = (37 * hash) + FILEREQUEST_FIELD_NUMBER;
+        hash = (53 * hash) + getFileRequest().hashCode();
+      }
+      if (hasFileResponse()) {
+        hash = (37 * hash) + FILERESPONSE_FIELD_NUMBER;
+        hash = (53 * hash) + getFileResponse().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -877,6 +3832,18 @@ public final class TorchMessageOuterClass {
           frame_ = null;
           frameBuilder_ = null;
         }
+        if (fileRequestBuilder_ == null) {
+          fileRequest_ = null;
+        } else {
+          fileRequest_ = null;
+          fileRequestBuilder_ = null;
+        }
+        if (fileResponseBuilder_ == null) {
+          fileResponse_ = null;
+        } else {
+          fileResponse_ = null;
+          fileResponseBuilder_ = null;
+        }
         return this;
       }
 
@@ -904,6 +3871,16 @@ public final class TorchMessageOuterClass {
           result.frame_ = frame_;
         } else {
           result.frame_ = frameBuilder_.build();
+        }
+        if (fileRequestBuilder_ == null) {
+          result.fileRequest_ = fileRequest_;
+        } else {
+          result.fileRequest_ = fileRequestBuilder_.build();
+        }
+        if (fileResponseBuilder_ == null) {
+          result.fileResponse_ = fileResponse_;
+        } else {
+          result.fileResponse_ = fileResponseBuilder_.build();
         }
         onBuilt();
         return result;
@@ -951,6 +3928,12 @@ public final class TorchMessageOuterClass {
         }
         if (other.hasFrame()) {
           mergeFrame(other.getFrame());
+        }
+        if (other.hasFileRequest()) {
+          mergeFileRequest(other.getFileRequest());
+        }
+        if (other.hasFileResponse()) {
+          mergeFileResponse(other.getFileResponse());
         }
         onChanged();
         return this;
@@ -1138,6 +4121,240 @@ public final class TorchMessageOuterClass {
         }
         return frameBuilder_;
       }
+
+      private magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest fileRequest_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequestOrBuilder> fileRequestBuilder_;
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      public boolean hasFileRequest() {
+        return fileRequestBuilder_ != null || fileRequest_ != null;
+      }
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest getFileRequest() {
+        if (fileRequestBuilder_ == null) {
+          return fileRequest_ == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.getDefaultInstance() : fileRequest_;
+        } else {
+          return fileRequestBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      public Builder setFileRequest(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest value) {
+        if (fileRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fileRequest_ = value;
+          onChanged();
+        } else {
+          fileRequestBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      public Builder setFileRequest(
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.Builder builderForValue) {
+        if (fileRequestBuilder_ == null) {
+          fileRequest_ = builderForValue.build();
+          onChanged();
+        } else {
+          fileRequestBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      public Builder mergeFileRequest(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest value) {
+        if (fileRequestBuilder_ == null) {
+          if (fileRequest_ != null) {
+            fileRequest_ =
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.newBuilder(fileRequest_).mergeFrom(value).buildPartial();
+          } else {
+            fileRequest_ = value;
+          }
+          onChanged();
+        } else {
+          fileRequestBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      public Builder clearFileRequest() {
+        if (fileRequestBuilder_ == null) {
+          fileRequest_ = null;
+          onChanged();
+        } else {
+          fileRequest_ = null;
+          fileRequestBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.Builder getFileRequestBuilder() {
+        
+        onChanged();
+        return getFileRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequestOrBuilder getFileRequestOrBuilder() {
+        if (fileRequestBuilder_ != null) {
+          return fileRequestBuilder_.getMessageOrBuilder();
+        } else {
+          return fileRequest_ == null ?
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.getDefaultInstance() : fileRequest_;
+        }
+      }
+      /**
+       * <code>.torch.FileRequest fileRequest = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequestOrBuilder> 
+          getFileRequestFieldBuilder() {
+        if (fileRequestBuilder_ == null) {
+          fileRequestBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequest.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileRequestOrBuilder>(
+                  getFileRequest(),
+                  getParentForChildren(),
+                  isClean());
+          fileRequest_ = null;
+        }
+        return fileRequestBuilder_;
+      }
+
+      private magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse fileResponse_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponseOrBuilder> fileResponseBuilder_;
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      public boolean hasFileResponse() {
+        return fileResponseBuilder_ != null || fileResponse_ != null;
+      }
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse getFileResponse() {
+        if (fileResponseBuilder_ == null) {
+          return fileResponse_ == null ? magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.getDefaultInstance() : fileResponse_;
+        } else {
+          return fileResponseBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      public Builder setFileResponse(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse value) {
+        if (fileResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fileResponse_ = value;
+          onChanged();
+        } else {
+          fileResponseBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      public Builder setFileResponse(
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.Builder builderForValue) {
+        if (fileResponseBuilder_ == null) {
+          fileResponse_ = builderForValue.build();
+          onChanged();
+        } else {
+          fileResponseBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      public Builder mergeFileResponse(magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse value) {
+        if (fileResponseBuilder_ == null) {
+          if (fileResponse_ != null) {
+            fileResponse_ =
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.newBuilder(fileResponse_).mergeFrom(value).buildPartial();
+          } else {
+            fileResponse_ = value;
+          }
+          onChanged();
+        } else {
+          fileResponseBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      public Builder clearFileResponse() {
+        if (fileResponseBuilder_ == null) {
+          fileResponse_ = null;
+          onChanged();
+        } else {
+          fileResponse_ = null;
+          fileResponseBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.Builder getFileResponseBuilder() {
+        
+        onChanged();
+        return getFileResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      public magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponseOrBuilder getFileResponseOrBuilder() {
+        if (fileResponseBuilder_ != null) {
+          return fileResponseBuilder_.getMessageOrBuilder();
+        } else {
+          return fileResponse_ == null ?
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.getDefaultInstance() : fileResponse_;
+        }
+      }
+      /**
+       * <code>.torch.FileResponse fileResponse = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponseOrBuilder> 
+          getFileResponseFieldBuilder() {
+        if (fileResponseBuilder_ == null) {
+          fileResponseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponse.Builder, magshimim.torchmobile.networking.protos.TorchMessageOuterClass.FileResponseOrBuilder>(
+                  getFileResponse(),
+                  getParentForChildren(),
+                  isClean());
+          fileResponse_ = null;
+        }
+        return fileResponseBuilder_;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -1193,6 +4410,26 @@ public final class TorchMessageOuterClass {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_torch_ByteArray_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_torch_FileRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_torch_FileRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_torch_FileData_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_torch_FileData_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_torch_DirecotryData_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_torch_DirecotryData_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_torch_FileResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_torch_FileResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_torch_TorchMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -1207,12 +4444,23 @@ public final class TorchMessageOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\022TorchMessage.proto\022\005torch\"\031\n\tByteArray" +
-      "\022\014\n\004data\030\001 \001(\014\"x\n\014TorchMessage\022-\n\004type\030\001" +
-      " \001(\0162\037.torch.TorchMessage.MessageType\022\037\n" +
-      "\005frame\030\002 \001(\0132\020.torch.ByteArray\"\030\n\013Messag" +
-      "eType\022\t\n\005FRAME\020\000BJ\n\'magshimim.torchmobil" +
-      "e.networking.protos\252\002\036TorchDesktop.Netwo" +
-      "rking.Protosb\006proto3"
+      "\022\014\n\004data\030\001 \001(\014\"o\n\013FileRequest\022-\n\010fileTyp" +
+      "e\030\001 \001(\0162\033.torch.FileRequest.FileType\022\014\n\004" +
+      "path\030\002 \001(\t\"#\n\010FileType\022\010\n\004FILE\020\000\022\r\n\tDIRE" +
+      "CTORY\020\001\"*\n\010FileData\022\020\n\010fileName\030\001 \001(\t\022\014\n" +
+      "\004data\030\002 \001(\014\"5\n\rDirecotryData\022\025\n\rdirector" +
+      "yName\030\001 \001(\t\022\r\n\005files\030\002 \003(\t\"{\n\014FileRespon" +
+      "se\022\035\n\004file\030\001 \001(\0132\017.torch.FileData\022\'\n\tdir" +
+      "ectory\030\002 \001(\0132\024.torch.DirecotryData\"#\n\010Fi" +
+      "leType\022\010\n\004FILE\020\000\022\r\n\tDIRECTORY\020\001\"\357\001\n\014Torc",
+      "hMessage\022-\n\004type\030\001 \001(\0162\037.torch.TorchMess" +
+      "age.MessageType\022\037\n\005frame\030\002 \001(\0132\020.torch.B" +
+      "yteArray\022\'\n\013fileRequest\030\003 \001(\0132\022.torch.Fi" +
+      "leRequest\022)\n\014fileResponse\030\004 \001(\0132\023.torch." +
+      "FileResponse\";\n\013MessageType\022\t\n\005FRAME\020\000\022\017" +
+      "\n\013FILEREQUEST\020\001\022\020\n\014FILERESPONSE\020\002BJ\n\'mag" +
+      "shimim.torchmobile.networking.protos\252\002\036T" +
+      "orchDesktop.Networking.Protosb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1232,12 +4480,36 @@ public final class TorchMessageOuterClass {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_torch_ByteArray_descriptor,
         new java.lang.String[] { "Data", });
-    internal_static_torch_TorchMessage_descriptor =
+    internal_static_torch_FileRequest_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_torch_FileRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_torch_FileRequest_descriptor,
+        new java.lang.String[] { "FileType", "Path", });
+    internal_static_torch_FileData_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_torch_FileData_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_torch_FileData_descriptor,
+        new java.lang.String[] { "FileName", "Data", });
+    internal_static_torch_DirecotryData_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_torch_DirecotryData_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_torch_DirecotryData_descriptor,
+        new java.lang.String[] { "DirectoryName", "Files", });
+    internal_static_torch_FileResponse_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_torch_FileResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_torch_FileResponse_descriptor,
+        new java.lang.String[] { "File", "Directory", });
+    internal_static_torch_TorchMessage_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_torch_TorchMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_torch_TorchMessage_descriptor,
-        new java.lang.String[] { "Type", "Frame", });
+        new java.lang.String[] { "Type", "Frame", "FileRequest", "FileResponse", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

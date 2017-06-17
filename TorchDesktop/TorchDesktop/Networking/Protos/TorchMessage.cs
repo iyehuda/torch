@@ -23,16 +23,30 @@ namespace TorchDesktop.Networking.Protos {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChJUb3JjaE1lc3NhZ2UucHJvdG8SBXRvcmNoIhkKCUJ5dGVBcnJheRIMCgRk",
-            "YXRhGAEgASgMIngKDFRvcmNoTWVzc2FnZRItCgR0eXBlGAEgASgOMh8udG9y",
-            "Y2guVG9yY2hNZXNzYWdlLk1lc3NhZ2VUeXBlEh8KBWZyYW1lGAIgASgLMhAu",
-            "dG9yY2guQnl0ZUFycmF5IhgKC01lc3NhZ2VUeXBlEgkKBUZSQU1FEABCSgon",
-            "bWFnc2hpbWltLnRvcmNobW9iaWxlLm5ldHdvcmtpbmcucHJvdG9zqgIeVG9y",
-            "Y2hEZXNrdG9wLk5ldHdvcmtpbmcuUHJvdG9zYgZwcm90bzM="));
+            "YXRhGAEgASgMIm8KC0ZpbGVSZXF1ZXN0Ei0KCGZpbGVUeXBlGAEgASgOMhsu",
+            "dG9yY2guRmlsZVJlcXVlc3QuRmlsZVR5cGUSDAoEcGF0aBgCIAEoCSIjCghG",
+            "aWxlVHlwZRIICgRGSUxFEAASDQoJRElSRUNUT1JZEAEiKgoIRmlsZURhdGES",
+            "EAoIZmlsZU5hbWUYASABKAkSDAoEZGF0YRgCIAEoDCI1Cg1EaXJlY290cnlE",
+            "YXRhEhUKDWRpcmVjdG9yeU5hbWUYASABKAkSDQoFZmlsZXMYAiADKAkiewoM",
+            "RmlsZVJlc3BvbnNlEh0KBGZpbGUYASABKAsyDy50b3JjaC5GaWxlRGF0YRIn",
+            "CglkaXJlY3RvcnkYAiABKAsyFC50b3JjaC5EaXJlY290cnlEYXRhIiMKCEZp",
+            "bGVUeXBlEggKBEZJTEUQABINCglESVJFQ1RPUlkQASLvAQoMVG9yY2hNZXNz",
+            "YWdlEi0KBHR5cGUYASABKA4yHy50b3JjaC5Ub3JjaE1lc3NhZ2UuTWVzc2Fn",
+            "ZVR5cGUSHwoFZnJhbWUYAiABKAsyEC50b3JjaC5CeXRlQXJyYXkSJwoLZmls",
+            "ZVJlcXVlc3QYAyABKAsyEi50b3JjaC5GaWxlUmVxdWVzdBIpCgxmaWxlUmVz",
+            "cG9uc2UYBCABKAsyEy50b3JjaC5GaWxlUmVzcG9uc2UiOwoLTWVzc2FnZVR5",
+            "cGUSCQoFRlJBTUUQABIPCgtGSUxFUkVRVUVTVBABEhAKDEZJTEVSRVNQT05T",
+            "RRACQkoKJ21hZ3NoaW1pbS50b3JjaG1vYmlsZS5uZXR3b3JraW5nLnByb3Rv",
+            "c6oCHlRvcmNoRGVza3RvcC5OZXR3b3JraW5nLlByb3Rvc2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::TorchDesktop.Networking.Protos.ByteArray), global::TorchDesktop.Networking.Protos.ByteArray.Parser, new[]{ "Data" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::TorchDesktop.Networking.Protos.TorchMessage), global::TorchDesktop.Networking.Protos.TorchMessage.Parser, new[]{ "Type", "Frame" }, null, new[]{ typeof(global::TorchDesktop.Networking.Protos.TorchMessage.Types.MessageType) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::TorchDesktop.Networking.Protos.FileRequest), global::TorchDesktop.Networking.Protos.FileRequest.Parser, new[]{ "FileType", "Path" }, null, new[]{ typeof(global::TorchDesktop.Networking.Protos.FileRequest.Types.FileType) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::TorchDesktop.Networking.Protos.FileData), global::TorchDesktop.Networking.Protos.FileData.Parser, new[]{ "FileName", "Data" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::TorchDesktop.Networking.Protos.DirecotryData), global::TorchDesktop.Networking.Protos.DirecotryData.Parser, new[]{ "DirectoryName", "Files" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::TorchDesktop.Networking.Protos.FileResponse), global::TorchDesktop.Networking.Protos.FileResponse.Parser, new[]{ "File", "Directory" }, null, new[]{ typeof(global::TorchDesktop.Networking.Protos.FileResponse.Types.FileType) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::TorchDesktop.Networking.Protos.TorchMessage), global::TorchDesktop.Networking.Protos.TorchMessage.Parser, new[]{ "Type", "Frame", "FileRequest", "FileResponse" }, null, new[]{ typeof(global::TorchDesktop.Networking.Protos.TorchMessage.Types.MessageType) }, null)
           }));
     }
     #endregion
@@ -156,6 +170,614 @@ namespace TorchDesktop.Networking.Protos {
 
   }
 
+  public sealed partial class FileRequest : pb::IMessage<FileRequest> {
+    private static readonly pb::MessageParser<FileRequest> _parser = new pb::MessageParser<FileRequest>(() => new FileRequest());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<FileRequest> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::TorchDesktop.Networking.Protos.TorchMessageReflection.Descriptor.MessageTypes[1]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileRequest() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileRequest(FileRequest other) : this() {
+      fileType_ = other.fileType_;
+      path_ = other.path_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileRequest Clone() {
+      return new FileRequest(this);
+    }
+
+    /// <summary>Field number for the "fileType" field.</summary>
+    public const int FileTypeFieldNumber = 1;
+    private global::TorchDesktop.Networking.Protos.FileRequest.Types.FileType fileType_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::TorchDesktop.Networking.Protos.FileRequest.Types.FileType FileType {
+      get { return fileType_; }
+      set {
+        fileType_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "path" field.</summary>
+    public const int PathFieldNumber = 2;
+    private string path_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Path {
+      get { return path_; }
+      set {
+        path_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as FileRequest);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(FileRequest other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (FileType != other.FileType) return false;
+      if (Path != other.Path) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (FileType != 0) hash ^= FileType.GetHashCode();
+      if (Path.Length != 0) hash ^= Path.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (FileType != 0) {
+        output.WriteRawTag(8);
+        output.WriteEnum((int) FileType);
+      }
+      if (Path.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Path);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (FileType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) FileType);
+      }
+      if (Path.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Path);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(FileRequest other) {
+      if (other == null) {
+        return;
+      }
+      if (other.FileType != 0) {
+        FileType = other.FileType;
+      }
+      if (other.Path.Length != 0) {
+        Path = other.Path;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 8: {
+            fileType_ = (global::TorchDesktop.Networking.Protos.FileRequest.Types.FileType) input.ReadEnum();
+            break;
+          }
+          case 18: {
+            Path = input.ReadString();
+            break;
+          }
+        }
+      }
+    }
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the FileRequest message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static partial class Types {
+      public enum FileType {
+        [pbr::OriginalName("FILE")] File = 0,
+        [pbr::OriginalName("DIRECTORY")] Directory = 1,
+      }
+
+    }
+    #endregion
+
+  }
+
+  public sealed partial class FileData : pb::IMessage<FileData> {
+    private static readonly pb::MessageParser<FileData> _parser = new pb::MessageParser<FileData>(() => new FileData());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<FileData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::TorchDesktop.Networking.Protos.TorchMessageReflection.Descriptor.MessageTypes[2]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileData(FileData other) : this() {
+      fileName_ = other.fileName_;
+      data_ = other.data_;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileData Clone() {
+      return new FileData(this);
+    }
+
+    /// <summary>Field number for the "fileName" field.</summary>
+    public const int FileNameFieldNumber = 1;
+    private string fileName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string FileName {
+      get { return fileName_; }
+      set {
+        fileName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "data" field.</summary>
+    public const int DataFieldNumber = 2;
+    private pb::ByteString data_ = pb::ByteString.Empty;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pb::ByteString Data {
+      get { return data_; }
+      set {
+        data_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as FileData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(FileData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (FileName != other.FileName) return false;
+      if (Data != other.Data) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (FileName.Length != 0) hash ^= FileName.GetHashCode();
+      if (Data.Length != 0) hash ^= Data.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (FileName.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(FileName);
+      }
+      if (Data.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteBytes(Data);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (FileName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(FileName);
+      }
+      if (Data.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Data);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(FileData other) {
+      if (other == null) {
+        return;
+      }
+      if (other.FileName.Length != 0) {
+        FileName = other.FileName;
+      }
+      if (other.Data.Length != 0) {
+        Data = other.Data;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            FileName = input.ReadString();
+            break;
+          }
+          case 18: {
+            Data = input.ReadBytes();
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class DirecotryData : pb::IMessage<DirecotryData> {
+    private static readonly pb::MessageParser<DirecotryData> _parser = new pb::MessageParser<DirecotryData>(() => new DirecotryData());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<DirecotryData> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::TorchDesktop.Networking.Protos.TorchMessageReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DirecotryData() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DirecotryData(DirecotryData other) : this() {
+      directoryName_ = other.directoryName_;
+      files_ = other.files_.Clone();
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public DirecotryData Clone() {
+      return new DirecotryData(this);
+    }
+
+    /// <summary>Field number for the "directoryName" field.</summary>
+    public const int DirectoryNameFieldNumber = 1;
+    private string directoryName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string DirectoryName {
+      get { return directoryName_; }
+      set {
+        directoryName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "files" field.</summary>
+    public const int FilesFieldNumber = 2;
+    private static readonly pb::FieldCodec<string> _repeated_files_codec
+        = pb::FieldCodec.ForString(18);
+    private readonly pbc::RepeatedField<string> files_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> Files {
+      get { return files_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as DirecotryData);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(DirecotryData other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (DirectoryName != other.DirectoryName) return false;
+      if(!files_.Equals(other.files_)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (DirectoryName.Length != 0) hash ^= DirectoryName.GetHashCode();
+      hash ^= files_.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (DirectoryName.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(DirectoryName);
+      }
+      files_.WriteTo(output, _repeated_files_codec);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (DirectoryName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(DirectoryName);
+      }
+      size += files_.CalculateSize(_repeated_files_codec);
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(DirecotryData other) {
+      if (other == null) {
+        return;
+      }
+      if (other.DirectoryName.Length != 0) {
+        DirectoryName = other.DirectoryName;
+      }
+      files_.Add(other.files_);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            DirectoryName = input.ReadString();
+            break;
+          }
+          case 18: {
+            files_.AddEntriesFrom(input, _repeated_files_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
+  public sealed partial class FileResponse : pb::IMessage<FileResponse> {
+    private static readonly pb::MessageParser<FileResponse> _parser = new pb::MessageParser<FileResponse>(() => new FileResponse());
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<FileResponse> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::TorchDesktop.Networking.Protos.TorchMessageReflection.Descriptor.MessageTypes[4]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileResponse() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileResponse(FileResponse other) : this() {
+      File = other.file_ != null ? other.File.Clone() : null;
+      Directory = other.directory_ != null ? other.Directory.Clone() : null;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public FileResponse Clone() {
+      return new FileResponse(this);
+    }
+
+    /// <summary>Field number for the "file" field.</summary>
+    public const int FileFieldNumber = 1;
+    private global::TorchDesktop.Networking.Protos.FileData file_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::TorchDesktop.Networking.Protos.FileData File {
+      get { return file_; }
+      set {
+        file_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "directory" field.</summary>
+    public const int DirectoryFieldNumber = 2;
+    private global::TorchDesktop.Networking.Protos.DirecotryData directory_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::TorchDesktop.Networking.Protos.DirecotryData Directory {
+      get { return directory_; }
+      set {
+        directory_ = value;
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as FileResponse);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(FileResponse other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (!object.Equals(File, other.File)) return false;
+      if (!object.Equals(Directory, other.Directory)) return false;
+      return true;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (file_ != null) hash ^= File.GetHashCode();
+      if (directory_ != null) hash ^= Directory.GetHashCode();
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (file_ != null) {
+        output.WriteRawTag(10);
+        output.WriteMessage(File);
+      }
+      if (directory_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Directory);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (file_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(File);
+      }
+      if (directory_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Directory);
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(FileResponse other) {
+      if (other == null) {
+        return;
+      }
+      if (other.file_ != null) {
+        if (file_ == null) {
+          file_ = new global::TorchDesktop.Networking.Protos.FileData();
+        }
+        File.MergeFrom(other.File);
+      }
+      if (other.directory_ != null) {
+        if (directory_ == null) {
+          directory_ = new global::TorchDesktop.Networking.Protos.DirecotryData();
+        }
+        Directory.MergeFrom(other.Directory);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            input.SkipLastField();
+            break;
+          case 10: {
+            if (file_ == null) {
+              file_ = new global::TorchDesktop.Networking.Protos.FileData();
+            }
+            input.ReadMessage(file_);
+            break;
+          }
+          case 18: {
+            if (directory_ == null) {
+              directory_ = new global::TorchDesktop.Networking.Protos.DirecotryData();
+            }
+            input.ReadMessage(directory_);
+            break;
+          }
+        }
+      }
+    }
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the FileResponse message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static partial class Types {
+      public enum FileType {
+        [pbr::OriginalName("FILE")] File = 0,
+        [pbr::OriginalName("DIRECTORY")] Directory = 1,
+      }
+
+    }
+    #endregion
+
+  }
+
   public sealed partial class TorchMessage : pb::IMessage<TorchMessage> {
     private static readonly pb::MessageParser<TorchMessage> _parser = new pb::MessageParser<TorchMessage>(() => new TorchMessage());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -163,7 +785,7 @@ namespace TorchDesktop.Networking.Protos {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::TorchDesktop.Networking.Protos.TorchMessageReflection.Descriptor.MessageTypes[1]; }
+      get { return global::TorchDesktop.Networking.Protos.TorchMessageReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -182,6 +804,8 @@ namespace TorchDesktop.Networking.Protos {
     public TorchMessage(TorchMessage other) : this() {
       type_ = other.type_;
       Frame = other.frame_ != null ? other.Frame.Clone() : null;
+      FileRequest = other.fileRequest_ != null ? other.FileRequest.Clone() : null;
+      FileResponse = other.fileResponse_ != null ? other.FileResponse.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -211,6 +835,28 @@ namespace TorchDesktop.Networking.Protos {
       }
     }
 
+    /// <summary>Field number for the "fileRequest" field.</summary>
+    public const int FileRequestFieldNumber = 3;
+    private global::TorchDesktop.Networking.Protos.FileRequest fileRequest_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::TorchDesktop.Networking.Protos.FileRequest FileRequest {
+      get { return fileRequest_; }
+      set {
+        fileRequest_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "fileResponse" field.</summary>
+    public const int FileResponseFieldNumber = 4;
+    private global::TorchDesktop.Networking.Protos.FileResponse fileResponse_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::TorchDesktop.Networking.Protos.FileResponse FileResponse {
+      get { return fileResponse_; }
+      set {
+        fileResponse_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as TorchMessage);
@@ -226,6 +872,8 @@ namespace TorchDesktop.Networking.Protos {
       }
       if (Type != other.Type) return false;
       if (!object.Equals(Frame, other.Frame)) return false;
+      if (!object.Equals(FileRequest, other.FileRequest)) return false;
+      if (!object.Equals(FileResponse, other.FileResponse)) return false;
       return true;
     }
 
@@ -234,6 +882,8 @@ namespace TorchDesktop.Networking.Protos {
       int hash = 1;
       if (Type != 0) hash ^= Type.GetHashCode();
       if (frame_ != null) hash ^= Frame.GetHashCode();
+      if (fileRequest_ != null) hash ^= FileRequest.GetHashCode();
+      if (fileResponse_ != null) hash ^= FileResponse.GetHashCode();
       return hash;
     }
 
@@ -252,6 +902,14 @@ namespace TorchDesktop.Networking.Protos {
         output.WriteRawTag(18);
         output.WriteMessage(Frame);
       }
+      if (fileRequest_ != null) {
+        output.WriteRawTag(26);
+        output.WriteMessage(FileRequest);
+      }
+      if (fileResponse_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(FileResponse);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -262,6 +920,12 @@ namespace TorchDesktop.Networking.Protos {
       }
       if (frame_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Frame);
+      }
+      if (fileRequest_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(FileRequest);
+      }
+      if (fileResponse_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(FileResponse);
       }
       return size;
     }
@@ -279,6 +943,18 @@ namespace TorchDesktop.Networking.Protos {
           frame_ = new global::TorchDesktop.Networking.Protos.ByteArray();
         }
         Frame.MergeFrom(other.Frame);
+      }
+      if (other.fileRequest_ != null) {
+        if (fileRequest_ == null) {
+          fileRequest_ = new global::TorchDesktop.Networking.Protos.FileRequest();
+        }
+        FileRequest.MergeFrom(other.FileRequest);
+      }
+      if (other.fileResponse_ != null) {
+        if (fileResponse_ == null) {
+          fileResponse_ = new global::TorchDesktop.Networking.Protos.FileResponse();
+        }
+        FileResponse.MergeFrom(other.FileResponse);
       }
     }
 
@@ -301,6 +977,20 @@ namespace TorchDesktop.Networking.Protos {
             input.ReadMessage(frame_);
             break;
           }
+          case 26: {
+            if (fileRequest_ == null) {
+              fileRequest_ = new global::TorchDesktop.Networking.Protos.FileRequest();
+            }
+            input.ReadMessage(fileRequest_);
+            break;
+          }
+          case 34: {
+            if (fileResponse_ == null) {
+              fileResponse_ = new global::TorchDesktop.Networking.Protos.FileResponse();
+            }
+            input.ReadMessage(fileResponse_);
+            break;
+          }
         }
       }
     }
@@ -311,6 +1001,8 @@ namespace TorchDesktop.Networking.Protos {
     public static partial class Types {
       public enum MessageType {
         [pbr::OriginalName("FRAME")] Frame = 0,
+        [pbr::OriginalName("FILEREQUEST")] Filerequest = 1,
+        [pbr::OriginalName("FILERESPONSE")] Fileresponse = 2,
       }
 
     }
