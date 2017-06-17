@@ -89,7 +89,7 @@ namespace TorchDesktop.Networking
             catch (Exception e)
             {
                 error = true;
-                Emit(nameof(Error), e.Message);
+                Emit(nameof(Error), "Disconnected");
                 Emit(nameof(Disconnected), true);
             }
 

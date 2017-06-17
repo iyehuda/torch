@@ -28,7 +28,21 @@ namespace TorchDesktop.Pages
         public LoginPage()
         {
             InitializeComponent();
+            addressTextBox.GotFocus += ClearAddress;
+            addressTextBox.LostFocus += SetAddressDescription;
             connectButton.Click += OnConnectButtonClick;
+        }
+
+        private void SetAddressDescription(object sender, RoutedEventArgs e)
+        {
+            if (addressTextBox.Text == "")
+                addressTextBox.Text = "Server Address";
+        }
+
+        private void ClearAddress(object sender, RoutedEventArgs e)
+        {
+            if (addressTextBox.Text == "Server Address")
+                addressTextBox.Text = "";
         }
 
         private void OnConnectButtonClick(object sender, RoutedEventArgs e)
